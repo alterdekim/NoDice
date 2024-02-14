@@ -1,0 +1,506 @@
+body {
+    font-size: 14px;
+    font-family: 'Open Sans',tahoma,arial,sans-serif;	
+}
+
+._mbtn {
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: auto;
+	font-size: 12px;
+}
+
+.dropbox {
+	width: 17%;
+	position: absolute;
+	margin-top: 2%;
+}
+
+.dropbox div {
+	background-color: white;
+	color: grey;
+	font-size: 16pt;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.stars {
+	position: fixed;
+	width: 55px;
+	text-align: center;
+	display: inline-flex;
+	margin: auto;
+	color: white;
+}
+
+._star {
+	text-align: center;
+	width: 100%;
+	margin-top: -10px;
+	width: 100%;
+}
+
+.hstars {
+	margin-left: -40px;
+}
+
+._hstar {
+	margin-top: -50px;
+	transform: rotate(90deg);
+}
+
+._vstar {
+	margin-top: -110px;
+}
+
+._hhstar {
+	margin-left: 60px;
+}
+
+.wrapper {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	background-color: #262c2f;
+	overflow: hidden!important;
+}
+#chatinput {
+	width: 511px;
+	height: 24px;
+    background-color:rgba(0, 0, 0, 0.1);
+    color: white;
+    border: none;
+    outline:none;
+    font-size:16px;
+}
+#log {
+	position: fixed;
+	overflow-x: hidden;
+	overflow: scroll;
+	width: 511px;
+	height: 480px;
+	color: white;
+}
+#loading {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: center;
+	background-color: #262c2f;
+	overflow: hidden!important;
+	z-index: 99;
+}
+.table {
+	display: grid;
+	grid-column-gap: 2px;
+	grid-row-gap: 2px;
+}
+.corner {
+	background-color: white;
+	width: 100px;
+	height: 100px;
+}
+.fv {
+	background-color: #f5f5f5;
+	width: 100px;
+	height: 55px;
+	cursor: pointer;
+}
+.fh {
+	background-color: #f5f5f5;
+	width: 55px;
+	height: 100px;
+	cursor: pointer;
+}
+.cost {
+	background-color: white;
+	text-align: center;
+	color: white;
+}
+
+/* .cost.red {
+	background-color: #CC0000;
+	color:#FFFFFF
+}
+
+.cost.green {
+	background-color: #00CC00;
+	color:#FFFFFF
+} */
+
+.up {
+	margin-top: 18px;
+}
+.iconH {
+	width: 55px;
+	height: 100px;
+	position:relative;
+}
+.iconV {
+	width: 100px;
+	height: 55px;
+	position:relative;
+	/* background-image: url("http://localhost/monopoly/fields/land_rover.png"); */
+}
+
+.horImg {
+ /* width:55px;
+  height:55px; */
+  width:55px;
+  position:absolute;
+  left:25px;
+}
+
+.vertImg {
+  /* width:55px;
+  height:55px; */
+  width:55px;
+  -webkit-transform:rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  position:absolute;
+  top:25px;
+}
+
+.rcost {
+	float: right;
+	background-color: white;
+	width: 55px;
+	height: 18px;
+	transform: rotate(90deg);
+	margin-top: 18px;
+	margin-left: 82px;
+	text-align: center;
+	color: white;
+}
+.lcost {
+	float: left;
+	background-color: white;
+	width: 55px;
+	height: 18px;
+	transform: rotate(90deg);
+	margin-top: 18px;
+	margin-left: -38px;
+	text-align: center;
+	color: white;
+}
+.table_center {
+	grid-row-start: 2;
+	grid-column-start: 2;
+	grid-column-end: 11;
+	grid-row-end: 11; 
+}
+.players {
+	margin-right: 80px;
+}
+.player {
+	margin-top: 10px;
+	background-color: #15191a;
+	width: 173px;
+	height: 130px;
+	color: white;
+	text-align: center;
+	font-size: 22px;
+	padding: 4px;
+	cursor: pointer;
+}
+.player-turn {
+	width: 193px;
+	height: 150px;
+}
+.game {
+	display: inline-flex;
+}
+/*  
+    chip colors:
+	red - #f2454a
+	blue - #00adef
+	green - #73d249
+	purple - #c874ed
+	orange - #e19d22
+*/
+
+.font-red    { color: #f2454a; }
+.font-blue   { color: #00adef; }
+.font-green  { color: #73d249; }
+.font-purple { color: #c874ed; }
+.font-orange { color: #e19d22; }
+
+.red    { background-color: #f2454a; }
+.blue   { background-color: #00adef; }
+.green  { background-color: #73d249; }
+.purple { background-color: #c874ed; }
+.orange { background-color: #e19d22; }
+
+
+.chips {
+	/* background-color:#ff0000; */
+	width:100%;
+	height:100%;
+	left:173px;
+	top:0px;
+	position:absolute;
+	/* border:1px solid green; */
+	
+	
+}
+
+.chip {
+	box-shadow: 0 0 10px rgba(0,0,0,1);
+	border-radius: 50px;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	z-index: 98;
+	grid-row-start: 1;
+	grid-row-end: 11;
+	grid-column-start: 1;
+	grid-column-end: 11;
+	margin-top: 18px;
+}
+
+.chipMask {
+	border-radius: 50px;
+	width: 20px;
+	height: 20px;
+	z-index: 99;
+	background-color: black;
+	opacity: 0.8;
+}
+
+.btn_string {
+	display: inline-flex;
+	padding-left:5px;
+}
+
+
+#cell_descr {
+	z-index:100;
+	border-radius:10px;
+	width: 202px;
+	background-color:#ffffff;
+	position:absolute;
+	box-shadow: 0px -5px 10px rgba(10,10,10,0.3);
+	background-color:#ffffff;
+	padding-bottom:10px;
+}
+
+.cell_descr_top {
+	background-color:#646d79;
+	width:202px;
+	height:57px;
+	border-radius:10px 10px 0px 0px;
+}
+
+.rent_table {
+	color:#646d79;
+	font-size:11px;
+	background-color:#ffffff;
+	margin-left:10px;
+	margin-right:10px;
+}
+
+.currency {
+	color:#adb3bb;
+}
+
+.star {
+	font-size:14px;
+}
+
+.star_big {
+	color:#fdbd00;
+	font-size:18px;
+}
+
+.cell_descr_title {
+	color:#ffffff;
+	font-size:16px;
+	width:202px;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 4px;
+	padding-right: 5px;
+}
+
+.cell_descr_subtitle {
+	color:#e0e0e0;
+	font-size:9px;
+	width:202px;
+	padding-left: 10px;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+}
+
+#dialog {
+	position: fixed;
+	width: 491px;
+	/* height: 200px;*/
+	background-color: white;
+	margin-left:10px;
+	margin-right:10px;
+	margin-top:10px;
+	padding-bottom:10px;
+	border-radius:10px;
+	color:#646d79;
+}
+
+#dialog_title {
+	font-size: 18px;
+	margin: 10px;
+}
+#dialog_desc {
+	font-size: 12px;
+	margin: 10px;
+}
+
+#contract {
+	width: 511px;
+	height: 511px;
+	background-color: white;
+	position: fixed;
+	color: #646d79;
+	font-size: 20px;
+	text-align: center;
+}
+
+.btn {
+	border-radius: 5px;
+	font-size: 12px;
+	color: white;
+	width: 220px;
+	text-align: center;
+	padding: 6px 4px;
+	margin: 6px;
+	cursor: pointer;
+}
+
+.btn_long {
+	border-radius: 5px;
+	font-size: 12px;
+	color: white;
+	width: 460px;
+	text-align: center;
+	padding: 6px 4px;
+	margin: 6px;
+	cursor: pointer;
+}
+
+[contenteditable="true"].single-line {
+    white-space: nowrap;
+    width:100px;
+    overflow: hidden;
+} 
+[contenteditable="true"].single-line br {
+    display:none;
+
+}
+[contenteditable="true"].single-line * {
+    display:inline;
+    white-space:nowrap;
+}
+
+.btn.green, .btn_long.green {
+	background-color: #00c29e;
+	
+}
+
+.btn.grey, .btn_long.grey {
+	background-color: #eceef1;
+	color:#646d79;
+}
+
+p.contract-player {
+	margin-top: 0.5em;
+	margin-bottom: 1em;
+}
+
+.contract_money {
+	background: transparent;
+	border: none;
+	outline: none;
+	appearance: textfield;
+	font-size: 20px;
+	color: #646d79;
+}
+
+h2 {
+	color: white;
+	width: 100%;
+	height: 100%;
+	margin-top: 50%;
+	text-align: center;
+}
+
+.diceFace {
+	position:absolute;
+	width:200px;
+	height:200px;
+	text-align:center;
+	line-height:200px;
+	font-size:45px;
+}
+
+.dice_view {
+	position: absolute;
+	width:200px;
+	height:200px;
+	perspective:600px;
+	transform: scale(0.5);
+}
+
+.dice {
+	width:200px;
+	height:200px;
+	position:relative;
+	transform-style:preserve-3d;
+	transition: transform 1s;
+}
+
+.dice_front {
+	background-image: url("monopoly/cube/1.jpg");
+	background-size: 200px;
+	transform:rotateY(0deg) translateZ(100px);
+}
+.dice_right {
+	background-image: url("monopoly/cube/2.jpg");
+	background-size: 200px;
+	transform:rotateY(90deg) translateZ(100px);
+}
+.dice_back {
+	background-image: url("monopoly/cube/3.jpg");
+	background-size: 200px;
+	transform:rotateY(180deg) translateZ(100px);
+}
+.dice_left {
+	background-image: url("monopoly/cube/4.jpg");
+	background-size: 200px;
+	transform:rotateY(-90deg) translateZ(100px);
+}
+.dice_top {
+	background-image: url("monopoly/cube/5.jpg");
+	background-size: 200px;
+	transform:rotateX(90deg) translateZ(100px);
+}
+.dice_bottom {
+	background-image: url("monopoly/cube/6.jpg");
+	background-size: 200px;
+	transform:rotateX(-90deg) translateZ(100px);
+}
+
+.timeout {
+	position: absolute;
+	left: 150px;
+	font-size: 15px;
+}

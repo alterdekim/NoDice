@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8"></meta>
+		<link rel="stylesheet" href="/static/css/game.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+		<title>Монополия онлайн</title>
+		<link rel="shortcut icon" type="image/png" href="../static/images/favicon.ico"/>
+		<div id="contract_field" style="display: none">
+			<div style="display: inline-flex;">
+				<div class="contract_image" style="margin-left: 10px"><img src="../static/images/mitsubishi.png" style="width: 55px;"></div>
+				<div class="contract_info" style="margin-left: 10px; display: inline-block; text-align: left">
+					<div class="contract_name">Mitsubishi</div>
+					<div class="contract_cost"style="font-size: 14px">3.000$</div>
+				</div>
+			</div>
+		</div>
+	</head>
+	<body>
+		<!--<div id="loading" style="width: 100%; height: 100%;">
+			<div style="text-align: center">
+				<p id="loading_status" style="color: white">Идёт загрузка игры...</p>
+				<div id="returnBtn" onclick="window.location = '/games?gtype=monopoly'" class="btn green" style="margin-top: 5px; display: none; margin-bottom: auto; margin-left: auto; margin-right: auto;">Назад</div>
+			</div>
+		</div>-->
+		<div class="wrapper" style="width: 100%; height: 100%">
+			<div class="game">
+				<div class="players">
+					<th:block th:each="p: ${players}">
+						<div class="player" data-pid="${p.id}" onClick="drop(this)">
+							<p class="timeout"></p>
+							<p class="nickname" th:text="${p.name}"></p>
+							<p class="money" th:text="${p.money}"></p>
+							<div class="dropbox" style="display: none"></div> <!-- margin-top: -35px; -->
+						</div>
+					</th:block>
+				</div>
+				<div class="table">
+					<div class="table_center">
+
+						<!--<div id="log" style="position: fixed; padding: 5px; overflow: scroll;">
+							<div style="display: inline-flex;"><p class="font-red">Name: </p><p> lol</p></div>
+							<div style="display: inline-flex;"><p class="font-red">Name: </p><p> lol</p></div>
+							<div style="display: inline-flex;"><p class="font-red">Name: </p><p> lol</p></div>
+							<div style="display: inline-flex;"><p class="font-red">Name: </p><p> lol</p></div>
+						</div> -->
+						<div id="log">
+							<!-- <div>Игрок <span style="color: red">lol</span> ходит</div> -->
+						</div>
+						<div style="position: absolute; margin-top: 485px" >
+							<input placeholder="Напишите в чат" type="text" id="chatinput"/>
+						</div>
+
+						<div id="dice_cubes" style="margin-top: 100px; display: none;">
+							<div class="dice_view" style="margin-left: 100px;">
+								<div class="dice" id="first_dice">
+						            <div class="diceFace dice_front"></div>
+						            <div class="diceFace dice_right"></div>
+						            <div class="diceFace dice_back"></div>
+						            <div class="diceFace dice_left"></div>
+						            <div class="diceFace dice_top"></div>
+						            <div class="diceFace dice_bottom"></div>
+						        </div>
+					    	</div>
+							<div class="dice_view" style="margin-left: 225px; margin-top: 125px">
+								<div class="dice" id="second_dice">
+						            <div class="diceFace dice_front"></div>
+						            <div class="diceFace dice_right"></div>
+						            <div class="diceFace dice_back"></div>
+						            <div class="diceFace dice_left"></div>
+						            <div class="diceFace dice_top"></div>
+						            <div class="diceFace dice_bottom"></div>
+						        </div>
+					    	</div>
+				    	</div>
+
+						<div id="contract" style="display: none;">
+							<p>Договор</p>
+							<div style="display: inline-flex; width: 511px">
+								<p style="font-size: 16px; text-align: left; margin-left: 10px" class="font-red contract-player">Вы: </p>
+								<p style="font-size: 16px; text-align: left; margin-left: 230px" class="font-green contract-player">User: </p>
+							</div>
+							<div id="my_contract_fields" style="position: absolute; display: grid">
+								<div style="display: inline-flex;">
+									<div style="margin-left: 10px"><img src="../static/images/money.png" style="width: 55px;"></div>
+									<div style="margin-left: 10px; display: inline-block; text-align: left">
+										<input type="number" id="self_money" class="contract_money single-line" value="0" />
+										<div style="font-size: 14px">Наличные</div>
+									</div>
+								</div>
+								<!--<div style="display: inline-flex;">
+									<div style="margin-left: 10"><img src="images/mitsubishi.png" style="width: 55px;"></div>
+									<div style="margin-left: 10; display: inline-block; text-align: left">
+										<div>Mitsubishi</div>
+										<div style="font-size: 14">3.000$</div>
+									</div>
+								</div>-->
+							</div>
+							<div id="contract_fields" style="position: absolute; display: grid; margin-left: 260px">
+								<div style="display: inline-flex;">
+									<div style="margin-left: 10px"><img src="../static/images/money.png" style="width: 55px;"></div>
+									<div style="margin-left: 10px; display: inline-block; text-align: left">
+										<input type="number" id="other_money" class="contract_money single-line" value="0" />
+										<div style="font-size: 14px">Наличные</div>
+									</div>
+								</div>
+							</div>
+							<hr width="1" size="320" style="height: 60%">
+							<div style="display: flex; width: 100%">
+								<div style="width: 33.3%">
+									<div id="allSelfMoney" style="font-size: 16px;">0$</div>
+								</div>
+								<div style="width: 33.3%">
+									<div style="font-size: 16px;">Общая сумма</div>
+								</div>
+								<div style="width: 33.3%">
+									<div id="allOtherMoney" style="font-size: 16px;">0$</div>
+								</div>
+							</div>
+							<div class="btn_string">
+								<div id="contractAgree" onClick="contractAgree()" class="btn green" style="width: 100px;">Принять</div><div id="contractDeny" onClick="contractDeny()" class="btn red" style="width: 100px;">Отказать</div>
+							</div>
+						</div>
+
+						<div style="display: none;" id="dialog" class="dialogturn">
+							<p id="dialog_title">Покупаем?</p>
+							<p id="dialog_desc">Lorem ipsum dolor sit amet...</p></br>
+							<div class="btn_string" id="twobtns">
+								<div id="buybtn" onClick="leftBtnClicked(this)" class="btn green">Купить за 1,000k</div><div id="ignorebtn" onClick="rightBtnClicked()" class="btn grey">На аукцион</div>
+							</div>
+							<div class="btn_string" id="onebtn">
+								<div class="btn_long green" onClick="centerBtnClicked()" id="ogbtn">Купить за 1,000k</div>
+							</div>
+						</div>
+						
+						<!-- style="top:270px;left:400px" -->
+						<div style="display: none;" id="cell_descr">
+							<div class="cell_descr_top">
+								<div class="cell_descr_title">Apple</div>
+								<div class="cell_descr_subtitle"><!--Электроника--></div>
+							</div>
+							
+							<table class="rent_table">
+								<tr>
+									<div id="buyOrSell" style="display: none;" >
+										<div style="width: 100%; display: inline-flex;">
+											<div onClick="bnf(this)" id="tbbb" class="btn green" style="width: 100%">Купить</div><div onClick="sfof(this)" id="tbsb" style="width: 100%" class="btn red">Продать</div>
+										</div>
+									</div>
+									<div id="onlySell" style="display: none;">
+										<div style="width: 100%; display: inline-flex;">
+											<div class="btn_long red" onClick="sfof(this)">Продать</div>
+										</div>
+									</div>
+								</tr>
+								<tr>
+									<td colspan="2">Стройте филиалы, чтобы увеличить ренту</td>
+								</tr>
+								<tr>
+									<td>Базовая рента</td>
+									<td align="right"><b id="baserent">350</b><span class="currency">k</span></td>
+								</tr>
+								<tr>
+									<td><span class="star">&#9733;</span></td>
+									<td align="right"><b id="firstrent">1,750</b><span class="currency">k</span></td>
+								</tr>
+								<tr>
+									<td><span class="star">&#9733; &#9733;</span></td>
+									<td align="right"><b id="secondrent">5,000</b><span class="currency">k</span></td>
+								</tr>
+								<tr>
+									<td><span class="star">&#9733; &#9733; &#9733;</span></td>
+									<td align="right"><b id="thirdrent">11,050</b><span class="currency">k</span></td>
+								</tr>
+								<tr>
+									<td><span class="star">&#9733; &#9733; &#9733; &#9733;</span></td>
+									<td align="right"><b id="fourthrent">13,000</b><span class="currency">k</span></td>
+								</tr>
+								<tr>
+									<td><span class="star_big">&#9733;</span></td>
+									<td align="right"><b id="fithrent">15,000</b><span class="currency">k</span></td>
+								</tr>
+								
+								<tr>
+									<td style="padding-top:10px;">Стоимость поля</td>
+									<td style="padding-top:10px;" align="right"><b id="buyprice">3,500</b><span class="currency">k</span></td>
+								</tr>
+								<tr style="visibility: hidden;">
+									<td>Залог поля</td>
+									<td align="right"><b id="depositprice">1,750</b><span class="currency">k</span></td>
+								</tr>
+								<tr style="visibility: hidden;">
+									<td>Выкуп поля</td>
+									<td align="right"><b id="redeemprice">2,100</b><span class="currency">k</span></td>
+								</tr>
+								<tr>
+									<td>Покупка филиала</td>
+									<td align="right"><b id="fprice">2,000</b><span class="currency">k</span></td>
+								</tr>
+								
+							</table>
+							
+						</div>
+						
+						
+					</div>
+					<!-- <div class="chips"> -->
+						<!-- {262,55} {318,55} {375,55} -->
+					<div class="chip red" data-trow=0 data-tcol=0></div>
+					<div class="chip green" data-trow=0 data-tcol=0></div>
+					<div class="chip blue" data-trow=0 data-tcol=0></div>
+					<div class="chip purple" data-trow=0 data-tcol=0></div>
+					<div class="chip orange" data-trow=0 data-tcol=0></div>
+					<!-- </div> -->
+					<div class="up"><div class="board_field corner"><img src="../static/images/start.png" style="width: 100%; height: 100%;" /></div></div>
+
+					<th:block th:each="f: ${fields_up}">
+						<div th:data-fid="${f.uid}" class="board_field" style="grid-column: @{${f.id}}"> <!-- 2 + -->
+							<div class="cost" th:text="${f.cost}"></div>
+							<div class="fh">
+								<div class="iconH">
+									<img th:src="${f.img}" class="vertImg">
+								</div>
+								<div class="stars">
+									<span class="_star" th:text="${f.stars}"></span>
+								</div>
+							</div>
+						</div>
+					</th:block>
+
+					<div class="up" style="grid-column: 11"><div class="board_field corner"><img src="../static/images/injail.png" style="width: 100%; height: 100%;" /></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/lacoste.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/mitsubishi.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/vw.png" class="horImg"></div></div><div class="stars hstars"><span class="_star _hstar"></span></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/mcdonalds.svg" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/apple.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/vw.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/macdonalds.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/nike.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/pepsi.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field corner" style="grid-column: 11"><img src="../static/images/parking.png" style="width:100%; height:100%;" /></div>
+					<div class="board_field" style="grid-column: 2; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/nike.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field" style="grid-column: 3; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/mitsubishi.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field" style="grid-column: 4; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/peugeot.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field" style="grid-column: 5; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/vw.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field" style="grid-column: 6; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/linux.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field" style="grid-column: 7; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/apple.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field" style="grid-column: 8; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/burger_king.svg" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field" style="grid-column: 9; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/lacoste.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field" style="grid-column: 10; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/pepsi.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
+					<div class="board_field corner" style="grid-column: 1; grid-row: 11"><img src="../static/images/gotojail.png" style="width: 100%; height: 100%;" /></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 10;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/peugeot.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 9;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/apple.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 8;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/linux.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 7;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/macdonalds.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 6;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/pepsi.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 5;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/burger_king.svg" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 4;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/mitsubishi.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 3;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/adidas.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="board_field" style="grid-column: 1; grid-row: 2;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/lacoste.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<footer>
+		<script type="text/javascript" src="/games/cookie.js"></script>
+		<script type="text/javascript" src="/games/db.js"></script>
+		<script type="text/javascript" src="/games/methods.js"></script>
+		<script type="text/javascript" src="game.js"></script>
+		<script type="text/javascript" src="/static/javascript/scale.js"></script>
+	</footer>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <th:block th:insert="~{fragments/head}"></th:block>
+    </head>
+    <body>
+        <th:block th:insert="~{fragments/navbar}"></th:block>
+
+        <div class="container mt-5 min-vh-100" style="max-width: 330px;">
+            <h4 class="text-center">Login</h4>
+            <th:block th:if="${param.error}">
+                <div class="alert alert-danger" role="alert" th:text="#{login_error}"></div>
+            </th:block>
+            <th:block th:if="${error}">
+                <div class="alert alert-danger" role="alert" th:text="#{login_error}"></div>
+            </th:block>
+            <form method="post" th:action="@{/login}">
+                <div class="mb-3">
+                    <label for="username" class="form-label"><ion-icon name="at-outline"></ion-icon> Nickname</label>
+                    <input type="text" name="username" class="form-control" id="username">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label"><ion-icon name="key-outline"></ion-icon> Password</label>
+                    <input type="password" name="password" class="form-control" id="password">
+                </div>
+                <div class="mb-3">
+                    <p>Don't have an account? <a href="/signup">Sign up</a></p>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+
+        <th:block th:insert="~{fragments/footer}"></th:block>
+        <th:block th:insert="~{fragments/essentials}"></th:block>
+    </body>
+</html>
