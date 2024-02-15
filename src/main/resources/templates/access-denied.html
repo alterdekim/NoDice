@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <th:block th:insert="~{fragments/head}"></th:block>
+    </head>
+    <body>
+        <th:block th:insert="~{fragments/navbar}"></th:block>
+
+        <div class="container mt-5 min-vh-100" style="max-width: 330px;">
+            <h4 class="text-center">Access denied</h4>
+        </div>
+
+        <th:block th:insert="~{fragments/footer}"></th:block>
+        <th:block th:insert="~{fragments/essentials}"></th:block>
+    </body>
+</html>

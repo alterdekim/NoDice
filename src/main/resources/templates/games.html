@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <th:block th:insert="~{fragments/head}"></th:block>
+        <style>
+            .grid {
+                display: grid !important;
+                grid-template-columns: repeat(12,1fr);
+                grid-column-gap: 25px;
+            }
+
+            .g-col-4 {
+                grid-column-end: span 4;
+                min-width: 0;
+            }
+
+            .g-col-8 {
+                grid-column-end: span 8;
+                min-width: 0;
+            }
+
+            .block {
+                display: block;
+                border-bottom: 2px solid rgba(0,0,0,.1);
+                border-radius: 5px;
+                padding-top: .1px;
+                padding-bottom: .1px;
+                width: 100%;
+                min-height: 1px;
+                background-color: #fff;
+            }
+
+            .container {
+                width: 1000px;
+            }
+
+            .title {
+                margin-bottom: 15px;
+                font-size: 18px;
+                margin-top: 20px;
+                margin-right: 20px;
+                margin-left: 20px;
+            }
+
+            .block-content {
+                justify-content: center;
+                display: flex;
+                margin-bottom: 15px;
+            }
+
+            .market {
+                height: 160px;
+                align-items: center;
+                justify-content: center;
+                display: flex;
+            }
+
+            .transparent-override {
+                background-color: transparent !important;
+            }
+
+            .text-glowing {
+              color: rgba(55, 188, 157, 1) !important;
+            }
+        </style>
+    </head>
+    <body>
+        <th:block th:insert="~{fragments/navbar}"></th:block>
+        <div class="container">
+            <div class="grid mt-5">
+                <div class="g-col-4">
+                    <div class="block">
+                        <div class="title">Achievements</div>
+                        <div class="block-content">
+                            <div class="spinner-grow text-glowing" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block" style="margin-top: 15px;">
+                        <div class="title">Friends</div>
+                        <div class="block-content">
+                            <div class="spinner-grow text-glowing" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-col-8">
+                    <div class="block transparent-override">
+                        <div class="market">
+                            <div class="spinner-grow text-glowing" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block" style="margin-top: 15px;">
+                        <div class="title">Chat</div>
+                        <div class="block-content" style="height: 280px; align-items: center;">
+                            <div class="spinner-grow text-glowing" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block" style="margin-top: 15px;">
+                        <div class="title">Waiting list</div>
+                        <div class="block-content">
+                            <div class="spinner-grow text-glowing" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:insert="~{fragments/essentials}"></th:block>
+    </body>
+</html>

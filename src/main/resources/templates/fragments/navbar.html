@@ -2,30 +2,42 @@
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <a class="navbar-brand" href="/">Nosedive</a>
+                <a class="navbar-brand navbar-brand-custom" href="/">Nosedive</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <button class="btn btn-primary navbar-btn">
-                            <ion-icon name="game-controller-outline"></ion-icon>
-                            <span>Games</span>
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-outline-primary navbar-btn">
-                            <ion-icon name="people-outline"></ion-icon>
-                            <span>Friends</span>
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-outline-primary navbar-btn">
-                            <ion-icon name="briefcase-outline"></ion-icon>
-                            <span>Inventory</span>
-                        </button>
-                    </li>
-                </ul>
+                <th:block sec:authorize="isAuthenticated()">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="/games" class="btn btn-primary navbar-btn">
+                                <ion-icon name="game-controller-outline"></ion-icon>
+                                <span>Games</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/friends" class="btn btn-outline-primary navbar-btn">
+                                <ion-icon name="people-outline"></ion-icon>
+                                <span>Friends</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/inventory" class="btn btn-outline-primary navbar-btn">
+                                <ion-icon name="briefcase-outline"></ion-icon>
+                                <span>Inventory</span>
+                            </a>
+                        </li>
+                    </ul>
+                </th:block>
+                <th:block sec:authorize="isAnonymous()">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a href="/login" class="btn btn-primary navbar-btn">
+                                <ion-icon name="log-in-outline"></ion-icon>
+                                <span>Login</span>
+                            </a>
+                        </li>
+                    </ul>
+                </th:block>
             </div>
         </div>
     </nav>

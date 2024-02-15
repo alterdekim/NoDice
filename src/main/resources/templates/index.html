@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <th:block th:insert="~{fragments/head}"></th:block>
+        <style>
+            .navbar-brand-custom {
+                color: #ffffff;
+            }
+
+            .navbar-brand-custom:hover {
+                color: #ffffff;
+            }
+
+            .navbar {
+                background-color: #37bc9d;
+            }
+
+            .btn-outline-primary {
+                border-color: transparent;
+                color: #fff;
+            }
+
+            .btn-primary {
+                background-color: rgba(255,255,255,.85);
+                color: #37bc9d;
+                border-color: rgba(255,255,255,.85);
+            }
+
+            .btn-primary:hover {
+                background-color: #ffffff;
+                border-color: #ffffff;
+                color: #37bc9d;
+            }
+
+            .btn-outline-primary:hover {
+                background-color: rgba(255, 255, 255,0.25);
+                border-color: rgba(255, 255, 255,0.25);
+            }
+
+            .page-title {
+                font: 700 3.5em Montserrat;
+                color: #fff;
+            }
+
+            .page-title-small {
+                margin-top: .7em;
+                font: 500 1.32em/1.4em Montserrat;
+                color: #fff;
+            }
+
+            .main-billboard {
+                background-color: #37bc9d;
+                height: 700px;
+                text-align: center;
+                padding-top: 50px;
+            }
+
+            .main-button {
+                color: #5b5d67;
+                background-color: #fff;
+                border-color: #fff;
+                font: 600 1.5rem Montserrat;
+                padding: 0 0.9em;
+                height: 2.1em;
+                align-items: center;
+                display: inline-flex;
+            }
+
+            .main-button:hover {
+                color: #5b5d67;
+                background-color: rgba(255, 255, 255, 0.85);
+                border-color: rgba(255, 255, 255, 0.85);
+                font: 600 1.5rem Montserrat;
+                padding: 0 0.9em;
+                height: 2.1em;
+                align-items: center;
+                display: inline-flex;
+            }
+
+            .page-main-button {
+                margin-top: 25px;
+            }
+
+            .page-title-second {
+                margin-top: 1.25em;
+                margin-right: 0px;
+                margin-bottom: 1.25em;
+                margin-left: 0px;
+                font: 700 3.25em Montserrat;
+                color: #26272b;
+                text-align: center;
+            }
+
+            .billboard-img {
+                box-shadow: 0 0 100px rgba(0,0,0,.33);
+                width: 900px;
+                overflow: hidden;
+                pointer-events: none;
+            }
+
+            .billboard-container {
+                display: flex;
+                justify-content: center;
+                margin-top: 40px;
+            }
+
+            h4 {
+                margin: 0 0 .4em;
+                font: 700 2em Montserrat;
+            }
+
+            .col_text {
+                font-size: 1.1em;
+                text-align: left;
+            }
+        </style>
+    </head>
+    <body>
+        <th:block th:insert="~{fragments/navbar}"></th:block>
+        <div class="container-fluid main-billboard">
+            <div class="page-title">Welcome to Nosedive.</div>
+            <div class="page-title-small">Reinvented legendary game online.</div>
+            <div class="page-main-button"><a class="btn btn-primary main-button" href="/games">Start game</a></div>
+            <div class="billboard-container"><img src="//m1.dogecdn.wtf/website/index/screenshot.png" class="rounded billboard-img"></div> <!-- 900 -->
+            <div class="page-title-second">Why will you like <span style="background: linear-gradient(90deg, hsl(166, 55%, 30%) 0%, rgba(55,188,157,1) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Nosedive</span>?</div>
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col">
+                        <h4>That's free!</h4>
+                        <div class="col_text">Just sign up and start a game — no payments or subscriptions.</div>
+                    </div>
+                    <div class="col">
+                        <h4>New gameplay</h4>
+                        <div class="col_text">We've breathed new life into a beloved classic! Get ready for a familiar favorite with a strategic twist that turns the fun factor up to eleven.</div>
+                    </div>
+                    <div class="col">
+                        <h4>PVP-mode</h4>
+                        <div class="col_text">Unleash your skills in PVP mode and witness your rank soar with every triumphant victory. The ladder awaits.</div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 50px;">
+                    <div class="col">
+                        <h4>New friends</h4>
+                        <div class="col_text">Discover a vibrant social sphere within the game! Forge connections with like-minded players who share your passions and thirst for victory.</div>
+                    </div>
+                    <div class="col">
+                        <h4>Hoarding</h4>
+                        <div class="col_text">We have dozens of items, some of them very rare. You can earn them, by winning the games. We're all a little hoarders, right?</div>
+                    </div>
+                    <div class="col">
+                        <h4>Play anywhere</h4>
+                        <div class="col_text">You can play on any device that has a browser.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" style="min-height: 750px; background-color: #f4f4f5">
+
+        </div>
+        <th:block th:insert="~{fragments/footer}"></th:block>
+        <th:block th:insert="~{fragments/essentials}"></th:block>
+        <script>
+            $(document).ready(function() {
+                $(".navbar").removeClass("navbar-light");
+            });
+        </script>
+    </body>
+</html>

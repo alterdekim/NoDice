@@ -1,5 +1,6 @@
 package com.alterdekim.game.dto;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class UserDTO {
     private String password;
     @NotEmpty(message = "Invite code should not be empty")
     private String invite_code;
+    private Boolean terms_and_conditions_accept;
 
     private String lang;
 }

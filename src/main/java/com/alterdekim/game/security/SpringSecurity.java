@@ -29,11 +29,12 @@ public class SpringSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize
-                                .requestMatchers("/game").permitAll()
-                                .requestMatchers("/games").permitAll()
+                                .requestMatchers("/game").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("/games").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/static/**").permitAll()
                                 .requestMatchers("/access-denied").permitAll()
                                 .requestMatchers("/signup").permitAll()
+                                .requestMatchers("/rules").permitAll()
                                 .requestMatchers("/favicon.ico").permitAll()
                                 .requestMatchers("/signup/**").permitAll()
                                 .requestMatchers("/").permitAll()
@@ -42,7 +43,7 @@ public class SpringSecurity {
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
                                 .failureForwardUrl("/")
-                                .defaultSuccessUrl("/game")
+                                .defaultSuccessUrl("/games")
                                 .permitAll()
                 )
                 .logout(

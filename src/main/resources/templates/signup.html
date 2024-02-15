@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <th:block th:insert="~{fragments/head}"></th:block>
     </head>
@@ -8,11 +8,14 @@
 
         <div class="container mt-5 min-vh-100" style="max-width: 330px;">
             <h4 class="text-center">Sign up</h4>
-            <th:block th:if="${param.error}">
-                <div class="alert alert-danger" role="alert" th:text="#{login_error}"></div>
+            <th:block th:switch="${#strings.toString(param.error)}">
+                <div th:case="'terms_and_conditions'" class="alert alert-danger" role="alert">You must accept terms and conditions</div>
+                <div th:case="'bad_invite'" class="alert alert-danger" role="alert">Bad invite code</div>
+                <div th:case="'already_exists'" class="alert alert-danger" role="alert">User with that nickname already exists</div>
+                <div th:case="'other'" class="alert alert-danger" role="alert">Internal server error</div>
             </th:block>
             <th:block th:if="${error}">
-                <div class="alert alert-danger" role="alert" th:text="#{login_error}"></div>
+                <div class="alert alert-danger" role="alert" th:text="${error}"></div>
             </th:block>
             <form method="post" th:action="@{/signup}" th:object="${user}">
                 <div class="mb-3">
@@ -20,7 +23,7 @@
                     <input type="text" name="username" class="form-control" id="username">
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Password must have at least 7 symbols, include letters, digits, any of special symbols (#$%:;~|&^!_\/-+*)"><ion-icon name="key-outline"></ion-icon> Password</label>
+                    <label for="password" class="form-label"><ion-icon name="key-outline"></ion-icon> Password</label>
                     <input type="password" name="password" class="form-control" id="password">
                 </div>
                 <div class="mb-3">
@@ -29,13 +32,15 @@
                 </div>
                 <div class="mb-3">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            I have read the terms and conditions
+                        <input class="form-check-input" type="checkbox" value="" name="terms_and_conditions_accept" th:field="${user.terms_and_conditions_accept}" id="terms_and_conditions_accept">
+                        <label class="form-check-label" for="terms_and_conditions_accept">
+                            I have read the <a href="/rules">terms and conditions</a>
                         </label>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Sign up</button>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Sign up</button>
+                </div>
                 <div class="mb-3">
                     <p>Already have an account? <a href="/login">Login</a></p>
                 </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <th:block th:insert="~{fragments/head}"></th:block>
     </head>
@@ -8,11 +8,11 @@
 
         <div class="container mt-5 min-vh-100" style="max-width: 330px;">
             <h4 class="text-center">Login</h4>
-            <th:block th:if="${param.error}">
-                <div class="alert alert-danger" role="alert" th:text="#{login_error}"></div>
+            <th:block th:switch="${#strings.toString(param.error)}">
+                <div th:case="'bad_credentials'" class="alert alert-danger" role="alert">Wrong nickname or(and) password</div>
             </th:block>
             <th:block th:if="${error}">
-                <div class="alert alert-danger" role="alert" th:text="#{login_error}"></div>
+                <div class="alert alert-danger" role="alert" th:text="${error}"></div>
             </th:block>
             <form method="post" th:action="@{/login}">
                 <div class="mb-3">
