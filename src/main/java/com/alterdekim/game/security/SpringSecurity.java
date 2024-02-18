@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -31,6 +33,8 @@ public class SpringSecurity {
                         authorize
                                 .requestMatchers("/game").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/games").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("/profile/**").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("/api/**").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/static/**").permitAll()
                                 .requestMatchers("/access-denied").permitAll()
                                 .requestMatchers("/signup").permitAll()
@@ -74,6 +78,13 @@ public class SpringSecurity {
     @Bean
     public static PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowSemicolon(true);
+        return (web) -> web.httpFirewall(firewall);
     }
 }
 

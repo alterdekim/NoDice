@@ -53,6 +53,11 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     private UserDTO convertEntityToDto(User user){
         UserDTO userDto = new UserDTO();
         userDto.setUsername(user.getUsername());
@@ -63,6 +68,18 @@ public class UserServiceImpl implements UserService {
         Role role = new Role();
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
+    }
+
+    public void updateOnline(Long userId) {
+        userRepository.setOnline(userId);
+    }
+
+    public void setAllOffline() {
+        userRepository.setAllOffline();
+    }
+
+    public Integer countByIsOnline() {
+        return userRepository.countByIsOnline(true);
     }
 }
 

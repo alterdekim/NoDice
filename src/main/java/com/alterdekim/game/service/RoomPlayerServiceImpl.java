@@ -1,0 +1,27 @@
+package com.alterdekim.game.service;
+
+import com.alterdekim.game.entities.RoomPlayer;
+import com.alterdekim.game.repository.RoomPlayerRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class RoomPlayerServiceImpl implements RoomPlayerService{
+
+    private final RoomPlayerRepository repository;
+
+    public RoomPlayerServiceImpl(RoomPlayerRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public List<RoomPlayer> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public List<RoomPlayer> findByRoomId(Long roomId) {
+        return repository.findByRoomId(roomId);
+    }
+}

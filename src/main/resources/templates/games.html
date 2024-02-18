@@ -62,42 +62,490 @@
             .text-glowing {
               color: rgba(55, 188, 157, 1) !important;
             }
+
+            .mission-one {
+                margin-top: 10px;
+                border-top: 1px solid #e9eaec;
+                padding: 10px;
+            }
+
+            .mission-target>span {
+                font-weight: 700;
+            }
+
+            .mission-block>span {
+                font-weight: 700;
+            }
+
+            .progress {
+                margin-top: 5px;
+                height: 7px;
+            }
+
+            .progress-bar {
+                background-color: rgba(55, 188, 157, 1) !important;
+            }
+
+            .mission-block, .mission-target {
+                font-size: 13px;
+                margin-top: 5px;
+                display: flex;
+                align-items: center;
+                gap: 0.3em;
+            }
+
+            .mission-text {
+                font-size: 13px;
+            }
+
+            .friend-search {
+                margin: 20px;
+                line-height: 1.6;
+            }
+
+            .empty-list-message {
+                text-align: center;
+                margin: 20px;
+            }
+
+            .empty-list-message>p {
+                font-size: 13px;
+            }
+
+            .title > span {
+                color: #a7adb5;
+                font-size: 14px;
+            }
+
+            .chat-history {
+                padding: 20px;
+                margin-bottom: 15px;
+                width: 100%;
+                height: 280px;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                word-wrap: break-word;
+            }
+
+            #market-carousel {
+                width: 100%;
+            }
+
+            .carousel-title-text {
+                font-size: 19px;
+                font-weight: 700;
+                color: #fff;
+            }
+
+            .carousel-body-text {
+                margin-top: 10px;
+                font-size: 14px;
+                line-height: 20px;
+                color: #fff;
+            }
+
+            .carousel-item-body {
+                padding: 0 70px;
+            }
+
+            .carousel-item-background {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .chat-history-one {
+                margin: 5px 0;
+            }
+
+            .chat-history-info {
+                display: inline-flex;
+                align-items: center;
+                margin-right: 5px;
+                color: #989aa4;
+                transform: translateY(1px);
+            }
+
+            .chat-history-user {
+                padding: 0 6px;
+                text-decoration: none;
+                background-color: #b9bac1;
+                border-radius: 5px;
+            }
+
+            .chat-history-user>._nick {
+                color: #fff;
+                font-weight: 600;
+            }
+
+            .chat-history-text {
+                margin-left: 5px;
+            }
+
+            .chat-history-one>* {
+                font-size: 14px;
+                vertical-align: middle;
+                line-height: 21px;
+            }
+
+            .chat-history-info>.time {
+                margin-right: 5px;
+            }
+
+            .message-input {
+                margin: 20px;
+                line-height: 1.6;
+            }
+
+            .games-room-one {
+                display: flex;
+                flex-flow: column nowrap;
+                position: relative;
+                border-top: 1px solid;
+                border-color: #e6e6e6;
+            }
+
+            .games-room-one-body {
+                padding: 10px 20px;
+            }
+
+            .games-room-one-body-head {
+                display: flex;
+                flex-flow: row nowrap;
+                height: 25px;
+            }
+
+            .games-room-one-body-head-info {
+                flex-grow: 999;
+                display: flex;
+                flex-flow: row nowrap;
+                gap: 10px;
+            }
+
+            .games-room-one-body-members {
+                display: flex;
+                flex-flow: row nowrap;
+                margin-top: 13px;
+                margin-bottom: 5px;
+                justify-content: center;
+            }
+
+            .games-room-one-body-members-one {
+                position: relative;
+                margin: 0 5px;
+                width: calc(20% - 2 * 5px);
+            }
+
+            .games-room-one-body-members-one-nick {
+                margin-top: 5px;
+                height: 21px;
+                text-align: center;
+                line-height: 21px;
+                white-space: nowrap;
+            }
+
+            .games-room-one-body-members-one-nick > a {
+                color: #656d78;
+                font-size: 14px;
+            }
+
+            .games-room-one-body-members-one-nick > span {
+                color: #656d78;
+                font-size: 14px;
+                text-decoration: none;
+            }
+
+            .games-room-one-body-members-one-avatar {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                margin: auto;
+                border-radius: 100%;
+                width: 75px;
+                height: 75px;
+                background: center/cover no-repeat;
+                font: 50px Ionicons;
+            }
+
+            .games-room-one-body-head-info > ._type > div {
+                font-size: 15px;
+            }
+
+            .games-room-one-body-head-info > ._with_wormhole > div {
+                font-size: 15px;
+            }
+
+            ._slot_join {
+                cursor: pointer;
+            }
+
+            #waiting_list > .title {
+                align-items: center;
+                display: flex;
+                position: relative;
+            }
+
+            #waiting_list > .title > a {
+                position: absolute;
+                right: 0;
+            }
+
+            body.modal-open > :not(.modal) {
+                -webkit-filter: blur(3px);
+                -moz-filter: blur(3px);
+                -o-filter: blur(3px);
+                -ms-filter: blur(3px);
+                filter: blur(3px);
+            }
+
+            .game-creation-modal-modes {
+                background-color: #f7f7f7;
+                flex-shrink: 0;
+                border-radius: 5px 0 0 5px;
+                padding: 10px 15px 10px 10px;
+                width: 250px;
+                overflow: hidden;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+
+            .game-creation-modal-block {
+                flex-shrink: 0;
+                position: relative;
+                left: -5px;
+                border-radius: 5px;
+                padding: 20px 0;
+                width: 375px;
+                background-color: #fff;
+                box-shadow: 0 0 25px rgba(0,0,0,.1);
+            }
+
+            .game-creation-modal-body {
+                display: flex;
+                position: relative;
+                box-shadow: 0 0 100px rgba(0,0,0,.333);
+                border-radius: 5px;
+                width: 620px;
+                text-align: left;
+            }
+
+            .game-creation-modal-modes-one._regular._selected {
+                background: #8cc152;
+            }
+
+            .game-creation-modal-modes-one._selected {
+                color: #fff;
+            }
+
+            .game-creation-modal-modes-one {
+                border-radius: 5px;
+                padding: 10px 15px;
+                cursor: pointer;
+            }
+
+            .game-creation-modal-modes-one-title {
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 21px;
+            }
+
+            .game-creation-modal-modes-one-subtitle {
+                margin-top: 4px;
+                font-size: 12px;
+                line-height: 15px;
+                opacity: .85;
+            }
+
+            .game-creation-modal-block-title {
+                margin-bottom: 10px;
+                font-weight: 600;
+                margin-top: 0;
+                font-size: 18px;
+                position: relative;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+
+            .game-creation-modal-block-subtitle {
+                margin-right: 20px;
+                margin-left: 20px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                font-size: 16px;
+                position: relative;
+                font-weight: 400;
+            }
+
+            .form-switch-game {
+                transform: scale(1.2);
+                margin-left: 3.5rem;
+            }
+
+            .form-check-input:checked {
+                background-color: #37bc9d;
+                border-color: #37bc9d;
+            }
+
+            #players-count-range, .players-range-value {
+                margin-left: 20px;
+                width: 80%;
+            }
+
+            .form-range::-webkit-slider-thumb {
+                background-color: #37bc9d;
+            }
+
+            .reply-button {
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
         <th:block th:insert="~{fragments/navbar}"></th:block>
-        <div class="container">
-            <div class="grid mt-5">
-                <div class="g-col-4">
-                    <div class="block">
-                        <div class="title">Achievements</div>
-                        <div class="block-content">
-                            <div class="spinner-grow text-glowing" role="status">
-                                <span class="visually-hidden">Loading...</span>
+        <div class="modal fade" id="game-creation-menu-modal" tabindex="-1" aria-labelledby="game-creation-menu-modal-title" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="game-creation-modal-body">
+                        <div class="game-creation-modal-modes">
+                            <div class="game-creation-modal-modes-one _regular _selected">
+                                <div class="game-creation-modal-modes-one-title">Regular game</div>
+                                <div class="game-creation-modal-modes-one-subtitle">Classic Nosedive game.</div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="block" style="margin-top: 15px;">
-                        <div class="title">Friends</div>
-                        <div class="block-content">
-                            <div class="spinner-grow text-glowing" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                        <div class="game-creation-modal-block">
+                            <div class="game-creation-modal-block-title">Regular game</div>
+                            <label for="players-count-range" class="form-label players-range-value">Players <span></span></label>
+                            <input type="range" class="form-range" min="2" max="5" step="1" id="players-count-range">
+                            <div class="game-creation-modal-block-subtitle">Room settings</div>
+                            <div class="form-check form-switch form-switch-game">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Private room</label>
+                            </div>
+                            <div style="display: flex; justify-content: center;">
+                                <button class="btn btn-primary navbar-btn">
+                                    <span>Start</span>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="g-col-8">
-                    <div class="block transparent-override">
-                        <div class="market">
+            </div>
+        </div>
+        <div class="container">
+            <div class="grid mt-5">
+                <div class="g-col-4">
+                    <div class="block" id="missions_list">
+                        <div class="title">Missions</div>
+                        <div class="block-content">
                             <div class="spinner-grow text-glowing" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>
+                        <!--<div>
+                            <div class="mission-one">
+                                <div class="mission-text">Pay on cell "tax"</div>
+                                <div class="mission-target"><span>0</span>/<span>4</span></div>
+                                <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" style="width: 25%"></div>
+                                </div>
+                                <div class="mission-block">
+                                    <ion-icon name="checkmark-circle-outline" role="img" class="md hydrated"></ion-icon>
+                                    <span>80</span>
+                                    XP
+                                    <ion-icon name="timer-outline" role="img" class="md hydrated"></ion-icon>
+                                    3 days
+                                </div>
+                            </div>
+                        </div>-->
                     </div>
 
-                    <div class="block" style="margin-top: 15px;">
-                        <div class="title">Chat</div>
+                    <div class="block" id="top_of_week" style="margin-top: 15px;">
+                        <div class="title">Top of week</div>
+                        <div class="block-content">
+                            <div class="spinner-grow text-glowing" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <!--
+                        <div>
+                            <div class="empty-list-message">
+                                <p>You are not in the top players of the week - win a competitive match first.</p>
+                            </div>
+                        </div>-->
+                    </div>
+
+                    <div class="block" id="friends_list" style="margin-top: 15px;">
+                        <div class="title">Friends online</div>
+                        <div class="block-content">
+                            <div class="spinner-grow text-glowing" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                        <!--<div>
+                            <div class="friend-search">
+                                <input type="text" class="friend-search-input form-control" placeholder="Search friends">
+                            </div>
+
+                            <div class="empty-list-message">
+                                <p>No friends online.</p>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="g-col-8">
+                    <div class="block transparent-override" id="market_list">
+                        <div class="market">
+                            <div class="spinner-grow text-glowing" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+
+                            <div id="market-carousel" class="carousel slide" style="display: none;">
+                              <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#market-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                              </div>
+                              <div class="carousel-inner">
+                              </div>
+                              <button class="carousel-control-prev" type="button" data-bs-target="#market-carousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                              </button>
+                              <button class="carousel-control-next" type="button" data-bs-target="#market-carousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                              </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="block" id="chat_list" style="margin-top: 15px;">
+                        <div class="title chat-title">Chat <span>1337 online</span></div>
+                        <div class="chat-history" style="display: none;">
+                           <!-- <div class="chat-history-one">
+                                <div class="chat-history-info">
+                                    <span class="time">2:54 </span>
+                                    <ion-icon name="arrow-undo-outline"></ion-icon>
+                                </div>
+                                <span>
+                                    <span class="chat-history-text chat-history-content-message">
+                                        <span class="formatter">
+                                            <a href="/profile/4764365" class="chat-history-user">
+                                                <span class="_nick">Chell</span>
+                                            </a>
+                                            <ion-icon name="remove-outline"></ion-icon>
+                                            <span>Hello </span>
+                                            <a href="/profile/3947788" class="chat-history-user">Disaster</a>
+                                            <span>: Lorem ipsum dolor sit amet </span>
+                                        </span>
+                                    </span>
+                                </span>
+                            </div> -->
+                        </div>
+                        <div class="message-input" style="display: none;">
+                            <input type="text" class="form-control" maxlength="200" placeholder="Write a message and hit Enter" id="chat-message-input" autocomplete="off">
+                        </div>
                         <div class="block-content" style="height: 280px; align-items: center;">
                             <div class="spinner-grow text-glowing" role="status">
                                 <span class="visually-hidden">Loading...</span>
@@ -105,8 +553,74 @@
                         </div>
                     </div>
 
-                    <div class="block" style="margin-top: 15px;">
-                        <div class="title">Waiting list</div>
+                    <div class="block" id="waiting_list" style="margin-top: 15px;">
+                        <div class="title">Waiting list<a data-bs-toggle="modal" data-bs-target="#game-creation-menu-modal" class="btn btn-primary navbar-btn">
+                            <ion-icon name="dice-outline"></ion-icon>
+                            <span>Create game</span>
+                        </a></div>
+                        <!--<div class="rooms-list">
+                            <div class="games-room-one">
+                                <div class="games-room-one-body">
+                                    <div class="games-room-one-body-head">
+                                        <div class="games-room-one-body-head-info">
+                                            <div class="_type">
+                                                <div>Fast game</div>
+                                            </div>
+                                            <div class="_with_wormhole">
+                                                <div>With portal</div>
+                                            </div>
+                                        </div>
+                                        <div class="games-room-one-body-head-actions"></div>
+                                    </div>
+                                    <div class="games-room-one-body-members">
+                                        <div class="games-room-one-body-members-one">
+                                            <div class="games-room-one-body-members-one-avatar" style="background-image: url(&quot;https://i.dogecdn.wtf/7lurfckMFrYXm4gf&quot;);">
+                                                <a href="/profile/822351"></a>
+                                                <div class="_online"></div>
+                                            </div>
+                                            <div class="games-room-one-body-members-one-nick">
+                                                <a href="/profile/822351">Wolf</a>
+                                            </div>
+                                            <div kd-tooltip-option-position="center" class="games-room-one-body-members-one-rank" style="background-image: url(&quot;//m1.dogecdn.wtf/ranks/0.svg&quot;);"></div>
+                                        </div>
+                                        <div class="games-room-one-body-members-one">
+                                            <div class="games-room-one-body-members-one-avatar" style="background-image: url(&quot;https://i.dogecdn.wtf/wxEpEiovduvcXadQ&quot;);">
+                                                <a href="/profile/4427427"></a>
+                                                <div class="_online"></div>
+                                            </div>
+                                            <div class="games-room-one-body-members-one-nick">
+                                                <a href="/profile/4427427">bolgovantonio</a>
+                                            </div>
+                                            <div kd-tooltip-option-position="center" class="games-room-one-body-members-one-rank" style="background-image: url(&quot;//m1.dogecdn.wtf/ranks/0.svg&quot;);"></div>
+                                        </div>
+                                        <div class="games-room-one-body-members-one _slot_join">
+                                            <div class="games-room-one-body-members-one-avatar">
+                                                <ion-icon name="add-outline" style="color: #656d78;"></ion-icon>
+                                            </div>
+                                            <div class="games-room-one-body-members-one-nick">
+                                                <span>Join</span>
+                                            </div>
+                                        </div>
+                                        <div class="games-room-one-body-members-one _slot_join">
+                                            <div class="games-room-one-body-members-one-avatar">
+                                                <ion-icon name="add-outline" style="color: #656d78;"></ion-icon>
+                                            </div>
+                                            <div class="games-room-one-body-members-one-nick">
+                                                <span>Join</span>
+                                            </div>
+                                        </div>
+                                        <div class="games-room-one-body-members-one _slot_join">
+                                            <div class="games-room-one-body-members-one-avatar">
+                                                <ion-icon name="add-outline" style="color: #656d78;"></ion-icon>
+                                            </div>
+                                            <div class="games-room-one-body-members-one-nick">
+                                                <span>Join</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
                         <div class="block-content">
                             <div class="spinner-grow text-glowing" role="status">
                                 <span class="visually-hidden">Loading...</span>
@@ -117,5 +631,6 @@
             </div>
         </div>
         <th:block th:insert="~{fragments/essentials}"></th:block>
+        <script src="/static/javascript/games.js"></script>
     </body>
 </html>
