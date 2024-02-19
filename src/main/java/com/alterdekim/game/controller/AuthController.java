@@ -5,8 +5,11 @@ import com.alterdekim.game.entities.Invite;
 import com.alterdekim.game.entities.User;
 import com.alterdekim.game.service.InviteService;
 import com.alterdekim.game.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,31 +36,10 @@ public class AuthController {
         return "game";
     }
 
-    @GetMapping("/rules")
-    public String rulesPage(Model model) {
-        return "rules";
-    }
-
     @GetMapping("/login")
     public String loginPage(Model model) {
         model.addAttribute("title", "Login" + base_title);
         return "login";
-    }
-
-    @GetMapping("/games")
-    public String gamesPage(Model model) {
-        return "games";
-    }
-
-    @GetMapping("/")
-    public String homePage(Model model) {
-        return "index";
-    }
-
-    @GetMapping("/access-denied")
-    public String accessDenied(Model model) {
-        model.addAttribute("title", "Access denied");
-        return "access-denied";
     }
 
     @GetMapping("/signup")

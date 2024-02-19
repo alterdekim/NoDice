@@ -1,6 +1,7 @@
 package com.alterdekim.game.security;
 
 import com.alterdekim.game.handler.CustomAccessDeniedHandler;
+import jakarta.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -31,6 +33,7 @@ public class SpringSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         authorize
+                                .requestMatchers("/async/**").permitAll()
                                 .requestMatchers("/game").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/games").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/profile/**").hasAnyAuthority("ROLE_ADMIN")

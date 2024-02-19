@@ -1,20 +1,21 @@
 package com.alterdekim.game.controller;
 
 
+import com.alterdekim.game.component.LongPoll;
+import com.alterdekim.game.component.LongPollingSession;
 import com.alterdekim.game.dto.*;
 import com.alterdekim.game.entities.Chat;
+import com.alterdekim.game.entities.Room;
 import com.alterdekim.game.entities.User;
 import com.alterdekim.game.service.*;
+import com.alterdekim.game.util.Hash;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
 
 import java.io.UnsupportedEncodingException;
@@ -47,11 +48,16 @@ public class APIController {
     @Autowired
     private UserServiceImpl userService;
 
+    @Autowired
+    private LongPoll longPoll;
+
     @GetMapping("/api/v1/games/list")
     public ResponseEntity<List<RoomResult>> gamesList() {
         List<RoomResult> results = roomService.getAll()
                 .stream()
-                .map(room -> new RoomResult(room, roomPlayerService.findByRoomId(room.getId())))
+                .map(room -> new RoomResult(room.getId(), room.getPlayerCount(), roomPlayerService.findByRoomId(room.getId()).stream()
+                        .map(p -> userService.findById(p.getId()))
+                        .map(p -> new UserResult(p.getId(), p.getUsername())).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(results);
     }
@@ -126,10 +132,22 @@ public class APIController {
         return ResponseEntity.accepted().build();
     }
 
-    @GetMapping("/api/v1/notify/get/{last_chat_id}/")
-    public ResponseEntity<LongPollResult> getNotify(@PathVariable Long last_chat_id ) {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    @GetMapping("/async/notify/get/")
+    @ResponseBody
+    public DeferredResult<LongPollResult> getNotify(@RequestParam("last_chat_id") Long last_chat_id,
+                                                    @RequestParam("accessToken") String accessToken,
+                                                    @RequestParam("uid") Long userId) {
+        try {
+            User u = userService.findById(userId);
+            if (u == null) return null;
+            if (!Hash.sha256((u.getId() + u.getUsername() + u.getPassword()).getBytes()).equals(accessToken))
+                return null;
+        } catch ( Exception e ) {
+            log.error(e.getMessage(), e);
+        }
+        final DeferredResult<LongPollResult> deferredResult = new DeferredResult<>();
+        longPoll.getLongPollingQueue().add(new LongPollingSession(last_chat_id, deferredResult));
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long userId = userService.findByUsername(((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername()).getId();
         userService.updateOnline(userId);
 
@@ -160,6 +178,15 @@ public class APIController {
             c.setMessage(message);
             return c;
         }).collect(Collectors.toList());
-        return ResponseEntity.ok(new LongPollResult(onlineCount, results, users));
+        // Room stuff
+
+        List<Room> rooms = roomService.getAllActive();
+        List<RoomResult> roomResults = rooms.stream()
+                .map( r -> new RoomResult(r.getId(), r.getPlayerCount(), roomPlayerService.findByRoomId(r.getId()).stream()
+                        .map(p -> userService.findById(p.getId()))
+                        .map(p -> new UserResult(p.getId(), p.getUsername())).collect(Collectors.toList())))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(new LongPollResult(onlineCount, results, users, roomResults));*/
+        return deferredResult;
     }
 }

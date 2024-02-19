@@ -18,4 +18,8 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> getAll() {
         return roomRepository.findAll();
     }
+
+    public List<Room> getAllActive() {
+        return roomRepository.findAllByActiveTrue();
+    }
 }

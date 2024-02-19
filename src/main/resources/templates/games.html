@@ -401,6 +401,7 @@
                 cursor: pointer;
             }
         </style>
+        <api-tag th:data-access-token="${auth_obj.accessToken}" th:data-uid="${auth_obj.uid}"></api-tag>
     </head>
     <body>
         <th:block th:insert="~{fragments/navbar}"></th:block>

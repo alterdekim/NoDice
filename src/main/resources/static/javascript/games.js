@@ -23,9 +23,9 @@ function findUser(users, id) {
 
 function parseTime(unix_timestamp) {
     var date = new Date(unix_timestamp * 1000);
-    var hours = date.getHours();
+    var hours = "0" + date.getHours();
     var minutes = "0" + date.getMinutes();
-    return hours + ':' + minutes.substr(-2);
+    return hours.substr(-2) + ':' + minutes.substr(-2);
 }
 
 function replyButtonClicked(obj) {
@@ -35,8 +35,15 @@ function replyButtonClicked(obj) {
 }
 
 setInterval(function() {
+    let accessToken = $("api-tag").attr("data-access-token");
+    let uid = $("api-tag").attr("data-uid");
     $.ajax({
-      url: "/api/v1/notify/get/" + last_chat_id + "/",
+      url: "/async/notify/get/",
+      data: {
+        last_chat_id: last_chat_id,
+        accessToken: accessToken,
+        uid: uid
+      },
       method: "GET"
     }).done(function(data) {
         console.log(data);
