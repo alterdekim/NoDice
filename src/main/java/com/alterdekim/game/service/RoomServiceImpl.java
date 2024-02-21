@@ -5,6 +5,7 @@ import com.alterdekim.game.repository.RoomRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -21,5 +22,17 @@ public class RoomServiceImpl implements RoomService {
 
     public List<Room> getAllActive() {
         return roomRepository.findAllByActiveTrue();
+    }
+
+    public Optional<Room> findById(Long id) {
+        return roomRepository.findById(id);
+    }
+
+    public Long createRoom(Room room) {
+        return roomRepository.save(room).getId();
+    }
+
+    public void clearEmptyRooms() {
+        roomRepository.clearEmptyRooms();
     }
 }

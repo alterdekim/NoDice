@@ -1,6 +1,9 @@
 package com.alterdekim.game.util;
 
 import java.security.MessageDigest;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Hash {
     public static String sha256( byte[] b ) throws Exception {
@@ -18,5 +21,13 @@ public class Hash {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    public static String rnd() {
+        return IntStream.generate(() -> new Random().nextInt(0, 62))
+                .limit(32)
+                .boxed()
+                .map(i -> "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890".charAt(i)+"")
+                .collect(Collectors.joining());
     }
 }

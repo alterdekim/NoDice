@@ -24,4 +24,12 @@ public class RoomPlayerServiceImpl implements RoomPlayerService{
     public List<RoomPlayer> findByRoomId(Long roomId) {
         return repository.findByRoomId(roomId);
     }
+
+    public void joinRoom(Long id, Long userId) {
+        repository.save(new RoomPlayer(id, userId));
+    }
+
+    public void leaveByUserId(Long userId) {
+        repository.deleteAllByUserId(userId);
+    }
 }

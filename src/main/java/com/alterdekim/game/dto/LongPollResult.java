@@ -14,5 +14,6 @@ public class LongPollResult {
     private Integer onlineCount;
     private List<Chat> messages;
     private List<UserResult> users;
-    private List<RoomResult> rooms;
+    private List<RoomResultV2> rooms;
+    private List<FriendResult> friends;
 }

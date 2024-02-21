@@ -31,7 +31,7 @@ public class StaticController {
             User u = userService.findByUsername(((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername());
             Long userId = u.getId();
             String apiKey = Hash.sha256((u.getId() + u.getUsername() + u.getPassword()).getBytes());
-            model.addAttribute("auth_obj", new AuthApiObject(apiKey, userId));
+            model.addAttribute("auth_obj", new AuthApiObject(apiKey, userId, Hash.rnd()));
         } catch ( Exception e ) {
             log.error(e.getMessage(), e);
         }

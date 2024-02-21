@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class AuthApiObject {
-    private String accessToken;
-    private Long uid;
-    private String poll_token;
+public class FriendResult {
+    private FriendState action;
+    private Long id;
+    private String username;
 }
