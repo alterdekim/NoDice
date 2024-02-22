@@ -15,6 +15,10 @@ function createRoom() {
     });
 }
 
+function sendInviteMessage(uid) {
+    alert(uid);
+}
+
 function successPolling(data) {
     console.log(data);
     let onlineCount = data.onlineCount;
@@ -68,7 +72,7 @@ function successPolling(data) {
     for( let i = 0; i < friends.length; i++ ) {
         let friend = friends[i];
         if( friend.action == 'ADD' ) {
-            let fr_html = '<div class="friend-one" data-friend-id="'+friend.id+'"><a href="/profile/'+friend.id+'" class="navbar-btn"><img class="navbar-profile-img" src="https://avatars.githubusercontent.com/u/102559365?v=4"></a><span>'+friend.username+'</span><ion-icon name="person-add-outline" role="img" class="md hydrated"></ion-icon></div>';
+            let fr_html = '<div class="friend-one" data-friend-id="'+friend.id+'"><a href="/profile/'+friend.id+'" class="navbar-btn"><img class="navbar-profile-img" src="https://avatars.githubusercontent.com/u/102559365?v=4"></a><span>'+friend.username+'</span><ion-icon onClick="sendInviteMessage('+friend.id+')" name="person-add-outline" role="img" class="md hydrated"></ion-icon></div>';
             $(".friends-online-list").append(fr_html);
         } else if( friend.action == 'REMOVE' ) {
             $(".friend-one").each(function() {
@@ -78,9 +82,18 @@ function successPolling(data) {
             });
         }
     }
-    var clh = $('#chat_list').find(".chat-history");
-    clh.scrollTop(clh.prop("scrollHeight"));
-    $("#chat_list").find(".chat-history").css("display", "");
+
+    if( friends.length > 0 ) {
+        $(".friends-online-list").css("display", "");
+        $("#friends_list").find(".block-content").css("display", "none");
+    }
+
+    if( messages.length > 0 ) {
+        var clh = $('#chat_list').find(".chat-history");
+        clh.scrollTop(clh.prop("scrollHeight"));
+        $("#chat_list").find(".chat-history").css("display", "");
+    }
+
     $("#chat_list").find(".message-input").css("display", "");
     $("#chat_list").find(".block-content").css("display", "none");
 }
@@ -213,4 +226,8 @@ $(document).ready(function() {
 
     $(".rooms-list").css("display", "");
     $("#waiting_list").find(".block-content").css("display", "none");
+
+    var clh = $('#chat_list').find(".chat-history");
+    clh.scrollTop(clh.prop("scrollHeight"));
+    $("#chat_list").find(".chat-history").css("display", "");
 });

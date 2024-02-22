@@ -11,8 +11,31 @@
     --dive-weird-blue-grey: #656d78;
     --dive-light-grey-second: #e9eaec;
     --dive-light-grey-third: #f7f7f7;
-    --dive-grass-green: #8cc152;
-    --dive-primary-color: #37bc9d;
+    --dive-grass-green: #FE7F2D;
+    --dive-primary-color: #55D6BE;
+    --dive-primary-color-dark: #194039;
+    --dive-primary-color-trans: #55D6BEEE;
+    --dive-shadow-color: rgba(0,0,0,.33);
+    --dive-shadow-second: rgba(0,0,0,.1);
+    --dive-white-trans: rgba(255, 255, 255, 0.85);
+    --dive-white-trans-second: rgba(255, 255, 255,0.25);
+}
+
+.navbar-brand-custom-gradient {
+    font-weight: 600;
+    background: linear-gradient(90deg, var(--dive-primary-color-dark) 0%, var(--dive-primary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.gradient-span {
+    background: linear-gradient(90deg, var(--dive-primary-color-dark) 0%, var(--dive-primary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.container-secondary {
+    background-color: var(--dive-grey);
 }
 
 .navbar {
@@ -23,6 +46,10 @@ html, body {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--dive-grey);
     font-size: 0.875rem;
+}
+
+.firefox {
+    font-size: 1.0rem;
 }
 
 footer {
@@ -48,7 +75,7 @@ footer {
 .btn-primary {
     background-color: var(--dive-primary-color);
     color: var(--dive-white);
-    border-color: var(--dive-primary-color);
+    border-color: var(--dive-primary-color) !important;
     --bs-btn-active-bg: var(--dive-primary-color);
 }
 
@@ -62,18 +89,30 @@ footer {
 .btn-outline-primary:active {
     background-color: var(--dive-primary-color);
     color: var(--dive-white);
-    border-color: var(--dive-primary-color);
+    border-color: var(--dive-primary-color) !important;
     --bs-btn-active-bg: var(--dive-primary-color);
 }
 
 .btn-primary:hover {
-  background-color: rgba(55,188,157,0.85);
-  border-color: rgba(55,188,157,0.85);
+  background-color: var(--dive-primary-color-trans);
+  border-color: var(--dive-primary-color-trans);
+}
+
+.dropdown-toggle::after {
+    border-top: 0px solid;
+}
+
+.dropdown-item:active {
+    background-color: var(--dive-primary-color) !important;
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: var(--dive-light-grey);
 }
 
 .btn-outline-primary:hover {
-  background-color: rgba(55,188,157,0.85);
-  border-color: rgba(55,188,157,0.85);
+  background-color: var(--dive-primary-color-trans);
+  border-color: var(--dive-primary-color-trans);
 }
 
 .navbar-btn {

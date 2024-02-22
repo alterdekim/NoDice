@@ -16,9 +16,9 @@
 }
 
 .btn-primary {
-    background-color: rgba(255,255,255,.85);
+    background-color: var(--dive-white-trans);
     color: var(--dive-primary-color);
-    border-color: rgba(255,255,255,.85);
+    border-color: var(--dive-white-trans);
 }
 
 .btn-primary:hover {
@@ -28,8 +28,8 @@
 }
 
 .btn-outline-primary:hover {
-    background-color: rgba(255, 255, 255,0.25);
-    border-color: rgba(255, 255, 255,0.25);
+    background-color: var(--dive-white-trans-second);
+    border-color: var(--dive-white-trans-second);
 }
 
 .page-title {
@@ -63,8 +63,8 @@
 
 .main-button:hover {
     color: var(--dive-dark-grey-second);
-    background-color: rgba(255, 255, 255, 0.85);
-    border-color: rgba(255, 255, 255, 0.85);
+    background-color: var(--dive-white-trans);
+    border-color: var(--dive-white-trans);
     font: 600 1.5rem Montserrat;
     padding: 0 0.9em;
     height: 2.1em;
@@ -87,7 +87,7 @@
 }
 
 .billboard-img {
-    box-shadow: 0 0 100px rgba(0,0,0,.33);
+    box-shadow: 0 0 100px var(--dive-shadow-color);
     width: 900px;
     overflow: hidden;
     pointer-events: none;

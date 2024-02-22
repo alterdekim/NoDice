@@ -16,7 +16,7 @@
 
 .block {
     display: block;
-    border-bottom: 2px solid rgba(0,0,0,.1);
+    border-bottom: 2px solid var(--dive-shadow-second);
     border-radius: 5px;
     padding-top: .1px;
     padding-bottom: .1px;
@@ -55,7 +55,7 @@
 }
 
 .text-glowing {
-  color: rgba(55, 188, 157, 1) !important;
+  color: var(--dive-primary-color) !important;
 }
 
 .mission-one {
@@ -78,7 +78,7 @@
 }
 
 .progress-bar {
-    background-color: rgba(55, 188, 157, 1) !important;
+    background-color: var(--dive-primary-color) !important;
 }
 
 .mission-block, .mission-target {
@@ -284,6 +284,8 @@
 #waiting_list > .title > a {
     position: absolute;
     right: 0;
+    background-color: var(--dive-grass-green);
+    border-color: var(--dive-grass-green) !important;
 }
 
 body.modal-open > :not(.modal) {
@@ -314,13 +316,13 @@ body.modal-open > :not(.modal) {
     padding: 20px 0;
     width: 375px;
     background-color: var(--dive-white);
-    box-shadow: 0 0 25px rgba(0,0,0,.1);
+    box-shadow: 0 0 25px var(--dive-shadow-second);
 }
 
 .game-creation-modal-body {
     display: flex;
     position: relative;
-    box-shadow: 0 0 100px rgba(0,0,0,.333);
+    box-shadow: 0 0 100px var(--dive-shadow-color);
     border-radius: 5px;
     width: 620px;
     text-align: left;
