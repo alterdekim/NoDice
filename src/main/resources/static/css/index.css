@@ -1,30 +1,30 @@
 .navbar-brand-custom {
-    color: #ffffff;
+    color: var(--dive-white);
 }
 
 .navbar-brand-custom:hover {
-    color: #ffffff;
+    color: var(--dive-white);
 }
 
 .navbar {
-    background-color: #37bc9d;
+    background-color: var(--dive-primary-color);
 }
 
 .btn-outline-primary {
     border-color: transparent;
-    color: #fff;
+    color: var(--dive-white);
 }
 
 .btn-primary {
     background-color: rgba(255,255,255,.85);
-    color: #37bc9d;
+    color: var(--dive-primary-color);
     border-color: rgba(255,255,255,.85);
 }
 
 .btn-primary:hover {
-    background-color: #ffffff;
-    border-color: #ffffff;
-    color: #37bc9d;
+    background-color: var(--dive-white);
+    border-color: var(--dive-white);
+    color: var(--dive-primary-color);
 }
 
 .btn-outline-primary:hover {
@@ -34,26 +34,26 @@
 
 .page-title {
     font: 700 3.5em Montserrat;
-    color: #fff;
+    color: var(--dive-white);
 }
 
 .page-title-small {
     margin-top: .7em;
     font: 500 1.32em/1.4em Montserrat;
-    color: #fff;
+    color: var(--dive-white);
 }
 
 .main-billboard {
-    background-color: #37bc9d;
+    background-color: var(--dive-primary-color);
     height: 700px;
     text-align: center;
     padding-top: 50px;
 }
 
 .main-button {
-    color: #5b5d67;
-    background-color: #fff;
-    border-color: #fff;
+    color: var(--dive-dark-grey-second);
+    background-color: var(--dive-white);
+    border-color: var(--dive-white);
     font: 600 1.5rem Montserrat;
     padding: 0 0.9em;
     height: 2.1em;
@@ -62,7 +62,7 @@
 }
 
 .main-button:hover {
-    color: #5b5d67;
+    color: var(--dive-dark-grey-second);
     background-color: rgba(255, 255, 255, 0.85);
     border-color: rgba(255, 255, 255, 0.85);
     font: 600 1.5rem Montserrat;
@@ -82,7 +82,7 @@
     margin-bottom: 1.25em;
     margin-left: 0px;
     font: 700 3.25em Montserrat;
-    color: #26272b;
+    color: var(--dive-dark-grey-third);
     text-align: center;
 }
 

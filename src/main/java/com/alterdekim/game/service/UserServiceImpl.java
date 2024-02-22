@@ -69,17 +69,5 @@ public class UserServiceImpl implements UserService {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
-
-    public void updateOnline(Long userId) {
-        userRepository.setOnline(userId);
-    }
-
-    public void setAllOffline() {
-        userRepository.setAllOffline();
-    }
-
-    public Integer countByIsOnline() {
-        return userRepository.countByIsOnline(true);
-    }
 }
 

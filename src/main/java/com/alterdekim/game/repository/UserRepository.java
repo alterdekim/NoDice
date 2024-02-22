@@ -11,16 +11,4 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByUsername(String username);
-
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE User u SET u.isOnline = true WHERE u.id = :uuid")
-    void setOnline(@Param(value = "uuid") Long id);
-
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE User u SET u.isOnline = false")
-    void setAllOffline();
-
-    Integer countByIsOnline(boolean isOnline);
 }

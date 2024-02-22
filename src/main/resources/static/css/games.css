@@ -22,7 +22,7 @@
     padding-bottom: .1px;
     width: 100%;
     min-height: 1px;
-    background-color: #fff;
+    background-color: var(--dive-white);
 }
 
 .container {
@@ -60,7 +60,7 @@
 
 .mission-one {
     margin-top: 10px;
-    border-top: 1px solid #e9eaec;
+    border-top: 1px solid var(--dive-light-grey-second);
     padding: 10px;
 }
 
@@ -108,7 +108,7 @@
 }
 
 .title > span {
-    color: #a7adb5;
+    color: var(--dive-light-blue-grey);
     font-size: 14px;
 }
 
@@ -129,14 +129,14 @@
 .carousel-title-text {
     font-size: 19px;
     font-weight: 700;
-    color: #fff;
+    color: var(--dive-white);
 }
 
 .carousel-body-text {
     margin-top: 10px;
     font-size: 14px;
     line-height: 20px;
-    color: #fff;
+    color: var(--dive-white);
 }
 
 .carousel-item-body {
@@ -157,19 +157,19 @@
     display: inline-flex;
     align-items: center;
     margin-right: 5px;
-    color: #989aa4;
+    color: var(--dive-light-blue-grey-second);
     transform: translateY(1px);
 }
 
 .chat-history-user {
     padding: 0 6px;
     text-decoration: none;
-    background-color: #b9bac1;
+    background-color: var(--dive-light-blue-grey-third);
     border-radius: 5px;
 }
 
 .chat-history-user>._nick {
-    color: #fff;
+    color: var(--dive-white);
     font-weight: 600;
 }
 
@@ -197,7 +197,7 @@
     flex-flow: column nowrap;
     position: relative;
     border-top: 1px solid;
-    border-color: #e6e6e6;
+    border-color: var(--dive-light-grey);
 }
 
 .games-room-one-body {
@@ -240,12 +240,12 @@
 }
 
 .games-room-one-body-members-one-nick > a {
-    color: #656d78;
+    color: var(--dive-weird-blue-grey);
     font-size: 14px;
 }
 
 .games-room-one-body-members-one-nick > span {
-    color: #656d78;
+    color: var(--dive-weird-blue-grey);
     font-size: 14px;
     text-decoration: none;
 }
@@ -295,7 +295,7 @@ body.modal-open > :not(.modal) {
 }
 
 .game-creation-modal-modes {
-    background-color: #f7f7f7;
+    background-color: var(--dive-light-grey-third);
     flex-shrink: 0;
     border-radius: 5px 0 0 5px;
     padding: 10px 15px 10px 10px;
@@ -313,7 +313,7 @@ body.modal-open > :not(.modal) {
     border-radius: 5px;
     padding: 20px 0;
     width: 375px;
-    background-color: #fff;
+    background-color: var(--dive-white);
     box-shadow: 0 0 25px rgba(0,0,0,.1);
 }
 
@@ -327,11 +327,11 @@ body.modal-open > :not(.modal) {
 }
 
 .game-creation-modal-modes-one._regular._selected {
-    background: #8cc152;
+    background: var(--dive-grass-green);
 }
 
 .game-creation-modal-modes-one._selected {
-    color: #fff;
+    color: var(--dive-white);
 }
 
 .game-creation-modal-modes-one {
@@ -379,8 +379,8 @@ body.modal-open > :not(.modal) {
 }
 
 .form-check-input:checked {
-    background-color: #37bc9d;
-    border-color: #37bc9d;
+    background-color: var(--dive-primary-color);
+    border-color: var(--dive-primary-color);
 }
 
 #players-count-range, .players-range-value {
@@ -389,7 +389,7 @@ body.modal-open > :not(.modal) {
 }
 
 .form-range::-webkit-slider-thumb {
-    background-color: #37bc9d;
+    background-color: var(--dive-primary-color);
 }
 
 .reply-button {
@@ -409,6 +409,6 @@ body.modal-open > :not(.modal) {
 
 .friend-one > ion-icon {
     font-size: 18px;
-    color: #37bc9d;
+    color: var(--dive-primary-color);
     cursor: pointer;
 }

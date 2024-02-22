@@ -80,9 +80,7 @@ public class LongPoll {
     }
 
     private LongPollResult process(Long userId, LongPollConfig config) {
-        userService.updateOnline(userId);
-
-        Integer onlineCount = userService.countByIsOnline();
+        Integer onlineCount = map.size();
         List<Chat> results;
         List<UserResult> users = new ArrayList<>();
         List<RoomResult> clientRooms = config.getRooms();
@@ -92,6 +90,7 @@ public class LongPoll {
 
         results = chatService.getAfterLastChatId(config.getLast_chat_id());
 
+        // Chat part
         if( !results.isEmpty() ) {
             users = results.stream()
                     .map(Chat::getUserId)
@@ -118,6 +117,8 @@ public class LongPoll {
                 c.setMessage(message);
             }).collect(Collectors.toList());
         }
+
+        // Rooms part
         if( !clientRooms.isEmpty() ) {
             List<RoomResult> rooms = roomService.getAllActive().stream()
                     .map( r -> new RoomResult(r.getId(), r.getPlayerCount(), roomPlayerService.findByRoomId(r.getId()).stream()
@@ -156,6 +157,7 @@ public class LongPoll {
                     .collect(Collectors.toList());
         }
 
+        // Friends part
         if( !clientFriends.isEmpty() ) {
             List<UserResult> userResults = friendService.getFriendsOfUserId(userId)
                     .stream()
