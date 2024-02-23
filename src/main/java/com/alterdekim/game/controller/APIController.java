@@ -51,6 +51,9 @@ public class APIController {
     @Autowired
     private LongPoll longPoll;
 
+    @Autowired
+    private FriendServiceImpl friendService;
+
     @GetMapping("/api/v1/chat/history/{count}/")
     public ResponseEntity<ChatResult> chatList(@PathVariable Integer count ) {
         List<Chat> results = chatService.getLastChats(count);
@@ -133,6 +136,25 @@ public class APIController {
         return ResponseEntity.accepted().build();
     }
 
+    @PostMapping("/api/v1/rooms/invite/")
+    public ResponseEntity<String> inviteToRoom( @RequestParam("friend_id") Long friend_id ) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = userService.findByUsername(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()).getId();
+        if( friendService.getFriendsOfUserId(userId).stream().anyMatch( p -> p.longValue() == friend_id.longValue()) &&
+            roomPlayerService.hasUserId(userId) != null) {
+            LongPollConfig config = longPoll.getMap().get(friend_id);
+            if( config != null ) {
+                List<GameInvite> l = config.getInvites();
+                Long roomId = roomPlayerService.hasUserId(userId);
+                l.add(new GameInvite(roomId, userId, ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()));
+                config.setInvites(l);
+                longPoll.getMap().put(friend_id, config);
+                return ResponseEntity.ok().build();
+            }
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @PostMapping("/async/notify/get/")
     @ResponseBody
     public DeferredResult<LongPollResult> getNotify(@RequestParam("last_chat_id") Long last_chat_id,
@@ -152,7 +174,7 @@ public class APIController {
         if( longPoll.getMap().containsKey(userId) ){
             LongPollConfig c = longPoll.getMap().get(userId);
             if( !c.getPoll_token().equals(poll_token) ) {
-                c = new LongPollConfig(last_chat_id, new ArrayList<>(), 0, poll_token, new ArrayList<>(), System.currentTimeMillis());
+                c = new LongPollConfig(last_chat_id, new ArrayList<>(), 0, poll_token, new ArrayList<>(), System.currentTimeMillis(), new ArrayList<>());
                 longPoll.getLongPollingQueue().removeIf(q -> q.getUserId().longValue() == userId.longValue());
             }
             c.setLast_chat_id(last_chat_id);
@@ -160,7 +182,7 @@ public class APIController {
             c.setLastRequest(System.currentTimeMillis());
             longPoll.getMap().put(userId, c);
         } else {
-            longPoll.getMap().put(userId, new LongPollConfig(last_chat_id, new ArrayList<>(), 0, poll_token, new ArrayList<>(), System.currentTimeMillis()));
+            longPoll.getMap().put(userId, new LongPollConfig(last_chat_id, new ArrayList<>(), 0, poll_token, new ArrayList<>(), System.currentTimeMillis(), new ArrayList<>()));
         }
         longPoll.getLongPollingQueue().add(new LongPollingSession(userId, deferredResult));
         return deferredResult;

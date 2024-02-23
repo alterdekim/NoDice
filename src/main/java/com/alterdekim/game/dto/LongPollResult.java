@@ -16,4 +16,5 @@ public class LongPollResult {
     private List<UserResult> users;
     private List<RoomResultV2> rooms;
     private List<FriendResult> friends;
+    private List<InviteResult> invites;
 }

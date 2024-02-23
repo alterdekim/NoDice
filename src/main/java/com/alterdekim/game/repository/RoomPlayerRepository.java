@@ -21,4 +21,7 @@ public interface RoomPlayerRepository extends JpaRepository<RoomPlayer, Long> {
     @Modifying
     @Query(value = "DELETE FROM RoomPlayer r WHERE r.userId = :userId")
     void deleteAllByUserId(@Param("userId") Long userId);
+
+    @Query(value = "SELECT r.roomId FROM RoomPlayer r WHERE r.userId = :userId ORDER BY r.roomId ASC LIMIT 1")
+    Long hasUserId(@Param("userId") Long userId);
 }

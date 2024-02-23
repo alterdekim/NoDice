@@ -16,7 +16,15 @@ function createRoom() {
 }
 
 function sendInviteMessage(uid) {
-    alert(uid);
+    $.ajax({
+        url: "/api/v1/rooms/invite/",
+        method: "POST",
+        data: {
+            friend_id: uid
+        }
+    }).done(function(data) {
+        console.log(data);
+    });
 }
 
 function successPolling(data) {

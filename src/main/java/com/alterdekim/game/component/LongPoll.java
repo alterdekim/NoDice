@@ -57,7 +57,7 @@ public class LongPoll {
         });
         getLongPollingQueue().forEach(longPollingSession -> {
             try {
-                if( !map.containsKey(longPollingSession.getUserId())) map.put(longPollingSession.getUserId(), new LongPollConfig(0L,new ArrayList<>(), 0, Hash.rnd(), new ArrayList<>(), System.currentTimeMillis()));
+                if( !map.containsKey(longPollingSession.getUserId())) map.put(longPollingSession.getUserId(), new LongPollConfig(0L,new ArrayList<>(), 0, Hash.rnd(), new ArrayList<>(), System.currentTimeMillis(), new ArrayList<>()));
                 LongPollConfig config = map.get(longPollingSession.getUserId());
                 LongPollResult result = process(longPollingSession.getUserId(), config);
                 if( !result.getRooms().isEmpty() )
@@ -67,7 +67,7 @@ public class LongPoll {
 
                 config.setSession_pass(config.getSession_pass()+1);
 
-                if( !result.getFriends().isEmpty() || !result.getRooms().isEmpty() || !result.getMessages().isEmpty() || config.getSession_pass() >= iterations) {
+                if( !result.getInvites().isEmpty() || !result.getFriends().isEmpty() || !result.getRooms().isEmpty() || !result.getMessages().isEmpty() || config.getSession_pass() >= iterations) {
                     longPollingSession.getDeferredResult().setResult(result);
                     config.setSession_pass(0);
                 }
@@ -196,7 +196,7 @@ public class LongPoll {
                     .collect(Collectors.toList());
         }
 
-        return new LongPollResult(onlineCount, results, users, roomResults, friendsResult);
+        return new LongPollResult(onlineCount, results, users, roomResults, friendsResult, config.getInvites().stream().map(i -> new InviteResult(i.getRoomId(), i.getUserId(), i.getUsername())).collect(Collectors.toList()));
     }
 
     private Boolean isEqual(RoomResult r1, RoomResult r2) {

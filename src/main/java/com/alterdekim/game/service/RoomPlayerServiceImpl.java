@@ -32,4 +32,8 @@ public class RoomPlayerServiceImpl implements RoomPlayerService{
     public void leaveByUserId(Long userId) {
         repository.deleteAllByUserId(userId);
     }
+
+    public Long hasUserId(Long userId) {
+        return repository.hasUserId(userId);
+    }
 }

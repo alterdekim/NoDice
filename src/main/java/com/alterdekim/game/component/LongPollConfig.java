@@ -1,5 +1,6 @@
 package com.alterdekim.game.component;
 
+import com.alterdekim.game.dto.GameInvite;
 import com.alterdekim.game.dto.RoomResult;
 import com.alterdekim.game.dto.UserResult;
 import lombok.AllArgsConstructor;
@@ -20,4 +21,5 @@ public class LongPollConfig {
     private String poll_token;
     private List<UserResult> friends_online;
     private Long lastRequest;
+    private List<GameInvite> invites;
 }
