@@ -151,7 +151,7 @@ function successPolling(data) {
                 }
             }
             fids.push({id: friend.id, username: friend.username});
-            let fr_html = '<div class="friend-one" data-friend-id="'+friend.id+'"><a href="/profile/'+friend.id+'" class="navbar-btn"><img class="navbar-profile-img" src="https://avatars.githubusercontent.com/u/102559365?v=4"></a><span>'+friend.username+'</span><ion-icon onClick="sendInviteMessage('+friend.id+')" name="person-add-outline" role="img" class="md hydrated"></ion-icon></div>';
+            let fr_html = '<div class="friend-one" data-friend-id="'+friend.id+'"><a href="/profile/'+friend.id+'" class="navbar-btn"><img class="navbar-profile-img" src="https://avatars.githubusercontent.com/u/102559365?v=4"></a><span>'+friend.username+'</span><ion-icon onClick="sendInviteMessage('+friend.id+')" name="person-add" role="img" class="md hydrated"></ion-icon></div>';
             $(".friends-online-list").append(fr_html);
         } else if( friend.action == 'REMOVE' ) {
             for( let u = 0; u < fids.length; u++ ) {

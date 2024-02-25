@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <th:block th:insert="~{fragments/head}"></th:block>
+        <link rel="stylesheet" href="/static/css/friends.css"/>
+    </head>
+    <body>
+        <th:block th:insert="~{fragments/navbar}"></th:block>
+
+        <div class="container mt-5 block">
+            <h2>Friends</h2>
+            <div class="friends-list">
+                <th:block th:each="friend: ${friends}">
+                    <div class="friends-list-one">
+                        <a th:href="${friend.href}">
+                            <div class="friends-list-one-avatar" th:style="${friend.avatar}"></div>
+                        </a>
+                        <div class="friends-list-one-info">
+                            <div class="friends-list-one-info-nick">
+                                <a th:href="${friend.href}" th:text="${friend.username}"></a>
+                            </div>
+                            <div class="friends-list-one-info-actions" style="display: none;">
+                                <button onClick="removeFriend(this)" class="btn btn-danger btn-sm" th:data-friend-id="${friend.id}">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+
+        <th:block th:insert="~{fragments/essentials}"></th:block>
+        <script src="/static/javascript/friends.js"></script>
+    </body>
+</html>

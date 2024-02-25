@@ -14,4 +14,8 @@ public class FriendServiceImpl {
     public List<Long> getFriendsOfUserId(Long userId) {
         return repository.getFriendsOfUserId(userId);
     }
+
+    public void removeFriend(Long userId, Long friendId) {
+        repository.removeFriend(userId, friendId);
+    }
 }

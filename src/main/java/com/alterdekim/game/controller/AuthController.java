@@ -1,14 +1,21 @@
 package com.alterdekim.game.controller;
 
+import com.alterdekim.game.dto.FriendPageResult;
 import com.alterdekim.game.dto.UserDTO;
 import com.alterdekim.game.entities.Invite;
 import com.alterdekim.game.entities.User;
 import com.alterdekim.game.service.InviteService;
+import com.alterdekim.game.service.InviteServiceImpl;
 import com.alterdekim.game.service.UserService;
+import com.alterdekim.game.service.UserServiceImpl;
+import com.alterdekim.game.util.AuthenticationUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,27 +30,22 @@ public class AuthController {
 
     private final String base_title = " | Nosedive";
 
-    private final UserService userService;
-    private final InviteService inviteService;
+    @Autowired
+    private UserServiceImpl userService;
 
-    public AuthController(UserService userService, InviteService inviteService) {
-        this.inviteService = inviteService;
-        this.userService = userService;
-    }
-
-    @GetMapping("/game")
-    public String gamePage(Model model) {
-        return "game";
-    }
+    @Autowired
+    private InviteServiceImpl inviteService;
 
     @GetMapping("/login")
     public String loginPage(Model model) {
+        AuthenticationUtil.authProfile(model, userService);
         model.addAttribute("title", "Login" + base_title);
         return "login";
     }
 
     @GetMapping("/signup")
     public String showRegistrationForm(Model model) {
+        AuthenticationUtil.authProfile(model, userService);
         UserDTO userDto = new UserDTO();
         model.addAttribute("user", userDto);
         return "signup";

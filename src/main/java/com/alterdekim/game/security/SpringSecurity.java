@@ -39,6 +39,8 @@ public class SpringSecurity {
                                 .requestMatchers("/games").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/profile/**").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/api/**").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("/friends").hasAnyAuthority("ROLE_ADMIN")
+                                .requestMatchers("/settings").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/static/**").permitAll()
                                 .requestMatchers("/access-denied").permitAll()
                                 .requestMatchers("/signup").permitAll()

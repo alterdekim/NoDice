@@ -27,7 +27,7 @@
 			<div class="game">
 				<div class="players">
 					<th:block th:each="p: ${players}">
-						<div class="player" data-pid="${p.id}" onClick="drop(this)">
+						<div class="player" th:data-pid="${p.id}" onClick="drop(this)">
 							<p class="timeout"></p>
 							<p class="nickname" th:text="${p.name}"></p>
 							<p class="money" th:text="${p.money}"></p>
@@ -215,7 +215,7 @@
 					<div class="up"><div class="board_field corner"><img src="../static/images/start.png" style="width: 100%; height: 100%;" /></div></div>
 
 					<th:block th:each="f: ${fields_up}">
-						<div th:data-fid="${f.uid}" class="board_field" style="grid-column: @{${f.id}}"> <!-- 2 + -->
+						<div th:data-fid="${f.uid}" class="board_field" th:style="grid-column: @{${f.id}}"> <!-- 2 + -->
 							<div class="cost" th:text="${f.cost}"></div>
 							<div class="fh">
 								<div class="iconH">

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <th:block th:insert="~{fragments/head}"></th:block>
+        <link rel="stylesheet" href="/static/css/settings.css"/>
+    </head>
+    <body>
+        <th:block th:insert="~{fragments/navbar}"></th:block>
+        <div class="container">
+            <div class="grid mt-5">
+                <div class="g-col-8">
+                    <div class="block" id="profile" style="margin-top: 15px;">
+                        <div class="title">Profile</div>
+                        <div class="block-content">
+                            <div class="grid">
+                                <div class="g-col-4" style="display: flex; justify-content: center;">
+                                    <div style="width: 50%;">
+                                        <img class="profile-img" src="https://tg.dogecdn.wtf/v2/AgACAgIAAx0EWSIHJgAC0MBf64kG8Q99Gm69NezdtLUxTJaBiQACvrExG1sQWEtraYhjusGQAAGJdBmYLgADAQADAgADeAAD8RcFAAEeBA.jpg">
+                                        <button class="btn btn-primary" style="margin-top: 10px; font-size: 0.7rem;">Update avatar</button>
+                                    </div>
+                                </div>
+                                <div class="g-col-8" style="padding: 5px;">
+                                    <div class="mb-3">
+                                        <label for="displayname-input" class="form-label">Display name (may contain unicode symbols)</label>
+                                        <input type="text" class="form-control" id="displayname-input" autocomplete="off">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="nickname-input" class="form-label">Nickname</label>
+                                        <input type="text" class="form-control" id="nickname-input" autocomplete="off">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="pronouns-select" class="form-label">Pronouns</label>
+                                        <select class="form-select" id="pronouns-select" aria-label="">
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block" id="security" style="margin-top: 15px;">
+                        <div class="title">Security</div>
+                        <div class="block-content">
+                            <div class="grid">
+                                <div class="g-col-4" style="display: flex; justify-content: center;">
+
+                                </div>
+                                <div class="g-col-8" style="padding: 5px;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block" id="privacy" style="margin-top: 15px;">
+                        <div class="title">Privacy</div>
+                        <div class="block-content">
+                            <div class="grid">
+                                <div class="g-col-4" style="display: flex; justify-content: center;">
+
+                                </div>
+                                <div class="g-col-8" style="padding: 5px;">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="g-col-4">
+                    <div class="block" style="margin-top: 15px;">
+                        <div class="title">Settings</div>
+                        <div class="block-content" style="display: block;">
+                            <a href="#profile" class="menu-item _selected">Profile</a>
+                            <a href="#security" class="menu-item">Security</a>
+                            <a href="#privacy" class="menu-item">Privacy</a>
+                        </div>
+                    </div>
+
+                    <div class="block" style="margin-top: 15px;">
+                        <div class="title">Data</div>
+                        <div class="block-content" style="display: block;">
+                            <a href="#blacklist" class="menu-item">Black list</a>
+                            <a href="#notes" class="menu-item">Notes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:insert="~{fragments/essentials}"></th:block>
+    </body>
+</html>

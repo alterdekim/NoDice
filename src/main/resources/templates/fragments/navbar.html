@@ -30,13 +30,13 @@
                         <li class="nav-item">
                             <div class="dropdown">
                                 <a class="navbar-btn dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img class="navbar-profile-img" src="https://avatars.githubusercontent.com/u/102559365?v=4">
+                                    <img class="navbar-profile-img" th:src="${profile.avatar}">
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item">username</a></li>
+                                    <li><a class="dropdown-item" th:text="${profile.username}"></a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="/profile/">Profile</a></li>
-                                    <li><a class="dropdown-item" href="/settings/">Settings</a></li>
+                                    <li><a class="dropdown-item" th:href="${profile.href}">Profile</a></li>
+                                    <li><a class="dropdown-item" href="/settings">Settings</a></li>
                                     <li><a class="dropdown-item" href="/logout">Logout</a></li>
                                 </ul>
                             </div>

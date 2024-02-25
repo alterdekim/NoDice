@@ -147,6 +147,15 @@ public class APIController {
         return ResponseEntity.badRequest().build();
     }
 
+    @PostMapping("/api/v1/friends/remove/")
+    public ResponseEntity<String> removeFriend( @RequestParam("friend_id") Long friend_id ) {
+        if( userService.findById(friend_id) == null ) return ResponseEntity.badRequest().build();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = userService.findByUsername(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()).getId();
+        friendService.removeFriend(userId, friend_id);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/async/notify/get/")
     @ResponseBody
     public DeferredResult<LongPollResult> getNotify(@RequestParam("last_chat_id") Long last_chat_id,

@@ -1,0 +1,60 @@
+.block {
+    display: block;
+    border-bottom: 2px solid var(--dive-shadow-second);
+    border-radius: 5px;
+    padding-top: .1px;
+    padding-bottom: .1px;
+    width: 100%;
+    background-color: var(--dive-white);
+    max-width: 1000px;
+    min-height: 30vh;
+}
+
+.block-content {
+    justify-content: center;
+    display: flex;
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+}
+
+.friends-list-one-info-actions > button {
+    margin-top: 5px;
+}
+
+.friends-list {
+    display: inline-block;
+}
+
+.friends-list-one {
+    float: left;
+    width: 320px;
+    height: 95px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.friends-list-one-avatar {
+    float: left;
+    width: 75px;
+    height: 75px;
+    border-radius: 3px;
+    background-size: cover;
+    background-position: center;
+}
+
+.friends-list-one-info {
+    float: left;
+    padding-left: 15px;
+    width: 240px;
+}
+
+.friends-list-one-info-nick {
+    height: 25px;
+    font-weight: 300;
+    font-size: 21px;
+    line-height: 25px;
+}
