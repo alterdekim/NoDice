@@ -1,5 +1,9 @@
 var isPollingActive = true;
 
+var last_chat_id = 0;
+var rids = [];
+var fids = [];
+
 function createRoom() {
     let isprivate = $("#flexSwitchCheckDefault").is(':checked');
     let playerscnt = $("#players-count-range").val();
@@ -21,27 +25,74 @@ function sendInviteMessage(uid) {
         method: "POST",
         data: {
             friend_id: uid
+        },
+        statusCode: {
+            400: function() {
+                $(".toast-container").append('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"><div class="toast-header"><img src="/static/images/favicon.ico" width="16" height="16" class="rounded me-2" alt="Nosedive"><strong class="me-auto">Nosedive</strong><small class="text-body-secondary">just now</small><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">Can\'t send invite.</div></div>');
+                bootstrap.Toast.getOrCreateInstance($(".toast").last()).show();
+            },
+            200: function() {
+                $(".toast-container").append('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"><div class="toast-header"><img src="/static/images/favicon.ico" width="16" height="16" class="rounded me-2" alt="Nosedive"><strong class="me-auto">Nosedive</strong><small class="text-body-secondary">just now</small><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">Successfully sent invite.</div></div>');
+                bootstrap.Toast.getOrCreateInstance($(".toast").last()).show();
+            }
         }
-    }).done(function(data) {
-        console.log(data);
     });
+}
+
+function joinRoom(obj) {
+    let roomId = $(obj).attr("data-room-id");
+    $.ajax({
+        url: "/api/v1/rooms/join/",
+        data: {
+            room_id: roomId
+          },
+          method: "POST"
+    });
+}
+
+function takeInviteMessage(obj) {
+    // attr data-roomId
 }
 
 function successPolling(data) {
     console.log(data);
-    let onlineCount = data.onlineCount;
+    data = data.result;
+
+    let onlineCount = 0;
+    let messages = [];
+    let friends = [];
+    let rooms = [];
+    let invites = [];
+
+    for(let i = 0; i < data.length; i++ ) {
+        let res = data[i];
+        switch(res.type) {
+            case "OnlineUsers":
+                onlineCount = res.array[0];
+                break;
+            case "ChatResult":
+                messages = res.array;
+                break;
+            case "FriendResult":
+                friends = res.array;
+                break;
+            case "RoomResult":
+                rooms = res.array;
+                break;
+            case "InviteResult":
+                invites = res.array;
+                break;
+        }
+    }
+
     $(".chat-title").find("span").html(onlineCount + " online");
-    let messages = data.messages;
-    let users = data.users;
-    let rooms = data.rooms;
-    let friends = data.friends;
     if( messages.length > 0 ) {
         last_chat_id = messages[0].id;
     }
     for( let i = 0; i < messages.length; i++ ) {
-        let obj = messages[i];
+        let obj = messages[i].message;
         let time = parseTime(obj.createdAt);
-        let username = findUser(users, obj.userId).username;
+        let username = messages[i].user.username;
         let userid = obj.userId;
         let msgtext = obj.message;
         let html = '<div class="chat-history-one"><div class="chat-history-info"><span class="time">'+time+'</span><ion-icon name="arrow-undo-outline" class="reply-button" data-userid="'+userid+'" data-username="'+username+'" onClick="replyButtonClicked(this)"></ion-icon></div><span><span class="chat-history-text chat-history-content-message"><span class="formatter"><a href="/profile/'+userid+'" class="chat-history-user"><span class="_nick">'+username+'</span></a><ion-icon name="remove-outline"></ion-icon><span>'+msgtext+'</span></span></span></span></div>';
@@ -50,13 +101,20 @@ function successPolling(data) {
     for( let i = 0; i < rooms.length; i++ ) {
         let room = rooms[i];
         if( room.action == 'ADD_CHANGE' ) {
+            for( let u = 0; u < rids.length; u++ ) {
+                if( rids[u].id == room.id ) {
+                    rids.splice(u, 1);
+                    break;
+                }
+            }
+            rids.push({id: room.id, playerCount: room.playerCount, players: room.players});
             let room_p_html = '';
             for( let u = 0; u < room.players.length; u++ ) {
                 let room_player = room.players[u];
                 room_p_html += '<div class="games-room-one-body-members-one"><div class="games-room-one-body-members-one-avatar" style="background-image: url(&quot;https://i.dogecdn.wtf/7lurfckMFrYXm4gf&quot;);"><a href="/profile/'+room_player.id+'"></a><div class="_online"></div></div><div class="games-room-one-body-members-one-nick"><a href="/profile/'+room_player.id+'">'+room_player.username+'</a></div></div>';
             }
             for( let u = 0; u < (room.playerCount - room.players.length); u++ ) {
-                room_p_html += '<div class="games-room-one-body-members-one _slot_join"><div class="games-room-one-body-members-one-avatar"><ion-icon name="add-outline" style="color: #656d78;"></ion-icon></div><div class="games-room-one-body-members-one-nick"><span>Join</span></div></div>';
+                room_p_html += '<div data-room-id="'+room.id+'" onclick="joinRoom(this)" class="games-room-one-body-members-one _slot_join"><div class="games-room-one-body-members-one-avatar"><ion-icon name="add-outline" style="color: #656d78;"></ion-icon></div><div class="games-room-one-body-members-one-nick"><span>Join</span></div></div>';
             }
             let room_html = '<div class="games-room-one" data-room-id="'+room.id+'"><div class="games-room-one-body"><div class="games-room-one-body-head"><div class="games-room-one-body-head-info"><div class="_type"><div>Game</div></div></div><div class="games-room-one-body-head-actions"></div></div><div class="games-room-one-body-members">'+room_p_html+'</div></div></div>';
             let has_element = false;
@@ -70,6 +128,12 @@ function successPolling(data) {
                 $(".rooms-list").append(room_html);
             }
         } else if( room.action == 'REMOVE' ) {
+            for( let u = 0; u < rids.length; u++ ) {
+                if( rids[u].id == room.id ) {
+                    rids.splice(u, 1);
+                    break;
+                }
+            }
             $(".games-room-one").each(function() {
                 if( $(this).attr("data-room-id") == room.id ) {
                     $(this).remove();
@@ -80,15 +144,34 @@ function successPolling(data) {
     for( let i = 0; i < friends.length; i++ ) {
         let friend = friends[i];
         if( friend.action == 'ADD' ) {
+            for( let u = 0; u < fids.length; u++ ) {
+                if( fids[u].id == friend.id ) {
+                    fids.splice(u, 1);
+                    break;
+                }
+            }
+            fids.push({id: friend.id, username: friend.username});
             let fr_html = '<div class="friend-one" data-friend-id="'+friend.id+'"><a href="/profile/'+friend.id+'" class="navbar-btn"><img class="navbar-profile-img" src="https://avatars.githubusercontent.com/u/102559365?v=4"></a><span>'+friend.username+'</span><ion-icon onClick="sendInviteMessage('+friend.id+')" name="person-add-outline" role="img" class="md hydrated"></ion-icon></div>';
             $(".friends-online-list").append(fr_html);
         } else if( friend.action == 'REMOVE' ) {
+            for( let u = 0; u < fids.length; u++ ) {
+                if( fids[u].id == friend.id ) {
+                    fids.splice(u, 1);
+                    break;
+                }
+            }
             $(".friend-one").each(function() {
                 if( $(this).attr("data-friend-id") == friend.id ) {
                     $(this).remove();
                 }
             });
         }
+    }
+
+    for( let i = 0; i < invites.length; i++ ) {
+        let _i = invites[i];
+        $(".toast-container").append('<div class="toast" role="alert" aria-live="assertive" aria-atomic="true"><div class="toast-header"><img src="/static/images/favicon.ico" width="16" height="16" class="rounded me-2" alt="Nosedive"><strong class="me-auto">Nosedive</strong><small class="text-body-secondary">just now</small><button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button></div><div class="toast-body">'+_i.username+' invites you into Nosedive room.<div class="mt-2 pt-2 border-top"><button type="button" class="btn btn-primary btn-sm" data-roomId="'+_i.roomId+'" onclick="takeInviteMessage(this)">Take invite</button><button style="margin-left: 5px;" type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Close</button></div></div></div>');
+        bootstrap.Toast.getOrCreateInstance($(".toast").last()).show();
     }
 
     if( friends.length > 0 ) {
@@ -118,6 +201,8 @@ function pollServer() {
                     last_chat_id: last_chat_id,
                     accessToken: accessToken,
                     poll_token: poll_token,
+                    rids: JSON.stringify(rids),
+                    fids: JSON.stringify(fids),
                     uid: uid
                   },
                   method: "POST"
@@ -140,16 +225,6 @@ $.fn.pressEnter = function(fn) {
         })
     });
  };
-
- var last_chat_id = 0;
-
-function findUser(users, id) {
-    for( let i = 0; i < users.length; i++ ) {
-        if( users[i].id == id ) {
-            return users[i];
-        }
-    }
-}
 
 function parseTime(unix_timestamp) {
     var date = new Date(unix_timestamp * 1000);
@@ -188,15 +263,14 @@ $(document).ready(function() {
       method: "GET"
     }).done(function(data) {
         console.log(data);
-        let messages = data.messages;
-        let users = data.users;
+        let messages = data;
         if( messages.length > 0 ) {
-            last_chat_id = messages[0].id;
+            last_chat_id = messages[0].message.id;
         }
         for( let i = messages.length-1; i >= 0; i-- ) {
-            let obj = messages[i];
+            let obj = messages[i].message;
             let time = parseTime(obj.createdAt);
-            let username = findUser(users, obj.userId).username;
+            let username = messages[i].user.username;
             let userid = obj.userId;
             let msgtext = obj.message;
             let html = '<div class="chat-history-one"><div class="chat-history-info"><span class="time">'+time+'</span><ion-icon name="arrow-undo-outline" class="reply-button" data-userid="'+userid+'" data-username="'+username+'" onClick="replyButtonClicked(this)"></ion-icon></div><span><span class="chat-history-text chat-history-content-message"><span class="formatter"><a href="/profile/'+userid+'" class="chat-history-user"><span class="_nick">'+username+'</span></a><ion-icon name="remove-outline"></ion-icon><span>'+msgtext+'</span></span></span></span></div>';

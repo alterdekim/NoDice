@@ -1,6 +1,6 @@
 package com.alterdekim.game.component;
 
-import com.alterdekim.game.dto.LongPollResult;
+import com.alterdekim.game.component.result.LongPollResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.web.context.request.async.DeferredResult;

@@ -34,6 +34,7 @@ public class SpringSecurity {
                 .authorizeHttpRequests((authorize) ->
                         authorize
                                 .requestMatchers("/async/**").permitAll()
+                                .requestMatchers("/image/**").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/game").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/games").hasAnyAuthority("ROLE_ADMIN")
                                 .requestMatchers("/profile/**").hasAnyAuthority("ROLE_ADMIN")

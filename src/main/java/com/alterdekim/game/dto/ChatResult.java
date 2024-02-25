@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class ChatResult {
-    private List<Chat> messages;
-    private List<UserResult> users;
+    private Chat message;
+    private UserResult user;
 }

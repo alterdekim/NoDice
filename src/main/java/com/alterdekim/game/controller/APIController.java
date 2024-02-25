@@ -4,12 +4,16 @@ package com.alterdekim.game.controller;
 import com.alterdekim.game.component.LongPoll;
 import com.alterdekim.game.component.LongPollConfig;
 import com.alterdekim.game.component.LongPollingSession;
+import com.alterdekim.game.component.result.LongPollResult;
 import com.alterdekim.game.dto.*;
 import com.alterdekim.game.entities.Chat;
 import com.alterdekim.game.entities.Room;
 import com.alterdekim.game.entities.User;
 import com.alterdekim.game.service.*;
 import com.alterdekim.game.util.Hash;
+import com.alterdekim.game.util.StringUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,34 +59,12 @@ public class APIController {
     private FriendServiceImpl friendService;
 
     @GetMapping("/api/v1/chat/history/{count}/")
-    public ResponseEntity<ChatResult> chatList(@PathVariable Integer count ) {
+    public ResponseEntity<List<ChatResult>> chatList(@PathVariable Integer count ) {
         List<Chat> results = chatService.getLastChats(count);
-        results = results.stream().map( c -> {
-            String message = c.getMessage();
-            for( int i = 0; i < message.length(); i++ ) {
-                if( message.charAt(i) == '@' ) {
-                    int u = message.substring(i).indexOf(' ') + i;
-                    String username = message.substring(i+1, u);
-                    User user = userService.findByUsername(username);
-                    if( user != null ) {
-                        Long uid = user.getId();
-                        message = message.substring(0, i) + "<a href=\"/profile/" + uid + "\" class=\"chat-history-user\"><span class=\"_nick\">" + username + "</span></a>" + message.substring(u + 1);
-                    } else {
-                        message = message.substring(0, i) + username + message.substring(u + 1);
-                    }
-                    i = 0;
-                }
-            }
-            c.setMessage(message);
-            return c;
-        }).collect(Collectors.toList());
-        List<UserResult> users = results.stream()
-                .map(Chat::getUserId)
-                .distinct()
-                .map( l -> userService.findById(l) )
-                .map( u -> new UserResult(u.getId(), u.getUsername()) )
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(new ChatResult(results, users));
+        return ResponseEntity.ok(results.stream()
+                .peek(c -> c.setMessage(StringUtil.escapeTags(userService, c.getMessage())))
+                .map(c -> new ChatResult(c, new UserResult( c.getUserId(), userService.findById(c.getUserId()).getUsername())))
+                .collect(Collectors.toList()));
     }
 
     @GetMapping("/api/v1/market/banners/{lang}/")
@@ -126,13 +108,23 @@ public class APIController {
 
     @PostMapping("/api/v1/rooms/create/")
     public ResponseEntity<String> createRoom( @RequestParam("is_private") Boolean is_private,
-                                              @RequestParam("players_count") Integer players_count) {
+                                              @RequestParam("players_count") Integer players_count ) {
         if( !(players_count >= 2 && players_count <= 5) ) return ResponseEntity.badRequest().build();
         Long id = roomService.createRoom(new Room(players_count, is_private, "0"));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Long userId = userService.findByUsername(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()).getId();
         roomPlayerService.leaveByUserId(userId);
         roomPlayerService.joinRoom(id, userId);
+        return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/api/v1/rooms/join/")
+    public ResponseEntity<String> joinRoom( @RequestParam("room_id") Long roomId ) {
+        if( !roomService.findById(roomId).isPresent() ) return ResponseEntity.badRequest().build();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = userService.findByUsername(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()).getId();
+        roomPlayerService.leaveByUserId(userId);
+        roomPlayerService.joinRoom(roomId, userId);
         return ResponseEntity.accepted().build();
     }
 
@@ -160,7 +152,9 @@ public class APIController {
     public DeferredResult<LongPollResult> getNotify(@RequestParam("last_chat_id") Long last_chat_id,
                                                     @RequestParam("accessToken") String accessToken,
                                                     @RequestParam("uid") Long userId,
-                                                    @RequestParam("poll_token") String poll_token) {
+                                                    @RequestParam("poll_token") String poll_token,
+                                                    @RequestParam("rids") String rooms_str,
+                                                    @RequestParam("fids") String friends_str) {
         try {
             User u = userService.findById(userId);
             if (u == null) return null;
@@ -171,18 +165,28 @@ public class APIController {
         }
         if( poll_token.length() != 32 ) return null;
         final DeferredResult<LongPollResult> deferredResult = new DeferredResult<>();
+        List<RoomResult> rooms = new ArrayList<>();
+        List<UserResult> friends = new ArrayList<>();
+        try {
+            rooms = new ObjectMapper().readValue(rooms_str, new TypeReference<List<RoomResult>>() {});
+            friends = new ObjectMapper().readValue(friends_str, new TypeReference<List<UserResult>>() {});
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
         if( longPoll.getMap().containsKey(userId) ){
             LongPollConfig c = longPoll.getMap().get(userId);
             if( !c.getPoll_token().equals(poll_token) ) {
-                c = new LongPollConfig(last_chat_id, new ArrayList<>(), 0, poll_token, new ArrayList<>(), System.currentTimeMillis(), new ArrayList<>());
+                c = new LongPollConfig(last_chat_id, rooms, 0, poll_token, friends, System.currentTimeMillis(), new ArrayList<>());
                 longPoll.getLongPollingQueue().removeIf(q -> q.getUserId().longValue() == userId.longValue());
             }
+            c.setRooms(rooms);
+            c.setFriends_online(friends);
             c.setLast_chat_id(last_chat_id);
             c.setSession_pass(0);
             c.setLastRequest(System.currentTimeMillis());
             longPoll.getMap().put(userId, c);
         } else {
-            longPoll.getMap().put(userId, new LongPollConfig(last_chat_id, new ArrayList<>(), 0, poll_token, new ArrayList<>(), System.currentTimeMillis(), new ArrayList<>()));
+            longPoll.getMap().put(userId, new LongPollConfig(last_chat_id, rooms, 0, poll_token, friends, System.currentTimeMillis(), new ArrayList<>()));
         }
         longPoll.getLongPollingQueue().add(new LongPollingSession(userId, deferredResult));
         return deferredResult;
