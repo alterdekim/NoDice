@@ -1,9 +1,6 @@
 package com.alterdekim.game.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +18,6 @@ public class Image {
     Long id;
 
     @Lob
+    @Column(length=16777211)
     byte[] content;
 }

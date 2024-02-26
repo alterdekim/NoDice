@@ -63,7 +63,10 @@ public class APIController {
         List<Chat> results = chatService.getLastChats(count);
         return ResponseEntity.ok(results.stream()
                 .peek(c -> c.setMessage(StringUtil.escapeTags(userService, c.getMessage())))
-                .map(c -> new ChatResult(c, new UserResult( c.getUserId(), userService.findById(c.getUserId()).getUsername())))
+                .map(c -> {
+                    User u1 = userService.findById(c.getUserId());
+                    return new ChatResult(c, new UserResult( c.getUserId(), u1.getUsername(), u1.getAvatarId()));
+                })
                 .collect(Collectors.toList()));
     }
 
@@ -153,6 +156,16 @@ public class APIController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Long userId = userService.findByUsername(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()).getId();
         friendService.removeFriend(userId, friend_id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/api/v1/settings/profile/save")
+    public ResponseEntity<String> saveProfile( @RequestParam("display_name") String displayName,
+                                               @RequestParam("nickname") String nickname,
+                                               @RequestParam("pronouns") String pronouns ) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = userService.findByUsername(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()).getId();
+        userService.updateProfileInfo(userId, displayName, nickname, pronouns);
         return ResponseEntity.ok().build();
     }
 

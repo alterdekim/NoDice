@@ -7,6 +7,7 @@ import com.alterdekim.game.component.result.LongPollResultType;
 import com.alterdekim.game.dto.ChatResult;
 import com.alterdekim.game.dto.UserResult;
 import com.alterdekim.game.entities.Chat;
+import com.alterdekim.game.entities.User;
 import com.alterdekim.game.service.ChatServiceImpl;
 import com.alterdekim.game.service.UserServiceImpl;
 import com.alterdekim.game.util.StringUtil;
@@ -30,7 +31,9 @@ public class ChatProcessor extends Processor<ChatResult> {
 
         return new LongPollResultSingle<>(getType(), results.stream()
                 .peek(c -> c.setMessage(StringUtil.escapeTags(getParent().getUserService(), c.getMessage())))
-                .map(c -> new ChatResult(c, new UserResult( c.getUserId(), getParent().getUserService().findById(c.getUserId()).getUsername())))
-                .collect(Collectors.toList()));
+                .map(c -> {
+                    User u1 = getParent().getUserService().findById(c.getUserId());
+                    return new ChatResult(c, new UserResult( c.getUserId(), u1.getUsername(), u1.getAvatarId()));
+                }).collect(Collectors.toList()));
     }
 }

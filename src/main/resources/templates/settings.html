@@ -15,26 +15,31 @@
                             <div class="grid">
                                 <div class="g-col-4" style="display: flex; justify-content: center;">
                                     <div style="width: 50%;">
-                                        <img class="profile-img" src="https://tg.dogecdn.wtf/v2/AgACAgIAAx0EWSIHJgAC0MBf64kG8Q99Gm69NezdtLUxTJaBiQACvrExG1sQWEtraYhjusGQAAGJdBmYLgADAQADAgADeAAD8RcFAAEeBA.jpg">
-                                        <button class="btn btn-primary" style="margin-top: 10px; font-size: 0.7rem;">Update avatar</button>
+                                        <img class="profile-img" th:src="${profile.avatar}">
+                                        <input type="file" id="avatarFile" accept="image/png, image/jpeg, image/gif" style="display: none;">
+                                        <button class="btn btn-primary" onClick="triggerFile(this)" style="margin-top: 10px; font-size: 0.7rem;">Update avatar</button>
                                     </div>
                                 </div>
                                 <div class="g-col-8" style="padding: 5px;">
                                     <div class="mb-3">
                                         <label for="displayname-input" class="form-label">Display name (may contain unicode symbols)</label>
-                                        <input type="text" class="form-control" id="displayname-input" autocomplete="off">
+                                        <input type="text" th:value="${profile.displayName}" class="form-control" id="displayname-input" autocomplete="off">
                                     </div>
                                     <div class="mb-3">
                                         <label for="nickname-input" class="form-label">Nickname</label>
-                                        <input type="text" class="form-control" id="nickname-input" autocomplete="off">
+                                        <input type="text" th:value="${profile.username}" class="form-control" id="nickname-input" autocomplete="off">
                                     </div>
                                     <div class="mb-3">
                                         <label for="pronouns-select" class="form-label">Pronouns</label>
                                         <select class="form-select" id="pronouns-select" aria-label="">
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option value="1" selected>she/her</option>
+                                            <option value="2">he/him</option>
+                                            <option value="3">they/them</option>
+                                            <option value="4">idc</option>
                                         </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button class="btn btn-primary" onClick="saveProfileInfo()">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -90,5 +95,6 @@
             </div>
         </div>
         <th:block th:insert="~{fragments/essentials}"></th:block>
+        <script src="/static/javascript/settings.js"></script>
     </body>
 </html>

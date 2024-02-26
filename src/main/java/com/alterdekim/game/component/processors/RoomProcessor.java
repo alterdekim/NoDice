@@ -62,7 +62,7 @@ public class RoomProcessor extends Processor<RoomResultV2> {
         return rooms.stream()
                 .map( r -> new RoomResult(r.getId(), r.getPlayerCount(), getParent().getRoomPlayerService().findByRoomId(r.getId()).stream()
                         .map(p -> getParent().getUserService().findById(p.getUserId()))
-                        .map(p -> new UserResult(p.getId(), p.getUsername()))
+                        .map(p -> new UserResult(p.getId(), p.getDisplayName(), p.getAvatarId()))
                         .collect(Collectors.toList())))
                 .collect(Collectors.toList());
     }
@@ -71,7 +71,7 @@ public class RoomProcessor extends Processor<RoomResultV2> {
         return rooms.stream()
                 .map( r -> new RoomResultV2(RoomResultState.ADD_CHANGE, r.getId(), r.getPlayerCount(), getParent().getRoomPlayerService().findByRoomId(r.getId()).stream()
                         .map(p -> getParent().getUserService().findById(p.getUserId()))
-                        .map(p -> new UserResult(p.getId(), p.getUsername()))
+                        .map(p -> new UserResult(p.getId(), p.getDisplayName(), p.getAvatarId()))
                         .collect(Collectors.toList())))
                 .collect(Collectors.toList());
     }

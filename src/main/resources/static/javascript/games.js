@@ -111,7 +111,7 @@ function successPolling(data) {
             let room_p_html = '';
             for( let u = 0; u < room.players.length; u++ ) {
                 let room_player = room.players[u];
-                room_p_html += '<div class="games-room-one-body-members-one"><div class="games-room-one-body-members-one-avatar" style="background-image: url(&quot;https://i.dogecdn.wtf/7lurfckMFrYXm4gf&quot;);"><a href="/profile/'+room_player.id+'"></a><div class="_online"></div></div><div class="games-room-one-body-members-one-nick"><a href="/profile/'+room_player.id+'">'+room_player.username+'</a></div></div>';
+                room_p_html += '<div class="games-room-one-body-members-one"><div class="games-room-one-body-members-one-avatar" data-avatar-id="'+room_player.avatarId+'"><a href="/profile/'+room_player.id+'"></a><div class="_online"></div></div><div class="games-room-one-body-members-one-nick"><a href="/profile/'+room_player.id+'">'+room_player.username+'</a></div></div>';
             }
             for( let u = 0; u < (room.playerCount - room.players.length); u++ ) {
                 room_p_html += '<div data-room-id="'+room.id+'" onclick="joinRoom(this)" class="games-room-one-body-members-one _slot_join"><div class="games-room-one-body-members-one-avatar"><ion-icon name="add-outline" style="color: #656d78;"></ion-icon></div><div class="games-room-one-body-members-one-nick"><span>Join</span></div></div>';
@@ -141,6 +141,11 @@ function successPolling(data) {
             });
         }
     }
+    $(".games-room-one-body-members-one-avatar").each(function() {
+        if($(this).attr("data-avatar-id") != undefined) {
+            $(this).css("background-image", "url('/image/store/"+$(this).attr("data-avatar-id")+"')");
+        }
+    });
     for( let i = 0; i < friends.length; i++ ) {
         let friend = friends[i];
         if( friend.action == 'ADD' ) {
@@ -151,7 +156,7 @@ function successPolling(data) {
                 }
             }
             fids.push({id: friend.id, username: friend.username});
-            let fr_html = '<div class="friend-one" data-friend-id="'+friend.id+'"><a href="/profile/'+friend.id+'" class="navbar-btn"><img class="navbar-profile-img" src="https://avatars.githubusercontent.com/u/102559365?v=4"></a><span>'+friend.username+'</span><ion-icon onClick="sendInviteMessage('+friend.id+')" name="person-add" role="img" class="md hydrated"></ion-icon></div>';
+            let fr_html = '<div class="friend-one" data-friend-id="'+friend.id+'"><a href="/profile/'+friend.id+'" class="navbar-btn"><img class="navbar-profile-img" src="/image/store/'+friend.avatarId+'"></a><span>'+friend.username+'</span><ion-icon onClick="sendInviteMessage('+friend.id+')" name="person-add" role="img" class="md hydrated"></ion-icon></div>';
             $(".friends-online-list").append(fr_html);
         } else if( friend.action == 'REMOVE' ) {
             for( let u = 0; u < fids.length; u++ ) {

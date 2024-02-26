@@ -31,7 +31,8 @@ public class UserServiceImpl implements UserService {
     public void saveUser(UserDTO userDto) {
         User user = new User();
         user.setUsername(userDto.getUsername());
-
+        user.setPronouns("she/her");
+        user.setDisplayName(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         Role role = roleRepository.findByName("ROLE_ADMIN");
         if(role == null){
@@ -68,6 +69,14 @@ public class UserServiceImpl implements UserService {
         Role role = new Role();
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
+    }
+
+    public void updateProfileInfo(Long userId, String displayName, String nickname, String pronouns) {
+        userRepository.updateProfileInfo(userId, displayName, nickname, pronouns);
+    }
+
+    public void setAvatar(Long userId, Long imageId) {
+        userRepository.updateAvatar(userId, imageId);
     }
 }
 

@@ -15,15 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 class ImageController {
 
     @Autowired
-    ImageRepository imageRepository;
-
-    @PostMapping(value = "/image/upload/")
-    private Long uploadImage(@RequestParam MultipartFile multipartImage) throws Exception {
-        Image dbImage = new Image();
-        dbImage.setContent(multipartImage.getBytes());
-        return imageRepository.save(dbImage)
-                .getId();
-    }
+    private ImageRepository imageRepository;
 
     @GetMapping(value = "/image/store/{imageId}", produces = MediaType.IMAGE_JPEG_VALUE)
     Resource downloadImage(@PathVariable Long imageId) {

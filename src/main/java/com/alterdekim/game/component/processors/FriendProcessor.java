@@ -61,7 +61,7 @@ public class FriendProcessor extends Processor<FriendResult> {
     private List<UserResult> friends2Users(List<Long> friendIds) {
         return friendIds.stream()
                 .map(id -> getParent().getUserService().findById(id))
-                .map(u -> new UserResult(u.getId(), u.getUsername()))
+                .map(u -> new UserResult(u.getId(), u.getDisplayName(), u.getAvatarId()))
                 .filter(f -> getParent().getMap().keySet().stream().anyMatch(l -> l.longValue() == f.getId().longValue()))
                 .collect(Collectors.toList());
     }

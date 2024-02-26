@@ -15,7 +15,7 @@ public class AuthenticationUtil {
         if( authentication.isAuthenticated() ) {
             try {
                 User u = userService.findByUsername(((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername());
-                model.addAttribute("profile", new FriendPageResult("/profile/" + u.getId(), "", u.getUsername(), u.getId()));
+                model.addAttribute("profile", new FriendPageResult("/profile/" + u.getId(), "/image/store/"+u.getAvatarId(), u.getUsername(), u.getId(), u.getDisplayName()));
                 return u;
             } catch (Exception e) {
                 log.error(e.getMessage(), e);

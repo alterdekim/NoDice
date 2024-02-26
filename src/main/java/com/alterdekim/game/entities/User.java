@@ -31,6 +31,12 @@ public class User {
     @Column(nullable = false)
     private Long avatarId;
 
+    @Column(nullable = false)
+    private String displayName;
+
+    @Column(nullable = false)
+    private String pronouns;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinTable(
             name="users_roles",

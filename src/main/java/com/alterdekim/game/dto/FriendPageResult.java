@@ -12,4 +12,5 @@ public class FriendPageResult {
     private String avatar;
     private String username;
     private Long id;
+    private String displayName;
 }
