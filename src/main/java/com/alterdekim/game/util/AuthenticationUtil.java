@@ -18,7 +18,7 @@ public class AuthenticationUtil {
                 model.addAttribute("profile", new FriendPageResult("/profile/" + u.getId(), "/image/store/"+u.getAvatarId(), u.getUsername(), u.getId(), u.getDisplayName()));
                 return u;
             } catch (Exception e) {
-                log.error(e.getMessage(), e);
+               // log.error(e.getMessage(), e);
             }
         }
         return null;

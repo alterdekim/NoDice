@@ -32,10 +32,7 @@
                                     <div class="mb-3">
                                         <label for="pronouns-select" class="form-label">Pronouns</label>
                                         <select class="form-select" id="pronouns-select" aria-label="">
-                                            <option value="1" selected>she/her</option>
-                                            <option value="2">he/him</option>
-                                            <option value="3">they/them</option>
-                                            <option value="4">idc</option>
+                                            <option th:each="option : ${options}" th:value="${option.text}" th:text="${option.text}" th:selected="${option.selected}"></option>
                                         </select>
                                     </div>
                                     <div class="mb-3">

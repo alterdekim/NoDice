@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <th:block th:insert="~{fragments/head}"></th:block>
+        <link rel="stylesheet" href="/static/css/profile.css"/>
+    </head>
+    <body>
+        <th:block th:insert="~{fragments/navbar}"></th:block>
+
+        <div class="container mt-5 min-vh-100" style="max-width: 1000px">
+            <div class="profile-top-info">
+                <div class="profile-info-avatar" th:style="${page_user.avatar}"></div>
+                <span class="profile-info-nick" th:text="${page_user.displayName}"></span>
+            </div>
+            <div class="profile-second-row">
+                <div class="profile-top-actions">
+                    <button class="btn btn-primary" onClick="followUser(this)" th:data-profile-id="${page_user.id}">Follow</button>
+                </div>
+                <div class="profile-top-stat-list">
+                    <div class="profile-stat">
+                        <div class="_val">5</div>
+                        <div class="_key">Friends</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="_val">5</div>
+                        <div class="_key">Friends</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="_val">5</div>
+                        <div class="_key">Friends</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <th:block th:insert="~{fragments/footer}"></th:block>
+        <th:block th:insert="~{fragments/essentials}"></th:block>
+        <script src="/static/javascript/profile.js"></script>
+    </body>
+</html>

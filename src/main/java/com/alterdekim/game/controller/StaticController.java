@@ -2,6 +2,7 @@ package com.alterdekim.game.controller;
 
 import com.alterdekim.game.dto.AuthApiObject;
 import com.alterdekim.game.dto.FriendPageResult;
+import com.alterdekim.game.dto.SelectOption;
 import com.alterdekim.game.entities.Image;
 import com.alterdekim.game.entities.User;
 import com.alterdekim.game.repository.ImageRepository;
@@ -16,9 +17,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -65,9 +71,30 @@ public class StaticController {
         return "friends";
     }
 
+    @GetMapping("/profile/{id}")
+    public String profilePage(@PathVariable("id") Long id, Model model) {
+        AuthenticationUtil.authProfile(model, userService);
+        User u = userService.findById(id);
+        model.addAttribute("page_user", new FriendPageResult("", "background-image: url(\"/image/store/"+u.getAvatarId()+"\");", u.getUsername(), u.getId(), u.getDisplayName()));
+        return "profile";
+    }
+
     @GetMapping("/settings")
     public String settingsPage(Model model) {
-        Long userId = AuthenticationUtil.authProfile(model, userService).getId();
+        User u = AuthenticationUtil.authProfile(model, userService);
+        List<SelectOption> options = new ArrayList<>();
+        options.add(new SelectOption("she/her", true));
+        options.add(new SelectOption("he/him", false));
+        options.add(new SelectOption("they/them", false));
+        options.add(new SelectOption("idc", false));
+        String p = u.getPronouns();
+        options = options.stream().map(o -> {
+            if(p.equals(o.getText())) {
+                return new SelectOption(o.getText(), true);
+            }
+            return new SelectOption(o.getText(), false);
+        }).collect(Collectors.toList());
+        model.addAttribute("options", options);
         return "settings";
     }
 

@@ -169,6 +169,15 @@ public class APIController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/api/v1/friends/follow")
+    public ResponseEntity<String> followFriend( @RequestParam("userId") Long friendId ) {
+        if( userService.findById(friendId) == null ) return ResponseEntity.badRequest().build();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = userService.findByUsername(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()).getId();
+        friendService.followUser(userId, friendId);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/async/notify/get/")
     @ResponseBody
     public DeferredResult<LongPollResult> getNotify(@RequestParam("last_chat_id") Long last_chat_id,

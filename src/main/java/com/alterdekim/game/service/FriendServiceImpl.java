@@ -1,5 +1,6 @@
 package com.alterdekim.game.service;
 
+import com.alterdekim.game.entities.FriendStatus;
 import com.alterdekim.game.repository.FriendRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,13 @@ public class FriendServiceImpl {
 
     public void removeFriend(Long userId, Long friendId) {
         repository.removeFriend(userId, friendId);
+    }
+
+    public void followUser(Long userId, Long friendId) {
+        if( repository.getFollow(userId, friendId) == null ) {
+            repository.save(new FriendStatus(userId, friendId, 1));
+            return;
+        }
+        repository.setFriend(userId, friendId);
     }
 }

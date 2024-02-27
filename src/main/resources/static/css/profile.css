@@ -1,0 +1,58 @@
+.profile-info-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 100%;
+    width: 15rem;
+    height: 15rem;
+    background: center/cover no-repeat;
+}
+
+.profile-info-nick {
+    font-size: 45px;
+    font-weight: 300;
+}
+
+.profile-top-info {
+    display: flex;
+}
+
+.profile-stat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-top-stat-list {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-left: 25px;
+    width: 600px;
+    height: 61px;
+}
+
+._val {
+    font-size: 35px;
+    font-weight: 300;
+    line-height: 26px;
+}
+
+._key {
+    margin-top: 8px;
+    margin-right: 10px;
+    line-height: 10px;
+    opacity: .5;
+}
+
+.profile-top-actions {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    max-height: 60px;
+}
+
+.profile-second-row {
+    display: flex;
+    margin-top: 15px;
+}
