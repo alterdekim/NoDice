@@ -1,5 +1,6 @@
 package com.alterdekim.game.service;
 
+import com.alterdekim.game.dto.FriendFollowState;
 import com.alterdekim.game.entities.FriendStatus;
 import com.alterdekim.game.repository.FriendRepository;
 import lombok.AllArgsConstructor;
@@ -34,5 +35,17 @@ public class FriendServiceImpl {
 
     public FriendStatus getFriend(Long userId, Long friendId) {
         return repository.getFriend(userId, friendId);
+    }
+
+    public FriendFollowState getFriendState(Long userId, Long friendId) {
+        FriendStatus fs = this.getFollow(userId, friendId);
+        if( fs != null ) {
+            if( fs.getFirstUserId().longValue() == userId.longValue() ||
+                    this.getFriend(userId, friendId) != null ) {
+                return FriendFollowState.FOLLOWED;
+            }
+            return FriendFollowState.ACCEPT;
+        }
+        return FriendFollowState.NOT_FOLLOWED;
     }
 }

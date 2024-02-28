@@ -74,19 +74,15 @@ public class StaticController {
     public String profilePage(@PathVariable("id") Long id, Model model) {
         User self = AuthenticationUtil.authProfile(model, userService);
         User u = userService.findById(id);
-        FriendFollowState state = FriendFollowState.NOT_FOLLOWED;
-        FriendStatus fs = friendService.getFollow(self.getId(), u.getId());
-        if( fs != null ) {
-           if( fs.getFirstUserId().longValue() == self.getId().longValue() ) {
-               state = FriendFollowState.FOLLOWED;
-           } else {
-               state = FriendFollowState.ACCEPT;
-           }
-        }
-        if( friendService.getFriend(self.getId(), u.getId()) != null ) {
-            state = FriendFollowState.FOLLOWED;
-        }
-        model.addAttribute("page_user", new ProfilePageResult("", "background-image: url(\"/image/store/"+u.getAvatarId()+"\");", u.getUsername(), u.getId(), u.getDisplayName(), 0, 0, friendService.getFriendsOfUserId(u.getId()).size(), state));
+        model.addAttribute("page_user", new ProfilePageResult("",
+                "background-image: url(\"/image/store/"+u.getAvatarId()+"\");",
+                u.getUsername(),
+                u.getId(),
+                u.getDisplayName(),
+                0,
+                0,
+                friendService.getFriendsOfUserId(u.getId()).size(),
+                friendService.getFriendState(self.getId(), u.getId())));
         return "profile";
     }
 
