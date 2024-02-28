@@ -1,8 +1,7 @@
 package com.alterdekim.game.controller;
 
-import com.alterdekim.game.dto.AuthApiObject;
-import com.alterdekim.game.dto.FriendPageResult;
-import com.alterdekim.game.dto.SelectOption;
+import com.alterdekim.game.dto.*;
+import com.alterdekim.game.entities.FriendStatus;
 import com.alterdekim.game.entities.Image;
 import com.alterdekim.game.entities.User;
 import com.alterdekim.game.repository.ImageRepository;
@@ -73,9 +72,21 @@ public class StaticController {
 
     @GetMapping("/profile/{id}")
     public String profilePage(@PathVariable("id") Long id, Model model) {
-        AuthenticationUtil.authProfile(model, userService);
+        User self = AuthenticationUtil.authProfile(model, userService);
         User u = userService.findById(id);
-        model.addAttribute("page_user", new FriendPageResult("", "background-image: url(\"/image/store/"+u.getAvatarId()+"\");", u.getUsername(), u.getId(), u.getDisplayName()));
+        FriendFollowState state = FriendFollowState.NOT_FOLLOWED;
+        FriendStatus fs = friendService.getFollow(self.getId(), u.getId());
+        if( fs != null ) {
+           if( fs.getFirstUserId().longValue() == self.getId().longValue() ) {
+               state = FriendFollowState.FOLLOWED;
+           } else {
+               state = FriendFollowState.ACCEPT;
+           }
+        }
+        if( friendService.getFriend(self.getId(), u.getId()) != null ) {
+            state = FriendFollowState.FOLLOWED;
+        }
+        model.addAttribute("page_user", new ProfilePageResult("", "background-image: url(\"/image/store/"+u.getAvatarId()+"\");", u.getUsername(), u.getId(), u.getDisplayName(), 0, 0, friendService.getFriendsOfUserId(u.getId()).size(), state));
         return "profile";
     }
 

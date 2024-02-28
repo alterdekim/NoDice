@@ -14,19 +14,34 @@
             </div>
             <div class="profile-second-row">
                 <div class="profile-top-actions">
-                    <button class="btn btn-primary" onClick="followUser(this)" th:data-profile-id="${page_user.id}">Follow</button>
+                    <th:block th:switch="${page_user.id}">
+                        <th:block th:case="${profile.id}"></th:block>
+                        <th:block th:case="*">
+                            <th:block th:switch="${page_user.follow_state}">
+                                <th:block th:case="${T(com.alterdekim.game.dto.FriendFollowState).NOT_FOLLOWED}">
+                                    <button class="btn btn-primary" onClick="followUser(this)" th:data-profile-id="${page_user.id}">Follow</button>
+                                </th:block>
+                                <th:block th:case="${T(com.alterdekim.game.dto.FriendFollowState).FOLLOWED}">
+                                    <button class="btn btn-danger" onClick="unfollowUser(this)" th:data-profile-id="${page_user.id}">Unfollow</button>
+                                </th:block>
+                                <th:block th:case="${T(com.alterdekim.game.dto.FriendFollowState).ACCEPT}">
+                                    <button class="btn btn-primary" onClick="followUser(this)" th:data-profile-id="${page_user.id}">Accept</button>
+                                </th:block>
+                            </th:block>
+                        </th:block>
+                    </th:block>
                 </div>
                 <div class="profile-top-stat-list">
                     <div class="profile-stat">
-                        <div class="_val">5</div>
-                        <div class="_key">Friends</div>
+                        <div class="_val" th:text="${page_user.games}"></div>
+                        <div class="_key">Games</div>
                     </div>
                     <div class="profile-stat">
-                        <div class="_val">5</div>
-                        <div class="_key">Friends</div>
+                        <div class="_val" th:text="${page_user.wins}"></div>
+                        <div class="_key">Wins</div>
                     </div>
                     <div class="profile-stat">
-                        <div class="_val">5</div>
+                        <div class="_val" th:text="${page_user.friends_cnt}"></div>
                         <div class="_key">Friends</div>
                     </div>
                 </div>

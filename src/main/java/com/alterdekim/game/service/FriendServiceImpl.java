@@ -27,4 +27,12 @@ public class FriendServiceImpl {
         }
         repository.setFriend(userId, friendId);
     }
+
+    public FriendStatus getFollow(Long userId, Long friendId) {
+        return repository.getFollow(userId, friendId);
+    }
+
+    public FriendStatus getFriend(Long userId, Long friendId) {
+        return repository.getFriend(userId, friendId);
+    }
 }
