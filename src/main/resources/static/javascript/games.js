@@ -51,7 +51,14 @@ function joinRoom(obj) {
 }
 
 function takeInviteMessage(obj) {
-    // attr data-roomId
+    let roomId = $(obj).attr("data-roomId");
+    $.ajax({
+        url: "/api/v1/rooms/join/",
+        data: {
+            room_id: roomId
+          },
+          method: "POST"
+    });
 }
 
 function successPolling(data) {

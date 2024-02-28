@@ -7,11 +7,7 @@ import com.alterdekim.game.component.result.LongPollResultType;
 import com.alterdekim.game.dto.FriendResult;
 import com.alterdekim.game.dto.FriendState;
 import com.alterdekim.game.dto.UserResult;
-import com.alterdekim.game.service.FriendServiceImpl;
-import com.alterdekim.game.service.UserServiceImpl;
 import com.alterdekim.game.util.ListUtil;
-import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,7 +28,7 @@ public class FriendProcessor extends Processor<FriendResult> {
 
         return new LongPollResultSingle<>(getType(), friends2Users(getParent().getFriendService().getFriendsOfUserId(userId))
                 .stream()
-                .map(f -> new FriendResult(FriendState.ADD, f.getId(), f.getUsername()))
+                .map(f -> new FriendResult(FriendState.ADD, f.getId(), f.getUsername(), f.getAvatarId()))
                 .collect(Collectors.toList()));
     }
 
@@ -45,16 +41,16 @@ public class FriendProcessor extends Processor<FriendResult> {
         List<FriendResult> fr = new ArrayList<>();
         for( UserResult r : clientFriends ) {
             if( userResults.stream().noneMatch(t -> t.getId().longValue() == r.getId().longValue()) ) {
-                fr.add(new FriendResult(FriendState.REMOVE, r.getId(), r.getUsername()));
+                fr.add(new FriendResult(FriendState.REMOVE, r.getId(), r.getUsername(), r.getAvatarId()));
                 continue;
             }
             UserResult r1 = userResults.stream().filter( t -> t.getId().longValue() == r.getId().longValue()).findFirst().get();
             if( !r.equals(r1) ) {
-                fr.add(new FriendResult(FriendState.ADD, r1.getId(), r1.getUsername()));
+                fr.add(new FriendResult(FriendState.ADD, r1.getId(), r1.getUsername(), r1.getAvatarId()));
             }
             urr.remove(r1);
         }
-        urr.forEach(r -> fr.add(new FriendResult(FriendState.ADD, r.getId(), r.getUsername())));
+        urr.forEach(r -> fr.add(new FriendResult(FriendState.ADD, r.getId(), r.getUsername(), r.getAvatarId())));
         return fr.stream().sorted(Comparator.comparingLong(FriendResult::getId)).collect(Collectors.toList());
     }
 

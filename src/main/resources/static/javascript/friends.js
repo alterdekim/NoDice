@@ -18,3 +18,16 @@ function removeFriend(obj) {
         $(obj).parent().parent().parent().remove();
     });
 }
+
+function acceptFriend(obj) {
+    let friend_id = $(obj).attr("data-friend-id");
+    $.ajax({
+        method: "POST",
+        url: "/api/v1/friends/follow",
+        data: {
+            userId: friend_id
+        }
+    }).done(function() {
+        $(obj).parent().parent().parent().remove();
+    });
+}

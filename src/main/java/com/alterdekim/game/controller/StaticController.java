@@ -6,6 +6,7 @@ import com.alterdekim.game.entities.Image;
 import com.alterdekim.game.entities.User;
 import com.alterdekim.game.repository.ImageRepository;
 import com.alterdekim.game.service.FriendServiceImpl;
+import com.alterdekim.game.service.GamesService;
 import com.alterdekim.game.service.UserServiceImpl;
 import com.alterdekim.game.util.AuthenticationUtil;
 import com.alterdekim.game.util.Hash;
@@ -37,6 +38,9 @@ public class StaticController {
 
     @Autowired
     private ImageRepository imageRepository;
+
+    @Autowired
+    private GamesService gamesService;
 
     @GetMapping("/rules")
     public String rulesPage(Model model) {
@@ -70,6 +74,15 @@ public class StaticController {
         return "friends";
     }
 
+    @GetMapping("/followers")
+    public String followersPage(Model model) {
+        Long userId = AuthenticationUtil.authProfile(model, userService).getId();
+        model.addAttribute("friends", friendService.getFollowersOfUserId(userId).stream()
+                .map(l -> userService.findById(l))
+                .map(u -> new FriendPageResult("/profile/"+u.getId(), "background-image: url(\"/image/store/"+u.getAvatarId()+"\");", u.getUsername(), u.getId(), u.getDisplayName())));
+        return "followers";
+    }
+
     @GetMapping("/profile/{id}")
     public String profilePage(@PathVariable("id") Long id, Model model) {
         User self = AuthenticationUtil.authProfile(model, userService);
@@ -79,8 +92,8 @@ public class StaticController {
                 u.getUsername(),
                 u.getId(),
                 u.getDisplayName(),
-                0,
-                0,
+                gamesService.getGamesCount(u.getId()),
+                gamesService.getWonGamesCount(u.getId()),
                 friendService.getFriendsOfUserId(u.getId()).size(),
                 friendService.getFriendState(self.getId(), u.getId())));
         return "profile";
@@ -95,12 +108,7 @@ public class StaticController {
         options.add(new SelectOption("they/them", false));
         options.add(new SelectOption("idc", false));
         String p = u.getPronouns();
-        options = options.stream().map(o -> {
-            if(p.equals(o.getText())) {
-                return new SelectOption(o.getText(), true);
-            }
-            return new SelectOption(o.getText(), false);
-        }).collect(Collectors.toList());
+        options = options.stream().map(o -> new SelectOption(o.getText(), p.equals(o.getText()))).collect(Collectors.toList());
         model.addAttribute("options", options);
         return "settings";
     }

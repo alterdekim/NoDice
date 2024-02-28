@@ -8,6 +8,7 @@ public class StringUtil {
         for (int i = 0; i < message.length(); i++) {
             if (message.charAt(i) == '@') {
                 int u = message.substring(i).indexOf(' ') + i;
+                if( u <= (i + 1) || u > message.length() ) return message;
                 String username = message.substring(i + 1, u);
                 User user = userService.findByUsername(username);
                 if (user != null) {

@@ -11,4 +11,5 @@ public class FriendResult {
     private FriendState action;
     private Long id;
     private String username;
+    private Long avatarId;
 }

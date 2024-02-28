@@ -8,7 +8,7 @@
         <th:block th:insert="~{fragments/navbar}"></th:block>
 
         <div class="container mt-5 block">
-            <h2>Friends > <a href="/followers">Followers</a></h2>
+            <h2><a href="/friends">Friends</a> > Followers</h2>
             <div class="friends-list">
                 <th:block th:each="friend: ${friends}">
                     <div class="friends-list-one">
@@ -20,7 +20,7 @@
                                 <a th:href="${friend.href}" th:text="${friend.displayName}"></a>
                             </div>
                             <div class="friends-list-one-info-actions" style="display: none;">
-                                <button onClick="removeFriend(this)" class="btn btn-danger btn-sm" th:data-friend-id="${friend.id}">Remove</button>
+                                <button onClick="acceptFriend(this)" class="btn btn-primary btn-sm" th:data-friend-id="${friend.id}">Accept</button>
                             </div>
                         </div>
                     </div>

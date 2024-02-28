@@ -13,8 +13,8 @@ public class ProfilePageResult {
     private String username;
     private Long id;
     private String displayName;
-    private Integer games;
-    private Integer wins;
+    private Long games;
+    private Long wins;
     private Integer friends_cnt;
     private FriendFollowState follow_state;
 }

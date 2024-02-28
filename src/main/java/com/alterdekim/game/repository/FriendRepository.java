@@ -16,9 +16,12 @@ public interface FriendRepository extends JpaRepository<FriendStatus, Long> {
     @Query(value = "SELECT IF(f.firstUserId = :userId, f.secondUserId, f.firstUserId) FROM FriendStatus f WHERE (f.firstUserId = :userId OR f.secondUserId = :userId) AND f.status = 2")
     List<Long> getFriendsOfUserId(@Param("userId") Long userId);
 
+    @Query(value = "SELECT f.firstUserId FROM FriendStatus f WHERE f.secondUserId = :userId AND f.status = 1")
+    List<Long> getFollowersOfUserId(@Param("userId") Long userId);
+
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM FriendStatus f WHERE ((f.firstUserId = :userId AND f.secondUserId = :friendId) OR (f.firstUserId = :friendId AND f.secondUserId = :userId)) AND f.status = 2")
+    @Query(value = "DELETE FROM FriendStatus f WHERE ((f.firstUserId = :userId AND f.secondUserId = :friendId) OR (f.firstUserId = :friendId AND f.secondUserId = :userId)) AND f.status > 0")
     void removeFriend(@Param("userId") Long userId, @Param("friendId") Long friendId);
 
     @Query(value = "SELECT f FROM FriendStatus f WHERE ((f.firstUserId = :userId AND f.secondUserId = :friendId) OR (f.firstUserId = :friendId AND f.secondUserId = :userId)) AND f.status = 1")
