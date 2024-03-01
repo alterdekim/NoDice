@@ -8,6 +8,7 @@ import com.alterdekim.game.component.result.LongPollResult;
 import com.alterdekim.game.component.result.LongPollResultSingle;
 import com.alterdekim.game.component.result.LongPollResultType;
 import com.alterdekim.game.dto.*;
+import com.alterdekim.game.entities.RoomPlayer;
 import com.alterdekim.game.service.*;
 import com.alterdekim.game.util.Hash;
 import lombok.Getter;
@@ -69,14 +70,20 @@ public class LongPoll {
         });
         getLongPollingQueue().forEach(longPollingSession -> {
             try {
-                if( !map.containsKey(longPollingSession.getUserId())) map.put(longPollingSession.getUserId(), new LongPollConfig(0L,new ArrayList<>(), 0, Hash.rnd(), new ArrayList<>(), System.currentTimeMillis(), new ArrayList<>()));
+                if( !map.containsKey(longPollingSession.getUserId())) map.put(longPollingSession.getUserId(), new LongPollConfig(0L));
                 LongPollConfig config = map.get(longPollingSession.getUserId());
                 LongPollResult result = process(longPollingSession.getUserId(), config);
                 config.setSession_pass(config.getSession_pass()+1);
-                if( !result.getResultWithType(LongPollResultType.InviteResult, InviteResult.class).isEmpty() || !result.getResultWithType(LongPollResultType.FriendResult, FriendResult.class).isEmpty() || !result.getResultWithType(LongPollResultType.RoomResult, RoomResultV2.class).isEmpty() || !result.getResultWithType(LongPollResultType.ChatResult, ChatResult.class).isEmpty() || config.getSession_pass() >= iterations) {
+                if( !config.getGameRedirect().isEmpty() ||
+                        !result.getResultWithType(LongPollResultType.InviteResult, InviteResult.class).isEmpty() ||
+                        !result.getResultWithType(LongPollResultType.FriendResult, FriendResult.class).isEmpty() ||
+                        !result.getResultWithType(LongPollResultType.RoomResult, RoomResultV2.class).isEmpty() ||
+                        !result.getResultWithType(LongPollResultType.ChatResult, ChatResult.class).isEmpty() ||
+                        config.getSession_pass() >= iterations) {
                     longPollingSession.getDeferredResult().setResult(result);
                     config.setSession_pass(0);
                     config.setInvites(new ArrayList<>());
+                    config.setGameRedirect(new ArrayList<>());
                 }
                 map.put(longPollingSession.getUserId(), config);
             } catch (Exception e) {
@@ -89,8 +96,19 @@ public class LongPoll {
     private LongPollResult process(Long userId, LongPollConfig config) {
         List<LongPollResultSingle> result = new ArrayList<>();
         result.add(new LongPollResultSingle<>(LongPollResultType.OnlineUsers, Arrays.asList(map.size())));
+        result.add(new LongPollResultSingle<>(LongPollResultType.Redirect, config.getGameRedirect()));
         processors.forEach(p -> result.add(p.process(config, userId)));
         result.add(new LongPollResultSingle<>(LongPollResultType.InviteResult, config.getInvites().stream().map(i -> new InviteResult(i.getRoomId(), i.getUserId(), i.getUsername())).collect(Collectors.toList())));
         return new LongPollResult(result);
+    }
+
+    public void notifyPlayers(Long roomId, List<RoomPlayer> players) {
+        players.forEach(p -> {
+                    LongPollConfig lc = map.get(p.getUserId());
+                    List<GameRedirect> gr = lc.getGameRedirect();
+                    gr.add(new GameRedirect(roomId));
+                    lc.setGameRedirect(gr);
+                    map.put(p.getUserId(), lc);
+                });
     }
 }

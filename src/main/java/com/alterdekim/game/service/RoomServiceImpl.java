@@ -35,4 +35,8 @@ public class RoomServiceImpl implements RoomService {
     public void clearEmptyRooms() {
         roomRepository.clearEmptyRooms();
     }
+
+    public void removeRoom(Long roomId) {
+        roomRepository.deleteById(roomId);
+    }
 }

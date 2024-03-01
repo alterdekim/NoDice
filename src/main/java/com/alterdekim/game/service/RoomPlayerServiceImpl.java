@@ -36,4 +36,8 @@ public class RoomPlayerServiceImpl implements RoomPlayerService{
     public Long hasUserId(Long userId) {
         return repository.hasUserId(userId);
     }
+
+    public void removeByRoomId(Long roomId) {
+        repository.removeByRoomId(roomId);
+    }
 }

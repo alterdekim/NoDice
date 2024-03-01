@@ -48,11 +48,6 @@ public class StaticController {
         return "rules";
     }
 
-    @GetMapping("/game")
-    public String gamePage(Model model) {
-        return "game";
-    }
-
     @GetMapping("/games")
     public String gamesPage(Model model) {
         try {

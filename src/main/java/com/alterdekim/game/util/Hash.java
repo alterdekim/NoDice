@@ -1,12 +1,13 @@
 package com.alterdekim.game.util;
 
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class Hash {
-    public static String sha256( byte[] b ) throws Exception {
+    public static String sha256( byte[] b ) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         return bytesToHex(digest.digest(b));
     }

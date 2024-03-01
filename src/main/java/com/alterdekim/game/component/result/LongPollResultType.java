@@ -5,5 +5,6 @@ public enum LongPollResultType {
     ChatResult,
     RoomResult,
     FriendResult,
-    InviteResult
+    InviteResult,
+    Redirect
 }

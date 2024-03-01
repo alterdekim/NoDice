@@ -1,11 +1,14 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 	<head>
-		<meta charset="utf-8"></meta>
+		<meta charset="utf-8"/>
 		<link rel="stylesheet" href="/static/css/game.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-		<title>Монополия онлайн</title>
-		<link rel="shortcut icon" type="image/png" href="../static/images/favicon.ico"/>
+		<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<title th:text="${title} ? ${title} : 'Nosedive'"></title>
+		<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico">
+		<api-tag th:data-access-token="${auth_obj.accessToken}" th:data-uid="${auth_obj.uid}" th:data-room-id="${roomId}"></api-tag>
 		<div id="contract_field" style="display: none">
 			<div style="display: inline-flex;">
 				<div class="contract_image" style="margin-left: 10px"><img src="../static/images/mitsubishi.png" style="width: 55px;"></div>
@@ -26,14 +29,12 @@
 		<div class="wrapper" style="width: 100%; height: 100%">
 			<div class="game">
 				<div class="players">
-					<th:block th:each="p: ${players}">
-						<div class="player" th:data-pid="${p.id}" onClick="drop(this)">
-							<p class="timeout"></p>
-							<p class="nickname" th:text="${p.name}"></p>
-							<p class="money" th:text="${p.money}"></p>
-							<div class="dropbox" style="display: none"></div> <!-- margin-top: -35px; -->
-						</div>
-					</th:block>
+					<!--<div class="player" th:data-pid="${p.id}" onClick="drop(this)">
+						<p class="timeout"></p>
+						<p class="nickname" th:text="${p.name}"></p>
+						<p class="money" th:text="${p.money}"></p>
+						<div class="dropbox" style="display: none"></div> margin-top: -35px;
+					</div>-->
 				</div>
 				<div class="table">
 					<div class="table_center">
@@ -212,61 +213,90 @@
 					<div class="chip purple" data-trow=0 data-tcol=0></div>
 					<div class="chip orange" data-trow=0 data-tcol=0></div>
 					<!-- </div> -->
-					<div class="up"><div class="board_field corner"><img src="../static/images/start.png" style="width: 100%; height: 100%;" /></div></div>
+					<div class="up">
+						<div class="board_field corner">
+							<img src="../static/images/start.png" style="width: 100%; height: 100%;" />
+						</div>
+					</div>
 
-					<th:block th:each="f: ${fields_up}">
-						<div th:data-fid="${f.uid}" class="board_field" th:style="grid-column: @{${f.id}}"> <!-- 2 + -->
-							<div class="cost" th:text="${f.cost}"></div>
+					<!--<th:block th:each="ft: ${fields_top}">
+						<div th:data-fid="${ft.uid}" class="board_field" th:style="@{grid-column: {id}(id=${ft.id})}"> --> <!-- 2 + -->
+						<!--	<div class="cost" th:text="${ft.cost}"></div>
 							<div class="fh">
 								<div class="iconH">
-									<img th:src="${f.img}" class="vertImg">
+									<img th:src="${ft.img}" class="vertImg">
 								</div>
 								<div class="stars">
-									<span class="_star" th:text="${f.stars}"></span>
+									<span class="_star" th:text="${ft.stars}"></span>
 								</div>
 							</div>
 						</div>
-					</th:block>
+					</th:block>-->
 
-					<div class="up" style="grid-column: 11"><div class="board_field corner"><img src="../static/images/injail.png" style="width: 100%; height: 100%;" /></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/lacoste.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/mitsubishi.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/vw.png" class="horImg"></div></div><div class="stars hstars"><span class="_star _hstar"></span></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/mcdonalds.svg" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/apple.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/vw.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/macdonalds.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/nike.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 11"><div class="rcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/pepsi.png" class="horImg"></div><div class="stars hstars"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field corner" style="grid-column: 11"><img src="../static/images/parking.png" style="width:100%; height:100%;" /></div>
-					<div class="board_field" style="grid-column: 2; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/nike.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field" style="grid-column: 3; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/mitsubishi.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field" style="grid-column: 4; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/peugeot.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field" style="grid-column: 5; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/vw.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field" style="grid-column: 6; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/linux.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field" style="grid-column: 7; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/apple.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field" style="grid-column: 8; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/burger_king.svg" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field" style="grid-column: 9; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/lacoste.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field" style="grid-column: 10; grid-row: 11;"><div class="fh"><div class="iconH"><img src="../static/images/pepsi.png" class="vertImg"></div><div class="stars"><span class="_star _vstar"></span></div></div><div class="cost">0</div></div>
-					<div class="board_field corner" style="grid-column: 1; grid-row: 11"><img src="../static/images/gotojail.png" style="width: 100%; height: 100%;" /></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 10;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/peugeot.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 9;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/apple.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 8;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/linux.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 7;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/macdonalds.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 6;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/pepsi.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 5;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/burger_king.svg" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 4;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/mitsubishi.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 3;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/adidas.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
-					<div class="board_field" style="grid-column: 1; grid-row: 2;"><div class="lcost">0</div><div class="fv"><div class="iconV"><img src="../static/images/lacoste.png" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar"></span></div></div></div>
+					<div class="up" style="grid-column: 11">
+						<div class="board_field corner">
+							<img src="../static/images/injail.png" style="width: 100%; height: 100%;" />
+						</div>
+					</div>
+
+					<!--
+					<th:block th:each="fr: ${fields_right}">
+						<div class="board_field" style="grid-column: 11">
+							<div class="rcost" th:text="${fr.cost}"></div>
+							<div class="fv">
+								<div class="iconV">
+									<img th:src="${fr.img}" class="horImg">
+								</div>
+								<div class="stars hstars">
+									<span class="_star _hstar" th:text="${fr.stars}"></span>
+								</div>
+							</div>
+						</div>
+					</th:block> -->
+
+					<div class="board_field corner" style="grid-column: 11">
+						<img src="../static/images/parking.png" style="width:100%; height:100%;" />
+					</div>
+
+					<!-- <th:block th:each="fb: ${fields_bottom}">
+						<div class="board_field" th:style="@{grid-row: 11; grid-column: {id}(id=${fb.id})}"> --> <!-- 2 + --> <!--
+							<div class="fh">
+								<div class="iconH">
+									<img class="vertImg" th:src="${fb.img}">
+								</div>
+								<div class="stars">
+									<span class="_star _vstar" th:text="${fb.stars}"></span>
+								</div>
+							</div>
+							<div class="cost" th:text="${fb.cost}"></div>
+						</div>
+					</th:block> -->
+
+
+					<div class="board_field corner" style="grid-column: 1; grid-row: 11">
+						<img src="../static/images/gotojail.png" style="width: 100%; height: 100%;" />
+					</div>
+
+					<!--
+					<th:block th:each="fl: ${fields_left}">
+						<div class="board_field" th:style="@{grid-column: 1; grid-row: {id}(id=${fl.id})}">--> <!-- start from 10, go to 2 --> <!--
+							<div class="lcost" th:text="${fl.cost}"></div>
+							<div class="fv">
+								<div class="iconV">
+									<img th:src="${fl.img}" class="horImg">
+								</div>
+								<div class="stars hstars _hhstar">
+									<span class="_star _hstar" th:text="${fl.stars}"></span>
+								</div>
+							</div>
+						</div>
+					</th:block> -->
 				</div>
 			</div>
 		</div>
 	</body>
 	<footer>
-		<script type="text/javascript" src="/games/cookie.js"></script>
-		<script type="text/javascript" src="/games/db.js"></script>
-		<script type="text/javascript" src="/games/methods.js"></script>
-		<script type="text/javascript" src="game.js"></script>
+		<script type="text/javascript" src="/static/javascript/game.js"></script>
 		<script type="text/javascript" src="/static/javascript/scale.js"></script>
 	</footer>
 </html>

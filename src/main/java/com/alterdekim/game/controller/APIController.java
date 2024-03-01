@@ -207,7 +207,7 @@ public class APIController {
         if( longPoll.getMap().containsKey(userId) ){
             LongPollConfig c = longPoll.getMap().get(userId);
             if( !c.getPoll_token().equals(poll_token) ) {
-                c = new LongPollConfig(last_chat_id, rooms, 0, poll_token, friends, System.currentTimeMillis(), new ArrayList<>());
+                c = new LongPollConfig(last_chat_id, rooms, 0, poll_token, friends, System.currentTimeMillis(), new ArrayList<>(), new ArrayList<>());
                 longPoll.getLongPollingQueue().removeIf(q -> q.getUserId().longValue() == userId.longValue());
             }
             c.setRooms(rooms);
@@ -217,7 +217,7 @@ public class APIController {
             c.setLastRequest(System.currentTimeMillis());
             longPoll.getMap().put(userId, c);
         } else {
-            longPoll.getMap().put(userId, new LongPollConfig(last_chat_id, rooms, 0, poll_token, friends, System.currentTimeMillis(), new ArrayList<>()));
+            longPoll.getMap().put(userId, new LongPollConfig(last_chat_id, rooms, 0, poll_token, friends, System.currentTimeMillis(), new ArrayList<>(), new ArrayList<>()));
         }
         longPoll.getLongPollingQueue().add(new LongPollingSession(userId, deferredResult));
         return deferredResult;

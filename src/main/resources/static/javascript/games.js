@@ -61,6 +61,12 @@ function takeInviteMessage(obj) {
     });
 }
 
+function takeRedirect(reds) {
+    for( let i = 0; i < reds.length; i++ ) {
+        window.location.assign("/game?id=" + reds[i].roomId);
+    }
+}
+
 function successPolling(data) {
     console.log(data);
     data = data.result;
@@ -88,6 +94,9 @@ function successPolling(data) {
                 break;
             case "InviteResult":
                 invites = res.array;
+                break;
+            case "Redirect":
+                takeRedirect(res.array);
                 break;
         }
     }
