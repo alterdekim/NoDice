@@ -1,5 +1,6 @@
 package com.alterdekim.game.component;
 
+import com.alterdekim.game.component.game.GamePool;
 import com.alterdekim.game.component.processors.ChatProcessor;
 import com.alterdekim.game.component.processors.FriendProcessor;
 import com.alterdekim.game.component.processors.Processor;
@@ -52,6 +53,9 @@ public class LongPoll {
     @Autowired
     private FriendServiceImpl friendService;
 
+    @Autowired
+    private GamePool gamePool;
+
     public LongPoll() {
         processors.addAll(Arrays.asList(new ChatProcessor(this), new FriendProcessor(this), new RoomProcessor(this)));
     }
@@ -94,6 +98,7 @@ public class LongPoll {
     }
 
     private LongPollResult process(Long userId, LongPollConfig config) {
+        if( gamePool.containsPlayer(userId) ) config.getGameRedirect().add(new GameRedirect(gamePool.getGameIdByPlayerId(userId).get()));
         List<LongPollResultSingle> result = new ArrayList<>();
         result.add(new LongPollResultSingle<>(LongPollResultType.OnlineUsers, Arrays.asList(map.size())));
         result.add(new LongPollResultSingle<>(LongPollResultType.Redirect, config.getGameRedirect()));

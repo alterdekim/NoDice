@@ -8,11 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
-public class BasicMessage {
-    private Long roomId;
-    private String accessToken;
-    private Long uid;
-    private String body;
+public class ResponseMessage {
     private WebSocketMessageType type;
+    private String body;
 }

@@ -5,9 +5,10 @@
 		<link rel="stylesheet" href="/static/css/game.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js" integrity="sha512-iKDtgDyTHjAitUDdLljGhenhPwrbBfqTKWO1mkhSFH3A7blITC9MhYon6SjnMhp4o0rADGw9yAC6EW4t5a4K3g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 		<title th:text="${title} ? ${title} : 'Nosedive'"></title>
 		<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico">
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,800" rel="stylesheet">
 		<api-tag th:data-access-token="${auth_obj.accessToken}" th:data-uid="${auth_obj.uid}" th:data-room-id="${roomId}"></api-tag>
 		<div id="contract_field" style="display: none">
 			<div style="display: inline-flex;">
@@ -215,82 +216,32 @@
 					<!-- </div> -->
 					<div class="up">
 						<div class="board_field corner">
-							<img src="../static/images/start.png" style="width: 100%; height: 100%;" />
+							<img src="" style="width: 100%; height: 100%;" />
 						</div>
 					</div>
 
-					<!--<th:block th:each="ft: ${fields_top}">
-						<div th:data-fid="${ft.uid}" class="board_field" th:style="@{grid-column: {id}(id=${ft.id})}"> --> <!-- 2 + -->
-						<!--	<div class="cost" th:text="${ft.cost}"></div>
-							<div class="fh">
-								<div class="iconH">
-									<img th:src="${ft.img}" class="vertImg">
-								</div>
-								<div class="stars">
-									<span class="_star" th:text="${ft.stars}"></span>
-								</div>
-							</div>
-						</div>
-					</th:block>-->
+					<div id="top_board_tiles"></div>
 
 					<div class="up" style="grid-column: 11">
 						<div class="board_field corner">
-							<img src="../static/images/injail.png" style="width: 100%; height: 100%;" />
+							<img src="" style="width: 100%; height: 100%;" />
 						</div>
 					</div>
 
-					<!--
-					<th:block th:each="fr: ${fields_right}">
-						<div class="board_field" style="grid-column: 11">
-							<div class="rcost" th:text="${fr.cost}"></div>
-							<div class="fv">
-								<div class="iconV">
-									<img th:src="${fr.img}" class="horImg">
-								</div>
-								<div class="stars hstars">
-									<span class="_star _hstar" th:text="${fr.stars}"></span>
-								</div>
-							</div>
-						</div>
-					</th:block> -->
+					<div id="right_board_tiles"></div>
 
 					<div class="board_field corner" style="grid-column: 11">
-						<img src="../static/images/parking.png" style="width:100%; height:100%;" />
+						<img src="" style="width:100%; height:100%;" />
 					</div>
 
-					<!-- <th:block th:each="fb: ${fields_bottom}">
-						<div class="board_field" th:style="@{grid-row: 11; grid-column: {id}(id=${fb.id})}"> --> <!-- 2 + --> <!--
-							<div class="fh">
-								<div class="iconH">
-									<img class="vertImg" th:src="${fb.img}">
-								</div>
-								<div class="stars">
-									<span class="_star _vstar" th:text="${fb.stars}"></span>
-								</div>
-							</div>
-							<div class="cost" th:text="${fb.cost}"></div>
-						</div>
-					</th:block> -->
+					<div id="bottom_board_tiles"></div>
 
 
 					<div class="board_field corner" style="grid-column: 1; grid-row: 11">
-						<img src="../static/images/gotojail.png" style="width: 100%; height: 100%;" />
+						<img src="" style="width: 100%; height: 100%;" />
 					</div>
 
-					<!--
-					<th:block th:each="fl: ${fields_left}">
-						<div class="board_field" th:style="@{grid-column: 1; grid-row: {id}(id=${fl.id})}">--> <!-- start from 10, go to 2 --> <!--
-							<div class="lcost" th:text="${fl.cost}"></div>
-							<div class="fv">
-								<div class="iconV">
-									<img th:src="${fl.img}" class="horImg">
-								</div>
-								<div class="stars hstars _hhstar">
-									<span class="_star _hstar" th:text="${fl.stars}"></span>
-								</div>
-							</div>
-						</div>
-					</th:block> -->
+					<div id="left_board_tiles"></div>
 				</div>
 			</div>
 		</div>

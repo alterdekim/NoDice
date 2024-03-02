@@ -17,16 +17,15 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
 public class GamePool {
-
-    @Autowired
-    private LongPoll longPoll;
 
     @Autowired
     private UserServiceImpl userService;
@@ -47,8 +46,7 @@ public class GamePool {
                     List<RoomPlayer> players = roomPlayerService.findByRoomId(r.getId());
                     roomPlayerService.removeByRoomId(r.getId());
                     roomService.removeRoom(r.getId());
-                    games.put(r.getId(), new GameRoom(players));
-                    longPoll.notifyPlayers(r.getId(), players);
+                    games.put(r.getId(), new GameRoom(players, userService));
                 });
     }
 
@@ -58,13 +56,38 @@ public class GamePool {
             BasicMessage pm = new ObjectMapper().readValue(message, BasicMessage.class);
             User u = userService.findById(pm.getUid());
             if (u == null || !games.containsKey(pm.getRoomId())) return;
-            if (!Hash.sha256((u.getId() + u.getUsername() + u.getPassword() + pm.getRoomId()).getBytes()).equals(pm.getAccessToken()))
+            if (!Hash.sha256((u.getId() + u.getUsername() + u.getPassword() + pm.getRoomId()).getBytes()).equals(pm.getAccessToken())) {
+                session.close();
                 return;
+            }
             games.get(pm.getRoomId()).receiveMessage(pm, session);
-        } catch (JsonProcessingException | NoSuchAlgorithmException e) {
+        } catch (NoSuchAlgorithmException | IOException e) {
             log.error(e.getMessage(), e);
         } catch (StringIndexOutOfBoundsException e) {
             //log.error(e.getMessage(), e);
         }
+    }
+
+    public Boolean containsPlayer(Long userId) {
+        return games.keySet()
+                .stream()
+                .anyMatch(k -> games.get(k)
+                        .getPlayers()
+                        .stream()
+                        .anyMatch(p -> p.getUserId().longValue() == userId.longValue()
+                        )
+                );
+    }
+
+    public Optional<Long> getGameIdByPlayerId(Long userId) {
+        return games.keySet()
+                .stream()
+                .filter(k -> games.get(k)
+                        .getPlayers()
+                        .stream()
+                        .anyMatch(p -> p.getUserId().longValue() == userId.longValue()
+                        )
+                )
+                .findFirst();
     }
 }
