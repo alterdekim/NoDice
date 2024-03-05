@@ -57,6 +57,7 @@ public class GameRoom {
             List<BoardTile> right = new ArrayList<>();
             List<BoardTile> bottom = new ArrayList<>();
             List<BoardTile> left = new ArrayList<>();
+
             for( int i = 0; i < 9; i++ ) {
                 top.add(new BoardTile(UUID.randomUUID().toString(), 2 + i, 1000, "", "/static/images/7up.png", "ffffff", "f5f5f5"));
             }
@@ -88,6 +89,8 @@ public class GameRoom {
             left.get(2).setStars("★★★");
             left.get(2).setOwnerColor("fffbbb");
             sendMessage(message.getUid(), WebSocketMessageType.ChangeBoardTileState, om.writeValueAsString(left.get(2)));
+
+            sendMessage(message.getUid(), WebSocketMessageType.AssignChip, om.writeValueAsString(new Chip(2L, 10, 15, "#ff0000")));
         } catch (JsonProcessingException e) {
             log.error(e.getMessage(), e);
         }

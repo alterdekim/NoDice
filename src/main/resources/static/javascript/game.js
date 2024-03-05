@@ -1,3 +1,74 @@
+class Chip {
+
+    constructor(obj1) {
+        this.obj = obj1;
+    }
+
+    get x() {
+        return this.obj.attr("data-x");
+    }
+
+    get y() {
+        return this.obj.attr("data-y");
+    }
+
+    get uid() {
+        return this.obj.attr("data-uid");
+    }
+
+    get color() {
+        return this.obj.attr("data-color");
+    }
+
+    set x(x) {
+        this.obj.attr("data-x", x);
+    }
+
+    set y(y) {
+        this.obj.attr("data-y", y);
+    }
+
+    set uid(uid) {
+        this.obj.attr("data-uid", uid);
+    }
+
+    set color(color) {
+        this.obj.attr("data-color", color);
+    }
+
+    get dom() {
+        return this.obj;
+    }
+}
+
+class Board {
+    constructor() {}
+
+    get chips() {
+        return this.board_chips;
+    }
+
+    set chips(chips) {
+        this.board_chips = chips;
+    }
+
+    get fields() {
+        return this.board_fields;
+    }
+
+    set fields(fields) {
+        this.board_fields = fields;
+    }
+}
+
+class Field {
+
+}
+
+const top_offset = 18;
+
+const board = new Board();
+
 var socket = null;
 
 function disconnect() {
@@ -18,6 +89,12 @@ function sendMessage(message, type) {
 }
 
 $(document).ready(function() {
+     let chips = [];
+     $(".chip").each(function() {
+         chips.push(new Chip($(this)));
+     });
+     board.chips = chips;
+
      socket = new SockJS('/websocket');
 
      socket.onopen = function() {
@@ -48,7 +125,28 @@ function showMessage(message) {
         case 'ChangeBoardTileState':
             changeBoardState(JSON.parse(message.body));
             break;
+        case 'AssignChip':
+            assignChip(JSON.parse(message.body));
+            break;
     }
+}
+
+function refreshChips() {
+    for(let i = 0; i < board.chips.length; i++ ) {
+        let chip = board.chips[i];
+        if( chip.uid == 0 ) continue;
+        $(chip.dom).css("background-color", chip.color);
+    }
+}
+
+function assignChip(body) {
+    let nc = board.chips.find((c) => c.uid == 0);
+    if( nc == undefined ) return;
+    nc.uid = body.uid;
+    nc.color = body.color;
+    nc.x = body.x;
+    nc.y = body.y;
+    refreshChips();
 }
 
 function changeBoardState(body) {

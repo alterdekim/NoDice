@@ -4,5 +4,6 @@ public enum WebSocketMessageType {
     PlayersList,
     BoardGUI,
     InfoRequest,
-    ChangeBoardTileState
+    ChangeBoardTileState,
+    AssignChip
 }
