@@ -13,4 +13,5 @@ public class GamePlayer {
     private Long userId;
     private String displayName;
     private Integer money;
+    private Chip chip;
 }

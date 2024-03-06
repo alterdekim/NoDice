@@ -29,10 +29,15 @@ public class GameRoom {
 
     private UserServiceImpl userService;
 
+    private List<BoardField> boardFields;
+
     public GameRoom(List<RoomPlayer> players, UserServiceImpl userService) {
         this.userService = userService;
-        this.players = players.stream().map(p -> new GamePlayer(p.getUserId(), userService.findById(p.getUserId()).getDisplayName(), 0)).collect(Collectors.toList());
+        this.players = players.stream()
+                .map(p -> new GamePlayer(p.getUserId(), userService.findById(p.getUserId()).getDisplayName(), 0, new Chip(p.getUserId(), 0, 0, "#000000")))
+                .collect(Collectors.toList());
         this.socks = new ConcurrentHashMap<>();
+        this.boardFields = new ArrayList<>();
     }
 
     public void receiveMessage(BasicMessage message, WebSocketSession session) {
@@ -74,6 +79,8 @@ public class GameRoom {
                 left.add(new BoardTile(UUID.randomUUID().toString(), i, 2200, "", "/static/images/beeline.png", "000000", "f5f5f5"));
             }
 
+
+
             List<CornerTile> corners = new ArrayList<>();
             corners.add(new CornerTile("/static/images/start.png"));
             corners.add(new CornerTile("/static/images/injail.png"));
@@ -90,7 +97,20 @@ public class GameRoom {
             left.get(2).setOwnerColor("fffbbb");
             sendMessage(message.getUid(), WebSocketMessageType.ChangeBoardTileState, om.writeValueAsString(left.get(2)));
 
-            sendMessage(message.getUid(), WebSocketMessageType.AssignChip, om.writeValueAsString(new Chip(2L, 10, 15, "#ff0000")));
+            Chip red = new Chip(2L, 10, 9, "#ff0000");
+            Chip green = new Chip(3L, 10, 10, "#00ff00");
+            Chip blue = new Chip(4L, 0, 5, "#0000ff");
+            Chip white = new Chip(5L, 0, 5, "#ffffff");
+            Chip black = new Chip(6L, 0, 5, "#000000");
+
+            sendMessage(message.getUid(), WebSocketMessageType.AssignChip, om.writeValueAsString(red));
+            sendMessage(message.getUid(), WebSocketMessageType.AssignChip, om.writeValueAsString(green));
+            sendMessage(message.getUid(), WebSocketMessageType.AssignChip, om.writeValueAsString(blue));
+            sendMessage(message.getUid(), WebSocketMessageType.AssignChip, om.writeValueAsString(white));
+            sendMessage(message.getUid(), WebSocketMessageType.AssignChip, om.writeValueAsString(black));
+
+            red.setY(10);
+            sendMessage(message.getUid(), WebSocketMessageType.ChipMove, om.writeValueAsString(red));
         } catch (JsonProcessingException e) {
             log.error(e.getMessage(), e);
         }

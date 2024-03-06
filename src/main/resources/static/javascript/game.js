@@ -1,5 +1,4 @@
 class Chip {
-
     constructor(obj1) {
         this.obj = obj1;
     }
@@ -42,7 +41,9 @@ class Chip {
 }
 
 class Board {
-    constructor() {}
+    constructor() {
+        this.board_chips = [];
+    }
 
     get chips() {
         return this.board_chips;
@@ -51,18 +52,6 @@ class Board {
     set chips(chips) {
         this.board_chips = chips;
     }
-
-    get fields() {
-        return this.board_fields;
-    }
-
-    set fields(fields) {
-        this.board_fields = fields;
-    }
-}
-
-class Field {
-
 }
 
 const top_offset = 18;
@@ -128,7 +117,63 @@ function showMessage(message) {
         case 'AssignChip':
             assignChip(JSON.parse(message.body));
             break;
+        case 'ChipMove':
+            chipMove(JSON.parse(message.body));
+            break;
     }
+}
+
+function clamp(number, min, max) {
+    return Math.max(min, Math.min(number, max));
+}
+
+function chipMove(body) {
+    let nc = board.chips.find((c) => c.uid == body.uid);
+    if( nc == undefined ) return;
+    nc.x = body.x;
+    nc.y = body.y;
+    refreshChips();
+}
+
+const corners = [
+    {x: 0, y: 0},
+    {x: 10, y: 0},
+    {x: 10, y: 10},
+    {x: 0, y: 10}
+];
+
+const chips_margins = [[],
+    [{top: 40, left: 20}],
+    [{top: 25, left: 20}, {top: 50, left: 20}],
+    [{top: 20, left: 20}, {top: 45, left: 20}, {top: 70, left: 20}],
+    [{top: 20, left: 20}, {top: 45, left: 28}, {top: 70, left: 20}, {top: 45, left: 8}],
+    [{top: 20, left: 20}, {top: 45, left: 25}, {top: 70, left: 20}, {top: 70, left: 10}, {top: 45, left: 10}]
+];
+
+function distinct(arr) {
+    for(let i = 0; i < arr.length; i++) {
+        let a = arr[i];
+        let cnt = 0;
+        for(let u = 0; u < arr.length; u++) {
+            if(a.x == arr[u].x && a.y == arr[u].y) {
+                cnt++;
+            }
+        }
+        if( cnt > 1 ) {
+            arr.splice(i, 1);
+            i = 0;
+        }
+    }
+    return arr;
+}
+
+function includes(pos) {
+    for(let i = 0; i < corners.length; i++) {
+        if( pos.x == corners[i].x && pos.y == corners[i].y ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function refreshChips() {
@@ -136,6 +181,52 @@ function refreshChips() {
         let chip = board.chips[i];
         if( chip.uid == 0 ) continue;
         $(chip.dom).css("background-color", chip.color);
+        let offsetY = (Math.max(chip.y-1, 0) * 55) + (chip.y * 2) + (clamp(chip.y, 0, 1) * 100) + 18;
+        let offsetX = (Math.max(chip.x-1, 0) * 55) + (chip.x * 2) + (clamp(chip.x, 0, 1) * 100);
+        $(chip.dom).animate({marginTop: offsetY, marginLeft: offsetX}, 1000);
+    }
+    let positions = distinct(board.chips.filter((c) => c.uid != 0).map(({ x, y }) => ({ x, y })));
+    for( let i = 0; i < positions.length; i++ ) {
+        let a = board.chips.filter((c) => c.x == positions[i].x && c.y == positions[i].y && c.uid != 0);
+        if( includes(positions[i]) ) {
+            switch(a.length) {
+                case 1:
+                    $(a[0].dom).animate({marginTop: "+=40", marginLeft: "+=40"}, 500);
+                    break;
+                case 2:
+                    $(a[0].dom).animate({marginTop: "+=20", marginLeft: "+=40"}, 500);
+                    $(a[1].dom).animate({marginTop: "+=60", marginLeft: "+=40"}, 500);
+                    break;
+                case 3:
+                    $(a[0].dom).animate({marginTop: "+=40", marginLeft: "+=15"}, 500);
+                    $(a[1].dom).animate({marginTop: "+=40", marginLeft: "+=40"}, 500);
+                    $(a[2].dom).animate({marginTop: "+=40", marginLeft: "+=65"}, 500);
+                    break;
+                case 4:
+                    $(a[0].dom).animate({marginTop: "+=15", marginLeft: "+=20"}, 500);
+                    $(a[1].dom).animate({marginTop: "+=15", marginLeft: "+=60"}, 500);
+                    $(a[2].dom).animate({marginTop: "+=55", marginLeft: "+=20"}, 500);
+                    $(a[3].dom).animate({marginTop: "+=55", marginLeft: "+=60"}, 500);
+                    break;
+                case 5:
+                    $(a[0].dom).animate({marginTop: "+=15", marginLeft: "+=20"}, 500);
+                    $(a[1].dom).animate({marginTop: "+=15", marginLeft: "+=60"}, 500);
+                    $(a[2].dom).animate({marginTop: "+=55", marginLeft: "+=20"}, 500);
+                    $(a[3].dom).animate({marginTop: "+=55", marginLeft: "+=60"}, 500);
+                    $(a[4].dom).animate({marginTop: "+=35", marginLeft: "+=40"}, 500);
+                    break;
+            }
+        } else {
+            if( positions[i].x > 0 && positions[i].x < 10 ) {
+                for(let u = 0; u < a.length; u++) {
+                    $(a[u].dom).animate({marginTop: "+=" + chips_margins[a.length][u].top, marginLeft: "+=" + chips_margins[a.length][u].left}, 500);
+                }
+            } else {
+                for(let u = 0; u < a.length; u++) {
+                    $(a[u].dom).animate({marginTop: "+=" + chips_margins[a.length][u].left, marginLeft: "+=" + chips_margins[a.length][u].top}, 500);
+                }
+            }
+        }
     }
 }
 
@@ -146,6 +237,7 @@ function assignChip(body) {
     nc.color = body.color;
     nc.x = body.x;
     nc.y = body.y;
+    $(nc.obj).css("display", "");
     refreshChips();
 }
 
