@@ -11,7 +11,6 @@ import com.alterdekim.game.component.result.LongPollResultType;
 import com.alterdekim.game.dto.*;
 import com.alterdekim.game.entities.RoomPlayer;
 import com.alterdekim.game.service.*;
-import com.alterdekim.game.util.Hash;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
