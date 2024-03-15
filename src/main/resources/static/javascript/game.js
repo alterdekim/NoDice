@@ -191,49 +191,53 @@ function moveChips() {
     }
 }
 
+function refreshChip(position) {
+    let a = board.chips.filter((c) => c.x == position.x && c.y == position.y && c.uid != 0);
+    if( includes(position) ) {
+        switch(a.length) {
+            case 1:
+                $(a[0].dom).animate({marginTop: "+=40", marginLeft: "+=40"}, 500);
+                break;
+            case 2:
+                $(a[0].dom).animate({marginTop: "+=20", marginLeft: "+=40"}, 500);
+                $(a[1].dom).animate({marginTop: "+=60", marginLeft: "+=40"}, 500);
+                break;
+            case 3:
+                $(a[0].dom).animate({marginTop: "+=40", marginLeft: "+=15"}, 500);
+                $(a[1].dom).animate({marginTop: "+=40", marginLeft: "+=40"}, 500);
+                $(a[2].dom).animate({marginTop: "+=40", marginLeft: "+=65"}, 500);
+                break;
+            case 4:
+                $(a[0].dom).animate({marginTop: "+=15", marginLeft: "+=20"}, 500);
+                $(a[1].dom).animate({marginTop: "+=15", marginLeft: "+=60"}, 500);
+                $(a[2].dom).animate({marginTop: "+=55", marginLeft: "+=20"}, 500);
+                $(a[3].dom).animate({marginTop: "+=55", marginLeft: "+=60"}, 500);
+                break;
+            case 5:
+                $(a[0].dom).animate({marginTop: "+=15", marginLeft: "+=20"}, 500);
+                $(a[1].dom).animate({marginTop: "+=15", marginLeft: "+=60"}, 500);
+                $(a[2].dom).animate({marginTop: "+=55", marginLeft: "+=20"}, 500);
+                $(a[3].dom).animate({marginTop: "+=55", marginLeft: "+=60"}, 500);
+                $(a[4].dom).animate({marginTop: "+=35", marginLeft: "+=40"}, 500);
+                break;
+        }
+    } else {
+        if( position.x > 0 && position.x < 10 ) {
+            for(let u = 0; u < a.length; u++) {
+                $(a[u].dom).animate({marginTop: "+=" + chips_margins[a.length][u].top, marginLeft: "+=" + chips_margins[a.length][u].left}, 500);
+            }
+        } else {
+            for(let u = 0; u < a.length; u++) {
+                $(a[u].dom).animate({marginTop: "+=" + chips_margins[a.length][u].left, marginLeft: "+=" + chips_margins[a.length][u].top}, 500);
+            }
+        }
+    }
+}
+
 function refreshChips() {
     let positions = distinct(board.chips.filter((c) => c.uid != 0).map(({ x, y }) => ({ x, y })));
     for( let i = 0; i < positions.length; i++ ) {
-        let a = board.chips.filter((c) => c.x == positions[i].x && c.y == positions[i].y && c.uid != 0);
-        if( includes(positions[i]) ) {
-            switch(a.length) {
-                case 1:
-                    $(a[0].dom).animate({marginTop: "+=40", marginLeft: "+=40"}, 500);
-                    break;
-                case 2:
-                    $(a[0].dom).animate({marginTop: "+=20", marginLeft: "+=40"}, 500);
-                    $(a[1].dom).animate({marginTop: "+=60", marginLeft: "+=40"}, 500);
-                    break;
-                case 3:
-                    $(a[0].dom).animate({marginTop: "+=40", marginLeft: "+=15"}, 500);
-                    $(a[1].dom).animate({marginTop: "+=40", marginLeft: "+=40"}, 500);
-                    $(a[2].dom).animate({marginTop: "+=40", marginLeft: "+=65"}, 500);
-                    break;
-                case 4:
-                    $(a[0].dom).animate({marginTop: "+=15", marginLeft: "+=20"}, 500);
-                    $(a[1].dom).animate({marginTop: "+=15", marginLeft: "+=60"}, 500);
-                    $(a[2].dom).animate({marginTop: "+=55", marginLeft: "+=20"}, 500);
-                    $(a[3].dom).animate({marginTop: "+=55", marginLeft: "+=60"}, 500);
-                    break;
-                case 5:
-                    $(a[0].dom).animate({marginTop: "+=15", marginLeft: "+=20"}, 500);
-                    $(a[1].dom).animate({marginTop: "+=15", marginLeft: "+=60"}, 500);
-                    $(a[2].dom).animate({marginTop: "+=55", marginLeft: "+=20"}, 500);
-                    $(a[3].dom).animate({marginTop: "+=55", marginLeft: "+=60"}, 500);
-                    $(a[4].dom).animate({marginTop: "+=35", marginLeft: "+=40"}, 500);
-                    break;
-            }
-        } else {
-            if( positions[i].x > 0 && positions[i].x < 10 ) {
-                for(let u = 0; u < a.length; u++) {
-                    $(a[u].dom).animate({marginTop: "+=" + chips_margins[a.length][u].top, marginLeft: "+=" + chips_margins[a.length][u].left}, 500);
-                }
-            } else {
-                for(let u = 0; u < a.length; u++) {
-                    $(a[u].dom).animate({marginTop: "+=" + chips_margins[a.length][u].left, marginLeft: "+=" + chips_margins[a.length][u].top}, 500);
-                }
-            }
-        }
+        refreshChip(positions[i]);
     }
 }
 
