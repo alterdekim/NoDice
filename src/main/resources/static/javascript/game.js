@@ -87,7 +87,7 @@ $(document).ready(function() {
      socket = new SockJS('/websocket');
 
      socket.onopen = function() {
-         $("#loading").css("display", "");
+         $("#loading").css("display", "none");
          console.log('open');
          sendMessage({}, 'InfoRequest');
      };
