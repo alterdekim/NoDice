@@ -132,7 +132,7 @@ function chipMove(body) {
     if( nc == undefined ) return;
     nc.x = body.x;
     nc.y = body.y;
-    refreshChips();
+    moveChip(nc);
 }
 
 const corners = [
@@ -176,15 +176,22 @@ function includes(pos) {
     return false;
 }
 
-function refreshChips() {
+function moveChip(chip) {
+    $(chip.dom).css("background-color", chip.color);
+    let offsetY = (Math.max(chip.y-1, 0) * 55) + (chip.y * 2) + (clamp(chip.y, 0, 1) * 100) + 18;
+    let offsetX = (Math.max(chip.x-1, 0) * 55) + (chip.x * 2) + (clamp(chip.x, 0, 1) * 100);
+    $(chip.dom).animate({marginTop: offsetY, marginLeft: offsetX}, 1000);
+}
+
+function moveChips() {
     for(let i = 0; i < board.chips.length; i++ ) {
         let chip = board.chips[i];
         if( chip.uid == 0 ) continue;
-        $(chip.dom).css("background-color", chip.color);
-        let offsetY = (Math.max(chip.y-1, 0) * 55) + (chip.y * 2) + (clamp(chip.y, 0, 1) * 100) + 18;
-        let offsetX = (Math.max(chip.x-1, 0) * 55) + (chip.x * 2) + (clamp(chip.x, 0, 1) * 100);
-        $(chip.dom).animate({marginTop: offsetY, marginLeft: offsetX}, 1000);
+        moveChip(chip);
     }
+}
+
+function refreshChips() {
     let positions = distinct(board.chips.filter((c) => c.uid != 0).map(({ x, y }) => ({ x, y })));
     for( let i = 0; i < positions.length; i++ ) {
         let a = board.chips.filter((c) => c.x == positions[i].x && c.y == positions[i].y && c.uid != 0);
@@ -238,7 +245,7 @@ function assignChip(body) {
     nc.x = body.x;
     nc.y = body.y;
     $(nc.obj).css("display", "");
-    refreshChips();
+    moveChip(nc);
 }
 
 function changeBoardState(body) {
