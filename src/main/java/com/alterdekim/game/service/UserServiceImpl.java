@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userDto.getUsername());
         user.setPronouns("she/her");
         user.setDisplayName(userDto.getUsername());
+        user.setAvatarId(0L);
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         Role role = roleRepository.findByName("ROLE_ADMIN");
         if(role == null){
