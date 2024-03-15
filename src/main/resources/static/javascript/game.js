@@ -180,7 +180,7 @@ function moveChipTo(chip) {
     $(chip.dom).css("background-color", chip.color);
     let offsetY = (Math.max(chip.y-1, 0) * 55) + (chip.y * 2) + (clamp(chip.y, 0, 1) * 100) + 18;
     let offsetX = (Math.max(chip.x-1, 0) * 55) + (chip.x * 2) + (clamp(chip.x, 0, 1) * 100);
-    let a = board.chips.filter((c) => c.x == position.x && c.y == position.y && c.uid != 0);
+    let a = board.chips.filter((c) => c.x == chip.x && c.y == chip.y && c.uid != 0);
     let num = -1;
     for( let i = 0; i < a.length; i++ ) {
         if(a[i].uid == chip.uid) {
