@@ -87,6 +87,7 @@ $(document).ready(function() {
      socket = new SockJS('/websocket');
 
      socket.onopen = function() {
+         $("#loading").css("display", "");
          console.log('open');
          sendMessage({}, 'InfoRequest');
      };
@@ -120,6 +121,9 @@ function showMessage(message) {
         case 'ChipMove':
             chipMove(JSON.parse(message.body));
             break;
+        case 'PlayerColor':
+            playerColor(JSON.parse(message.body));
+            break;
     }
 }
 
@@ -133,6 +137,16 @@ function chipMove(body) {
     nc.x = body.x;
     nc.y = body.y;
     moveChips();
+}
+
+function playerColor(body) {
+    $(".player").each(function() {
+        if( $(this).attr("data-pid") == body.playerId ) {
+            $(this).css("background-color", body.color);
+            return;
+        }
+        $(this).css("background-color", "");
+    });
 }
 
 const corners = [

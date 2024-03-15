@@ -111,6 +111,8 @@ public class GameRoom {
 
             red.setY(10);
             sendMessage(message.getUid(), WebSocketMessageType.ChipMove, om.writeValueAsString(red));
+
+            sendMessage(message.getUid(), WebSocketMessageType.PlayerColor, om.writeValueAsString(new PlayerColor(2L, "#ff0000")));
         } catch (JsonProcessingException e) {
             log.error(e.getMessage(), e);
         }

@@ -6,5 +6,6 @@ public enum WebSocketMessageType {
     InfoRequest,
     ChangeBoardTileState,
     AssignChip,
-    ChipMove
+    ChipMove,
+    PlayerColor
 }
