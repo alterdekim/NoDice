@@ -7,5 +7,8 @@ public enum WebSocketMessageType {
     ChangeBoardTileState,
     AssignChip,
     ChipMove,
-    PlayerColor
+    PlayerColor,
+    ShowDialog,
+    HideDialog,
+    ShowFieldInfo
 }
