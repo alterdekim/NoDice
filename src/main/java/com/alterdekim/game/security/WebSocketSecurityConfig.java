@@ -14,6 +14,6 @@ public class WebSocketSecurityConfig {
 
     @Bean
     AuthorizationManager<Message<?>> messageAuthorizationManager(MessageMatcherDelegatingAuthorizationManager.Builder messages) {
-        return AuthorityAuthorizationManager.hasAnyAuthority("ROLE_ADMIN");
+        return AuthorityAuthorizationManager.hasAnyAuthority("ROLE_USER");
     }
 }
