@@ -1,4 +1,8 @@
 package com.alterdekim.game.component.game;
 
-public interface ActionDialogBody {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public abstract class ActionDialogBody {
+    @JsonProperty("value")
+    public abstract Object getVal();
 }
