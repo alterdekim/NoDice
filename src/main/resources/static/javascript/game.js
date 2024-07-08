@@ -124,6 +124,9 @@ function showMessage(message) {
         case 'PlayerColor':
             playerColor(JSON.parse(message.body));
             break;
+        case 'ShowDialog':
+            showDialog(JSON.parse(message.body));
+            break;
     }
 }
 
@@ -137,6 +140,11 @@ function chipMove(body) {
     nc.x = body.x;
     nc.y = body.y;
     moveChips();
+}
+
+function showDialog(body) {
+    console.log("Got showDialog message");
+    console.log(body);
 }
 
 function playerColor(body) {

@@ -13,9 +13,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -31,7 +29,9 @@ public class GameRoom {
 
     private List<BoardField> boardFields;
 
-    private ObjectMapper om = new ObjectMapper();
+
+
+    private final ObjectMapper om = new ObjectMapper();
 
     public GameRoom(List<RoomPlayer> players, UserServiceImpl userService) {
         this.userService = userService;
@@ -122,8 +122,9 @@ public class GameRoom {
         sendMessage(message.getUid(), WebSocketMessageType.PlayerColor, new PlayerColor(2L, "#ff0000"));
 
         List<DialogButton> buttons = new ArrayList<>();
-        buttons.add(new DialogButton("Button1", "#00ff00", ""));
-        sendMessage(message.getUid(), WebSocketMessageType.ShowDialog, new ActionDialog<>("Title!", "Description!", ActionDialogType.Buttons, buttons));
+        buttons.add(new DialogButton("Button1", DialogButtonColor.GREEN, Collections.singletonList(WebSocketMessageType.HideDialog)));
+        DialogButtonsList b = new DialogButtonsList(buttons);
+        sendMessage(message.getUid(), WebSocketMessageType.ShowDialog, new ActionDialog("Title!", "Description!", ActionDialogType.Buttons, b));
     }
 
     private void sendMessage(Long userId, WebSocketMessageType type, Object o) {

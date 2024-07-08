@@ -5,9 +5,9 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class ActionDialog<T> {
+public class ActionDialog {
     private String dialogTitle;
     private String dialogDescription;
     private ActionDialogType actionDialogType;
-    private T actionDialogBody;
+    private ActionDialogBody actionDialogBody;
 }
