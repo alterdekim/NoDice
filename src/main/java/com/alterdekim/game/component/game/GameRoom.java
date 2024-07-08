@@ -7,6 +7,8 @@ import com.alterdekim.game.websocket.message.ResponseMessage;
 import com.alterdekim.game.websocket.message.WebSocketMessageType;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
@@ -31,9 +33,15 @@ public class GameRoom {
 
 
 
-    private final ObjectMapper om = new ObjectMapper();
+    private final ObjectMapper om;
 
     public GameRoom(List<RoomPlayer> players, UserServiceImpl userService) {
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.alterdekim.game.component.game.DialogButtonsList")
+                .allowIfSubType("java.util.ArrayList")
+                .build();
+        this.om = new ObjectMapper();
+        this.om.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL);
         this.userService = userService;
         this.players = players.stream()
                 .map(p -> new GamePlayer(p.getUserId(), userService.findById(p.getUserId()).getDisplayName(), 0, new Chip(p.getUserId(), 0, 0, "#000000")))
