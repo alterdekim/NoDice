@@ -54,6 +54,18 @@ class Board {
     }
 }
 
+class ResponseMessage {
+    @JsonProperty() @JsonClassType({type: () => [String]})
+    type: string;
+
+    @JsonProperty() @JsonClassType({type: () => [String]})
+    body: string;
+}
+
+class ServerGamePlayer {
+
+}
+
 const top_offset = 18;
 
 const board = new Board();
@@ -77,6 +89,13 @@ function sendMessage(message, type) {
     }));
 }
 
+function deserializeMe(data) {
+    let jsonParser = new JsonParser();
+    console.log(jsonParser.transform(response, {
+        mainCreator: () => [ResponseMessage]
+    }));
+}
+
 $(document).ready(function() {
      let chips = [];
      $(".chip").each(function() {
@@ -94,6 +113,7 @@ $(document).ready(function() {
 
      socket.onmessage = function(e) {
          console.log('message', e.data);
+         deserializeMe(e.data);
          showMessage(JSON.parse(e.data));
      };
 
