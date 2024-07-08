@@ -110,22 +110,22 @@ function showMessage(message) {
             parsePlayersList(JSON.parse(message.body));
             break;
         case 'BoardGUI':
-            parseBoardGUI(JSON.parse(message.body));
+            parseBoardGUI(JSON.parse(message.body)[1]);
             break;
         case 'ChangeBoardTileState':
-            changeBoardState(JSON.parse(message.body));
+            changeBoardState(JSON.parse(message.body)[1]);
             break;
         case 'AssignChip':
-            assignChip(JSON.parse(message.body));
+            assignChip(JSON.parse(message.body)[1]);
             break;
         case 'ChipMove':
-            chipMove(JSON.parse(message.body));
+            chipMove(JSON.parse(message.body)[1]);
             break;
         case 'PlayerColor':
-            playerColor(JSON.parse(message.body));
+            playerColor(JSON.parse(message.body)[1]);
             break;
         case 'ShowDialog':
-            showDialog(JSON.parse(message.body));
+            showDialog(JSON.parse(message.body)[1]);
             break;
     }
 }
@@ -329,7 +329,7 @@ function parseBoardGUI(body) {
 function parsePlayersList(body) {
     let p_html = '';
     for( let i = 0; i < body.length; i++ ) {
-        let player = body[i];
+        let player = body[i][1];
         p_html += '<div class="player" data-pid="'+player.userId+'" onClick="drop(this)"><p class="timeout"></p><p class="nickname">'+player.displayName+'</p><p class="money">'+player.money+'</p><div class="dropbox" style="display: none"></div> <!-- margin-top: -35px; --></div>';
     }
     $(".players").append(p_html);
