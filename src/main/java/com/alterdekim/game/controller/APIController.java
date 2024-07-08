@@ -180,7 +180,7 @@ public class APIController {
 
     @PostMapping("/async/notify/get/")
     @ResponseBody
-    public DeferredResult<LongPollResult> getNotify(@RequestParam("last_chat_id") Long last_chat_id,
+    public DeferredResult<LongPollResult> getNotify(@RequestParam(value = "last_chat_id", required = false, defaultValue = "0") Long last_chat_id,
                                                     @RequestParam("accessToken") String accessToken,
                                                     @RequestParam("uid") Long userId,
                                                     @RequestParam("poll_token") String poll_token,
