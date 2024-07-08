@@ -125,6 +125,7 @@ public class GameRoom {
         buttons.add(new DialogButton("Button1", DialogButtonColor.GREEN, Collections.singletonList(WebSocketMessageType.HideDialog)));
         DialogButtonsList b = new DialogButtonsList(buttons);
         sendMessage(message.getUid(), WebSocketMessageType.ShowDialog, new ActionDialog("Title!", "Description!", ActionDialogType.Buttons, b));
+        log.info("FUUUUUUUUUUUUUUUUUUCK");
     }
 
     private void sendMessage(Long userId, WebSocketMessageType type, Object o) {
