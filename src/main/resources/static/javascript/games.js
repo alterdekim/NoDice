@@ -103,7 +103,7 @@ function successPolling(data) {
 
     $(".chat-title").find("span").html(onlineCount + " online");
     if( messages.length > 0 ) {
-        last_chat_id = messages[0].id;
+        last_chat_id = messages[0]["message"]["id"];
     }
     for( let i = 0; i < messages.length; i++ ) {
         let obj = messages[i].message;
