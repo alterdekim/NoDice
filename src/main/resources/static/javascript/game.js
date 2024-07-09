@@ -93,7 +93,7 @@ $(document).ready(function() {
      };
 
      socket.onmessage = function(e) {
-         console.log('message', e.data);
+         //console.log('message', e.data);
          showMessage(JSON.parse(e.data)[1]);
      };
 
@@ -105,6 +105,7 @@ $(document).ready(function() {
 
 function showMessage(message) {
     console.log('GOT IT');
+    console.log(message.body);
     switch(message.type) {
         case 'PlayersList':
             parsePlayersList(JSON.parse(message.body));
