@@ -79,7 +79,7 @@ function sendMessage(message, type) {
 
 function jsonParseFixer(data) {
     if( (typeof data) == "object" ) {
-        if(data.length != undefined && data.length == 2 && typeof (data[0]) == "string" && data[0].startsWith("com.alterdekim.")) { // array
+        if(data.length != undefined && data.length == 2 && typeof (data[0]) == "string" && ( data[0].startsWith("com.alterdekim.") || data[0].startsWith("java.util."))) { // array
             data = jsonParseFixer(data[1]);
         } else if(data.length != undefined) {
             for(let i = 0; i < data.length; i++) {
