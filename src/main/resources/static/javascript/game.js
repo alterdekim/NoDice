@@ -171,7 +171,7 @@ function showDialog(body) {
         let html_btns = '';
         for(let i = 0; i < btns.length; i++) {
             let btn = btns[i];
-            html_btns += '<div id="buybtn" onclick="actionButtonClicked('+JSON.stringify(btn.onclickAction)+')" class="btn '+btn.buttonColor.toLowerCase()+'">'+btn.buttonText+'</div>';
+            html_btns += '<div id="buybtn" onclick="actionButtonClicked("'+JSON.stringify(btn.onclickAction)+'")" class="btn '+btn.buttonColor.toLowerCase()+'">'+btn.buttonText+'</div>';
         }
         $("#twobtns").html(html_btns);
     }
