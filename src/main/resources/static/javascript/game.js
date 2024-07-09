@@ -108,7 +108,7 @@ function showMessage(message) {
     console.log(message.body);
     switch(message.type) {
         case 'PlayersList':
-            parsePlayersList(JSON.parse(message.body));
+            parsePlayersList(JSON.parse(message.body)[1]);
             break;
         case 'BoardGUI':
             parseBoardGUI(JSON.parse(message.body)[1]);
@@ -330,7 +330,7 @@ function parseBoardGUI(body) {
 function parsePlayersList(body) {
     let p_html = '';
     for( let i = 0; i < body.length; i++ ) {
-        let player = body[i][1];
+        let player = body[i];
         p_html += '<div class="player" data-pid="'+player.userId+'" onClick="drop(this)"><p class="timeout"></p><p class="nickname">'+player.displayName+'</p><p class="money">'+player.money+'</p><div class="dropbox" style="display: none"></div> <!-- margin-top: -35px; --></div>';
     }
     $(".players").append(p_html);
