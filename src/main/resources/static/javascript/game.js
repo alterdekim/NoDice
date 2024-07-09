@@ -127,25 +127,25 @@ function showMessage(message) {
     console.log(message.body);
     switch(message.type) {
         case 'PlayersList':
-            parsePlayersList(JSON.parse(message.body));
+            parsePlayersList(jsonParseFixer(JSON.parse(message.body)));
             break;
         case 'BoardGUI':
-            parseBoardGUI(JSON.parse(message.body));
+            parseBoardGUI(jsonParseFixer(JSON.parse(message.body)));
             break;
         case 'ChangeBoardTileState':
-            changeBoardState(JSON.parse(message.body));
+            changeBoardState(jsonParseFixer(JSON.parse(message.body)));
             break;
         case 'AssignChip':
-            assignChip(JSON.parse(message.body));
+            assignChip(jsonParseFixer(JSON.parse(message.body)));
             break;
         case 'ChipMove':
-            chipMove(JSON.parse(message.body));
+            chipMove(jsonParseFixer(JSON.parse(message.body)));
             break;
         case 'PlayerColor':
-            playerColor(JSON.parse(message.body));
+            playerColor(jsonParseFixer(JSON.parse(message.body)));
             break;
         case 'ShowDialog':
-            showDialog(JSON.parse(message.body));
+            showDialog(jsonParseFixer(JSON.parse(message.body)));
             break;
     }
 }
