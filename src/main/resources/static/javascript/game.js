@@ -125,27 +125,28 @@ $(document).ready(function() {
 function showMessage(message) {
     console.log('GOT IT');
     console.log(message.body);
+    let v = jsonParseFixer(JSON.parse(message.body));
     switch(message.type) {
         case 'PlayersList':
-            parsePlayersList(jsonParseFixer(JSON.parse(message.body)));
+            parsePlayersList(v);
             break;
         case 'BoardGUI':
-            parseBoardGUI(jsonParseFixer(JSON.parse(message.body)));
+            parseBoardGUI(v);
             break;
         case 'ChangeBoardTileState':
-            changeBoardState(jsonParseFixer(JSON.parse(message.body)));
+            changeBoardState(v);
             break;
         case 'AssignChip':
-            assignChip(jsonParseFixer(JSON.parse(message.body)));
+            assignChip(v);
             break;
         case 'ChipMove':
-            chipMove(jsonParseFixer(JSON.parse(message.body)));
+            chipMove(v);
             break;
         case 'PlayerColor':
-            playerColor(jsonParseFixer(JSON.parse(message.body)));
+            playerColor(v);
             break;
         case 'ShowDialog':
-            showDialog(jsonParseFixer(JSON.parse(message.body)));
+            showDialog(v);
             break;
     }
 }
@@ -163,8 +164,17 @@ function chipMove(body) {
 }
 
 function showDialog(body) {
-    console.log("Got showDialog message");
-    console.log(body);
+    let title = body.dialogTitle;
+    let descr = body.dialogDescription;
+    if( body.actionDialogType == "Buttons" ) {
+        let btns = actionDialogBody.value;
+        let html_btns = '';
+        for(let i = 0; i < btns.length; i++) {
+            let btn = btns[i];
+            html_btns += '<div id="buybtn" onclick="actionButtonClicked(['+btn.onclickAction.map((x) => '"'+x+'"').join(',')+'])" class="btn '+btn.buttonColor.toLowerCase()+'">'+btn.buttonText+'</div>';
+        }
+        $("#twobtns").html(html_btns);
+    }
 }
 
 function playerColor(body) {
