@@ -311,6 +311,7 @@ function changeBoardState(body) {
 }
 
 function parseBoardGUI(body) {
+    console.log(body);
     let t_html = '';
     for( let i = 0; i < body.top.length; i++ ) {
         let board_tile = body.top[i];
