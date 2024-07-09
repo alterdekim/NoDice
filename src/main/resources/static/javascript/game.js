@@ -294,35 +294,35 @@ function changeBoardState(body) {
 function parseBoardGUI(body) {
     let t_html = '';
     for( let i = 0; i < body.top.length; i++ ) {
-        let board_tile = body.top[i];
+        let board_tile = body.top[i][1];
         t_html += '<div data-fid="'+board_tile.uid+'" class="board_field" style="grid-column: '+board_tile.id+'"><div class="cost" style="background-color: #'+board_tile.color+'">'+board_tile.cost+'</div><div class="fh" style="background-color: #'+board_tile.ownerColor+'"><div class="iconH"><img src="'+board_tile.img+'" class="vertImg"></div><div class="stars"><span class="_star">'+board_tile.stars+'</span></div></div></div>';
     }
     $("#top_board_tiles").replaceWith(t_html);
 
     let r_html = '';
     for( let i = 0; i < body.right.length; i++ ) {
-        let board_tile = body.right[i];
+        let board_tile = body.right[i][1];
         r_html += '<div data-fid="'+board_tile.uid+'" class="board_field" style="grid-column: 11"><div class="rcost" style="background-color: #'+board_tile.color+'">'+board_tile.cost+'</div><div class="fv" style="background-color: #'+board_tile.ownerColor+'"><div class="iconV"><img src="'+board_tile.img+'" class="horImg"></div><div class="stars hstars"><span class="_star _hstar">'+board_tile.stars+'</span></div></div></div>';
     }
     $("#right_board_tiles").replaceWith(r_html);
 
     let b_html = '';
     for( let i = 0; i < body.bottom.length; i++ ) {
-        let board_tile = body.bottom[i];
+        let board_tile = body.bottom[i][1];
         b_html += '<div data-fid="'+board_tile.uid+'" class="board_field" style="grid-row: 11; grid-column: '+board_tile.id+'"><div class="fh" style="background-color: #'+board_tile.ownerColor+'"><div class="iconH"><img class="vertImg" src="'+board_tile.img+'"></div><div class="stars"><span class="_star _vstar">'+board_tile.stars+'</span></div></div><div class="cost" style="background-color: #'+board_tile.color+'">'+board_tile.cost+'</div></div>';
     }
     $("#bottom_board_tiles").replaceWith(b_html);
 
     let l_html = '';
     for( let i = 0; i < body.left.length; i++ ) {
-        let board_tile = body.left[i];
+        let board_tile = body.left[i][1];
         l_html += '<div data-fid="'+board_tile.uid+'" class="board_field" style="grid-column: 1; grid-row: '+board_tile.id+'"><div class="lcost" style="background-color: #'+board_tile.color+'">'+board_tile.cost+'</div><div class="fv" style="background-color: #'+board_tile.ownerColor+'"><div class="iconV"><img src="'+board_tile.img+'" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar">'+board_tile.stars+'</span></div></div></div>';
     }
     $("#left_board_tiles").replaceWith(l_html);
 
     let corners = $(".corner");
     for(let i = 0; i < body.corners.length; i++ ) {
-        $(corners[i]).find("img").attr("src", body.corners[i].img);
+        $(corners[i]).find("img").attr("src", body.corners[1][i][1].img);
     }
     resizeTable();
 }
