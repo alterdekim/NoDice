@@ -167,7 +167,7 @@ function showDialog(body) {
     let title = body.dialogTitle;
     let descr = body.dialogDescription;
     if( body.actionDialogType == "Buttons" ) {
-        let btns = actionDialogBody.value;
+        let btns = body.actionDialogBody.value;
         let html_btns = '';
         for(let i = 0; i < btns.length; i++) {
             let btn = btns[i];
@@ -175,6 +175,8 @@ function showDialog(body) {
         }
         $("#twobtns").html(html_btns);
     }
+    $("#dialog").css("display", "");
+    $("#onebtn").css("display", "none");
 }
 
 function playerColor(body) {
