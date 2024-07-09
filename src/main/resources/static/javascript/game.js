@@ -77,6 +77,24 @@ function sendMessage(message, type) {
     }));
 }
 
+function jsonParseFixer(data) {
+    if( (typeof data) == "object" ) {
+        if(data.length != undefined && data.length == 2 && typeof (data[0]) == "string" && data[0].startsWith("com.alterdekim.")) { // array
+            data = jsonParseFixer(data[1]);
+        } else if(data.length != undefined) {
+            for(let i = 0; i < data.length; i++) {
+                data[i] = jsonParseFixer(data[i]);
+            }
+        } else { // object
+            let k = Object.keys(data);
+            for( let i = 0; i < k.length; i++ ) {
+                data[k] = jsonParseFixer(data[k]);
+            }
+        }
+    }
+    return data;
+}
+
 $(document).ready(function() {
      let chips = [];
      $(".chip").each(function() {
@@ -94,7 +112,7 @@ $(document).ready(function() {
 
      socket.onmessage = function(e) {
          //console.log('message', e.data);
-         showMessage(JSON.parse(e.data)[1]);
+         showMessage(jsonParseFixer(JSON.parse(e.data)));
      };
 
      socket.onclose = function() {
@@ -108,25 +126,25 @@ function showMessage(message) {
     console.log(message.body);
     switch(message.type) {
         case 'PlayersList':
-            parsePlayersList(JSON.parse(message.body)[1]);
+            parsePlayersList(JSON.parse(message.body));
             break;
         case 'BoardGUI':
-            parseBoardGUI(JSON.parse(message.body)[1]);
+            parseBoardGUI(JSON.parse(message.body));
             break;
         case 'ChangeBoardTileState':
-            changeBoardState(JSON.parse(message.body)[1]);
+            changeBoardState(JSON.parse(message.body));
             break;
         case 'AssignChip':
-            assignChip(JSON.parse(message.body)[1]);
+            assignChip(JSON.parse(message.body));
             break;
         case 'ChipMove':
-            chipMove(JSON.parse(message.body)[1]);
+            chipMove(JSON.parse(message.body));
             break;
         case 'PlayerColor':
-            playerColor(JSON.parse(message.body)[1]);
+            playerColor(JSON.parse(message.body));
             break;
         case 'ShowDialog':
-            showDialog(JSON.parse(message.body)[1]);
+            showDialog(JSON.parse(message.body));
             break;
     }
 }
@@ -294,35 +312,35 @@ function changeBoardState(body) {
 function parseBoardGUI(body) {
     let t_html = '';
     for( let i = 0; i < body.top.length; i++ ) {
-        let board_tile = body.top[i][1];
+        let board_tile = body.top[i];
         t_html += '<div data-fid="'+board_tile.uid+'" class="board_field" style="grid-column: '+board_tile.id+'"><div class="cost" style="background-color: #'+board_tile.color+'">'+board_tile.cost+'</div><div class="fh" style="background-color: #'+board_tile.ownerColor+'"><div class="iconH"><img src="'+board_tile.img+'" class="vertImg"></div><div class="stars"><span class="_star">'+board_tile.stars+'</span></div></div></div>';
     }
     $("#top_board_tiles").replaceWith(t_html);
 
     let r_html = '';
     for( let i = 0; i < body.right.length; i++ ) {
-        let board_tile = body.right[i][1];
+        let board_tile = body.right[i];
         r_html += '<div data-fid="'+board_tile.uid+'" class="board_field" style="grid-column: 11"><div class="rcost" style="background-color: #'+board_tile.color+'">'+board_tile.cost+'</div><div class="fv" style="background-color: #'+board_tile.ownerColor+'"><div class="iconV"><img src="'+board_tile.img+'" class="horImg"></div><div class="stars hstars"><span class="_star _hstar">'+board_tile.stars+'</span></div></div></div>';
     }
     $("#right_board_tiles").replaceWith(r_html);
 
     let b_html = '';
     for( let i = 0; i < body.bottom.length; i++ ) {
-        let board_tile = body.bottom[i][1];
+        let board_tile = body.bottom[i];
         b_html += '<div data-fid="'+board_tile.uid+'" class="board_field" style="grid-row: 11; grid-column: '+board_tile.id+'"><div class="fh" style="background-color: #'+board_tile.ownerColor+'"><div class="iconH"><img class="vertImg" src="'+board_tile.img+'"></div><div class="stars"><span class="_star _vstar">'+board_tile.stars+'</span></div></div><div class="cost" style="background-color: #'+board_tile.color+'">'+board_tile.cost+'</div></div>';
     }
     $("#bottom_board_tiles").replaceWith(b_html);
 
     let l_html = '';
     for( let i = 0; i < body.left.length; i++ ) {
-        let board_tile = body.left[i][1];
+        let board_tile = body.left[i];
         l_html += '<div data-fid="'+board_tile.uid+'" class="board_field" style="grid-column: 1; grid-row: '+board_tile.id+'"><div class="lcost" style="background-color: #'+board_tile.color+'">'+board_tile.cost+'</div><div class="fv" style="background-color: #'+board_tile.ownerColor+'"><div class="iconV"><img src="'+board_tile.img+'" class="horImg"></div><div class="stars hstars _hhstar"><span class="_star _hstar">'+board_tile.stars+'</span></div></div></div>';
     }
     $("#left_board_tiles").replaceWith(l_html);
 
     let corners = $(".corner");
     for(let i = 0; i < body.corners.length; i++ ) {
-        $(corners[i]).find("img").attr("src", body.corners[1][i][1].img);
+        $(corners[i]).find("img").attr("src", body.corners[i].img);
     }
     resizeTable();
 }
