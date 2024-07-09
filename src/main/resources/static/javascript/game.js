@@ -166,6 +166,7 @@ function chipMove(body) {
 function actionButtonClicked(action) {
     action = atob(action);
     console.log(action);
+    sendMessage(JSON.parse(action), 'PerformDialogActions');
 }
 
 function showDialog(body) {

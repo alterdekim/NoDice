@@ -10,5 +10,6 @@ public enum WebSocketMessageType {
     PlayerColor,
     ShowDialog,
     HideDialog,
-    ShowFieldInfo
+    ShowFieldInfo,
+    PerformDialogActions
 }
