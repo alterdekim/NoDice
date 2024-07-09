@@ -78,6 +78,7 @@ function sendMessage(message, type) {
 }
 
 function jsonParseFixer(data) {
+    if( data == undefined ) return undefined;
     if( (typeof data) == "object" ) {
         if(data.length != undefined && data.length == 2 && typeof (data[0]) == "string" && ( data[0].startsWith("com.alterdekim.") || data[0].startsWith("java.util."))) { // array
             data = jsonParseFixer(data[1]);
