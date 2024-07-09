@@ -89,7 +89,7 @@ function jsonParseFixer(data) {
         } else { // object
             let k = Object.keys(data);
             for( let i = 0; i < k.length; i++ ) {
-                data[k] = jsonParseFixer(data[k[i]]);
+                data[k[i]] = jsonParseFixer(data[k[i]]);
             }
         }
     }
