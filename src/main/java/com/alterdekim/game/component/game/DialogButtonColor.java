@@ -5,5 +5,6 @@ public enum DialogButtonColor {
     RED,
     BLUE,
     PURPLE,
-    YELLOW
+    YELLOW,
+    GREY
 }
