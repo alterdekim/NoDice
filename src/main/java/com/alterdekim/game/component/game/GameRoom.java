@@ -43,6 +43,8 @@ public class GameRoom extends Thread {
     @Setter
     private boolean isGameLoopFrozen = false;
 
+    private boolean isAllPlayersAlreadyJoined = false;
+
     private final ConcurrentMap<GameState, StateManager> manager;
 
     public GameRoom(List<RoomPlayer> players, UserServiceImpl userService) {
@@ -75,7 +77,6 @@ public class GameRoom extends Thread {
         log.info("GameRoomManager: {}", this.manager.keySet());
         log.info("GameRoomManagerVals: {}", this.manager.values());
         this.initBoard();
-        this.start();
     }
 
     private void initBoard() {
@@ -141,6 +142,7 @@ public class GameRoom extends Thread {
     public void receiveMessage(BasicMessage message, WebSocketSession session) {
         if(players.stream().noneMatch(p -> p.getUserId().longValue() == message.getUid().longValue())) return;
         socks.put(message.getUid(), session);
+        if(players.size() == socks.keySet().size() && !isAllPlayersAlreadyJoined) onAllPlayersJoined();
         log.info("receiveMessage " + message.getType());
         parseMessage(message);
     }
@@ -193,6 +195,11 @@ public class GameRoom extends Thread {
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
+    }
+
+    private void onAllPlayersJoined() {
+        this.start();
+        this.isAllPlayersAlreadyJoined = true;
     }
 
     @Override
