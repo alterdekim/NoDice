@@ -12,9 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public enum GameState {
-    MOVE(Arrays.asList(GameMsgType.DialogConfirmAnswer, GameMsgType.DialogCancelAnswer), true, MoveManager.class),
-    TRADES(Collections.emptyList(), false, null),
-    AUCTION(Collections.emptyList(), false, null);
+    MOVE(Arrays.asList(GameMsgType.DialogConfirmAnswer, GameMsgType.DialogCancelAnswer), true, MoveManager.class);
+    /*TRADES(Collections.emptyList(), false, null),
+    AUCTION(Collections.emptyList(), false, null);*/
 
     private final List<GameMsgType> allowedRequests;
     private final boolean allowedDialog;
