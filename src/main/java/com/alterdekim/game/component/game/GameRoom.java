@@ -64,6 +64,7 @@ public class GameRoom extends Thread {
         this.socks = new ConcurrentHashMap<>();
         this.state = GameState.MOVE;
         this.manager = new ConcurrentHashMap<>();
+        log.info("GameRoomManagerState: yup");
         Arrays.stream(GameState.values()).forEach(s -> {
             try {
                 this.manager.put(s, s.getManagerClass().getDeclaredConstructor().newInstance(this));
@@ -71,6 +72,8 @@ public class GameRoom extends Thread {
                 log.error(e.getMessage());
             }
         });
+        log.info("GameRoomManager: {}", this.manager.keySet());
+        log.info("GameRoomManagerVals: {}", this.manager.values());
         this.initBoard();
         this.start();
     }
