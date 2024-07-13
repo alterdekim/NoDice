@@ -373,3 +373,42 @@ function parsePlayersList(body) {
     }
     $(".players").append(p_html);
 }
+
+function turnOffCubes() {
+	$("#dice_cubes").css("display", "none");
+}
+
+function rotateDice( first, second ) {
+	$("#dice_cubes").css("display", "");
+	setTimeout(animateCube, 200, first, second);
+	setTimeout(turnOffCubes, 2000);
+}
+
+function animateCube( first, second ) {
+	rotateCube( "first_dice", first );
+	rotateCube( "second_dice", second );
+}
+
+function rotateCube( dice, number ) {
+    let d = $("#"+dice);
+    switch(number) {
+        case 1:
+            d.css("transform", "rotateY(360deg)");
+            break;
+        case 2:
+            d.css("transform", "rotateY(-90deg)");
+            break;
+        case 3:
+            d.css("transform", "rotateY(180deg)");
+            break;
+        case 4:
+            d.css("transform", "rotateY(90deg)");
+            break;
+        case 5:
+            d.css("transform", "rotateX(-90deg)");
+            break;
+        case 6:
+            d.css("transform", "rotateX(90deg)");
+            break;
+    }
+}
