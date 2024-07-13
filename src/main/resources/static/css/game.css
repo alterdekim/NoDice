@@ -468,32 +468,32 @@ h2 {
 }
 
 .dice_front {
-	background-image: url("/cube/1.jpg");
+	background-image: url("/static/cube/1.jpg");
 	background-size: 200px;
 	transform:rotateY(0deg) translateZ(100px);
 }
 .dice_right {
-	background-image: url("/cube/2.jpg");
+	background-image: url("/static/cube/2.jpg");
 	background-size: 200px;
 	transform:rotateY(90deg) translateZ(100px);
 }
 .dice_back {
-	background-image: url("/cube/3.jpg");
+	background-image: url("/static/cube/3.jpg");
 	background-size: 200px;
 	transform:rotateY(180deg) translateZ(100px);
 }
 .dice_left {
-	background-image: url("/cube/4.jpg");
+	background-image: url("/static/cube/4.jpg");
 	background-size: 200px;
 	transform:rotateY(-90deg) translateZ(100px);
 }
 .dice_top {
-	background-image: url("/cube/5.jpg");
+	background-image: url("/static/cube/5.jpg");
 	background-size: 200px;
 	transform:rotateX(90deg) translateZ(100px);
 }
 .dice_bottom {
-	background-image: url("/cube/6.jpg");
+	background-image: url("/static/cube/6.jpg");
 	background-size: 200px;
 	transform:rotateX(-90deg) translateZ(100px);
 }
