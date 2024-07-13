@@ -38,6 +38,14 @@ public class FileServerController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
+    @GetMapping("/static/cube/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveCube(@PathVariable String filename) {
+        Resource file = storageService.loadAsResource("static/cube/" + filename);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
     @ExceptionHandler(StorageFileNotFoundException.class)
     public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
         return ResponseEntity.notFound().build();

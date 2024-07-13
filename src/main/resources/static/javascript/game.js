@@ -112,7 +112,6 @@ $(document).ready(function() {
      };
 
      socket.onmessage = function(e) {
-         //console.log('message', e.data);
          showMessage(jsonParseFixer(JSON.parse(e.data)));
      };
 
@@ -172,6 +171,8 @@ function actionButtonClicked(action) {
 function showDialog(body) {
     let title = body.dialogTitle;
     let descr = body.dialogDescription;
+    $("#dialog_desc").html(descr);
+    $("#dialog_title").html(title);
     if( body.actionDialogType == "Buttons" ) {
         let btns = body.actionDialogBody.value;
         let html_btns = '';
