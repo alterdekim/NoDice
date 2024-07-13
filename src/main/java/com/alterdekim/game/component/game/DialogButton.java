@@ -11,5 +11,5 @@ import java.util.List;
 public class DialogButton {
     private String buttonText;
     private DialogButtonColor buttonColor;
-    private List<WebSocketMessageType> onclickAction;
+    private List<GameMsgType> onclickAction;
 }
