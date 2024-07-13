@@ -181,6 +181,7 @@ public class GameRoom extends Thread {
 
     public void sendMessage(Long userId, WebSocketMessageType type, Object o) {
         try {
+            log.info("GameRoom-sendMessage: parUserId={}; socksIds={}", userId, socks.keySet());
             if (socks.get(userId).isOpen())
                 socks.get(userId).sendMessage(
                         new TextMessage(
