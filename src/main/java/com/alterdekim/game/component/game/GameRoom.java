@@ -67,6 +67,7 @@ public class GameRoom extends Thread {
         log.info("GameRoomManagerState: yup");
         Arrays.stream(GameState.values()).forEach(s -> {
             try {
+                log.info("GameRoomMgr: {}", s);
                 this.manager.put(s, s.getManagerClass().getDeclaredConstructor().newInstance(this));
             } catch (Exception e) {
                 log.error(e.getMessage());
