@@ -64,11 +64,10 @@ public class GameRoom extends Thread {
         this.socks = new ConcurrentHashMap<>();
         this.state = GameState.MOVE;
         this.manager = new ConcurrentHashMap<>();
-        log.info("GameRoomManagerState: yup");
         Arrays.stream(GameState.values()).forEach(s -> {
             try {
-                log.info("GameRoomMgr: {}; {}; {}; {}", s, s.getAllowedRequests(), s.getManagerClass(), s.isAllowedDialog());
-                this.manager.put(s, s.getManagerClass().getDeclaredConstructor().newInstance(this));
+                this.manager.put(s, s.getManagerClass().getDeclaredConstructor().newInstance());
+                this.manager.get(s).setParent(this);
             } catch (Exception e) {
                 log.error(e.getMessage());
             }
