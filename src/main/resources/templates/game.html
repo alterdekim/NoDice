@@ -5,7 +5,7 @@
 		<link rel="stylesheet" href="/static/css/game.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 		<title th:text="${title} ? ${title} : 'Nosedive'"></title>
 		<link rel="shortcut icon" type="image/x-icon" href="/static/images/favicon.ico">
 		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,800" rel="stylesheet">
@@ -31,7 +31,15 @@
 			<div class="game">
 				<div class="players">
 					<!--<div class="player" th:data-pid="${p.id}" onClick="drop(this)">
-						<p class="timeout"></p>
+						<div class="player-info">
+							<div></div> player avatar
+							<div class="player-stats">
+								<li class="player-stats-title">10,000</li>
+								<li>40,159</li>
+								<li>50%</li>
+								<li>1,000</li>
+							</div>
+						</div>
 						<p class="nickname" th:text="${p.name}"></p>
 						<p class="money" th:text="${p.money}"></p>
 						<div class="dropbox" style="display: none"></div> margin-top: -35px;
@@ -242,6 +250,8 @@
 		</div>
 	</body>
 	<footer>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<script type="text/javascript" src="/static/javascript/game.js"></script>
 		<script type="text/javascript" src="/static/javascript/scale.js"></script>
 	</footer>

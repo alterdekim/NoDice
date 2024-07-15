@@ -201,7 +201,17 @@ body {
 	grid-row-end: 11; 
 }
 .players {
-	margin-right: 80px;
+	margin-right: 40px;
+}
+.player-stats {
+    font-size: 12px;
+    list-style-type: none;
+}
+.player-stats > li {
+    text-align: end;
+}
+.player-stats-title {
+    font-size: 14px;
 }
 .player {
 	margin-top: 10px;
@@ -213,6 +223,9 @@ body {
 	font-size: 22px;
 	padding: 4px;
 	cursor: pointer;
+}
+.nickname {
+    font-size: 14px;
 }
 .player-turn {
 	width: 193px;
