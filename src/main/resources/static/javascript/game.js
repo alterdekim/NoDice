@@ -397,9 +397,6 @@ function parsePlayersList(body) {
     let p_html = '';
     for( let i = 0; i < body.length; i++ ) {
         let player = body[i];
-        // player.userId
-        // player.displayName
-        // player.money
         p_html += sprintf(player_html_text, player);
     }
     $(".players").append(p_html);
