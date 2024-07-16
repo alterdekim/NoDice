@@ -207,7 +207,7 @@ body {
     font-size: 12px;
     list-style-type: none;
 }
-.player-stats > li {
+.player-stats>li {
     text-align: end;
 }
 .player-stats-title {
