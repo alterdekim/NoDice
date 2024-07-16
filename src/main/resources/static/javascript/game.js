@@ -58,6 +58,34 @@ const top_offset = 18;
 
 const board = new Board();
 
+const player_html_text = `
+                    <div class="player" data-pid="%(userId)s" onclick="drop(this)">
+                        <div class="player-info">
+                            <div class="player-stats">
+                                <li class="player-stats-title">
+                                    <i class="material-icons">attach_money</i>
+                                    <span class="player-money">%(money)s</span>
+                                </li>
+                                <li>
+                                    <i class="material-icons">functions</i>
+                                    <span class="player-sum">40,159</span>
+                                </li>
+                                <li>
+                                    <i class="material-icons">assured_workload</i>
+                                    <span class="player-workload">50per</span>
+                                </li>
+                                <li>
+                                    <i class="material-icons">savings</i>
+                                    <span class="player-deposit">1,000</span>
+                                </li>
+                            </div>
+                        </div>
+                        <img src="https://www.w3schools.com/howto/img_avatar2.png">
+                        <p class="nickname">%(displayName)s</p>
+                        <div class="dropbox" style="display: none"></div>
+                    </div>
+                    `;
+
 var socket = null;
 
 function disconnect() {
@@ -369,7 +397,10 @@ function parsePlayersList(body) {
     let p_html = '';
     for( let i = 0; i < body.length; i++ ) {
         let player = body[i];
-        p_html += '<div class="player" data-pid="'+player.userId+'" onClick="drop(this)"><p class="timeout"></p><p class="nickname">'+player.displayName+'</p><p class="money">'+player.money+'</p><div class="dropbox" style="display: none"></div> <!-- margin-top: -35px; --></div>';
+        // player.userId
+        // player.displayName
+        // player.money
+        p_html += sprintf(player_html_text, player);
     }
     $(".players").append(p_html);
 }
