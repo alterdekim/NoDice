@@ -12,17 +12,21 @@ body {
 }
 
 .dropbox {
-	width: 17%;
-	position: absolute;
-	margin-top: 2%;
+	width: 100%;
+	position: relative;
+	margin-top: 24%;
+	list-style: none;
 }
 
-.dropbox div {
-	background-color: white;
-	color: grey;
-	font-size: 16pt;
-	padding-top: 5px;
-	padding-bottom: 5px;
+.dropbox > li {
+	font-size: 14px;
+	text-align: center;
+	padding: 2px;
+	background-color: #293133;
+}
+
+.dropbox > li:hover {
+	background-color: #3d494c;
 }
 
 .stars {
